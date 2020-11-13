@@ -1,4 +1,4 @@
-package com.weblaptop.backend.models.entities;
+package com.weblaptop.backend.models;
 
 import javax.persistence.*;
 
