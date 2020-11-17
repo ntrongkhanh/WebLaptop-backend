@@ -1,13 +1,10 @@
-package com.weblaptop.backend.models;
+package com.weblaptop.backend.models.ENTITY;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Order {
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -18,10 +15,10 @@ public class Order {
     private String status;
     private String note;
 
-    public Order() {
+    public Orders() {
     }
 
-    public Order(long id, long idCart, Date orderDate, Date receivedDate, long idAddress, String status, String note) {
+    public Orders(long id, long idCart, Date orderDate, Date receivedDate, long idAddress, String status, String note) {
         this.id = id;
         this.idCart = idCart;
         this.orderDate = orderDate;

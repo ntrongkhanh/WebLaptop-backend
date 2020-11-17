@@ -1,9 +1,8 @@
-package com.weblaptop.backend.models;
+package com.weblaptop.backend.models.ENTITY;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -11,7 +10,15 @@ public class RateDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private long idRate;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "IdProduct", nullable = false)
+    private Product product;
+
+
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "idUser", nullable = false)
+    private User user;
     private int star;
     private String content;
     private Date time;
@@ -19,9 +26,10 @@ public class RateDetail {
     public RateDetail() {
     }
 
-    public RateDetail(long id, long idRate, int star, String content, Date time) {
+    public RateDetail(long id, Product product, User user, int star, String content, Date time) {
         this.id = id;
-        this.idRate = idRate;
+        this.product = product;
+        this.user = user;
         this.star = star;
         this.content = content;
         this.time = time;
@@ -35,12 +43,20 @@ public class RateDetail {
         this.id = id;
     }
 
-    public long getIdRate() {
-        return idRate;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setIdRate(long idRate) {
-        this.idRate = idRate;
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getStar() {

@@ -1,4 +1,4 @@
-package com.weblaptop.backend.models;
+package com.weblaptop.backend.models.ENTITY;
 
 import javax.persistence.*;
 
@@ -25,7 +25,8 @@ public class LaptopDetail {
     public LaptopDetail() {
     }
 
-    public LaptopDetail(long id, String cpu, String ram, String screen, String graphicCard, String storage, String battery, String port, String weight, String OS, Product product) {
+    public LaptopDetail(long id, String cpu, String ram, String screen, String graphicCard, String storage,
+                        String battery, String port, String weight, String OS, Product product) {
         this.id = id;
         this.cpu = cpu;
         this.ram = ram;

@@ -1,25 +1,27 @@
-package com.weblaptop.backend.models;
+package com.weblaptop.backend.models.ENTITY;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 
 @Entity
 public class AccessoriesDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private long idAccessories;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "idAccessories", nullable = false)
+    private Product accessories;
     private String name;
     private String content;
 
     public AccessoriesDetail() {
     }
 
-    public AccessoriesDetail(long id, long idAccessories, String name, String content) {
+    public AccessoriesDetail(long id, Product accessories, String name, String content) {
         this.id = id;
-        this.idAccessories = idAccessories;
+        this.accessories = accessories;
         this.name = name;
         this.content = content;
     }
@@ -32,12 +34,12 @@ public class AccessoriesDetail {
         this.id = id;
     }
 
-    public long getIdAccessories() {
-        return idAccessories;
+    public Product getAccessories() {
+        return accessories;
     }
 
-    public void setIdAccessories(long idAccessories) {
-        this.idAccessories = idAccessories;
+    public void setAccessories(Product accessories) {
+        this.accessories = accessories;
     }
 
     public String getName() {

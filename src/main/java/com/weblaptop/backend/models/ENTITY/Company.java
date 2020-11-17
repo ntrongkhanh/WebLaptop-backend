@@ -1,4 +1,4 @@
-package com.weblaptop.backend.models;
+package com.weblaptop.backend.models.ENTITY;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,20 +6,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class CategoryAccessoriesDetail {
+public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private long idCategory;
     private String name;
+    private String content;
 
-    public CategoryAccessoriesDetail() {
+    public Company() {
     }
 
-    public CategoryAccessoriesDetail(long id, long idCategory, String name) {
+    public Company(long id, String name, String content) {
         this.id = id;
-        this.idCategory = idCategory;
         this.name = name;
+        this.content = content;
     }
 
     public long getId() {
@@ -30,19 +30,19 @@ public class CategoryAccessoriesDetail {
         this.id = id;
     }
 
-    public long getIdCategory() {
-        return idCategory;
-    }
-
-    public void setIdCategory(long idCategory) {
-        this.idCategory = idCategory;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

@@ -1,24 +1,20 @@
-package com.weblaptop.backend.models;
+package com.weblaptop.backend.models.ENTITY;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private long idProduct;
+    @Column(name = "image",  columnDefinition="TEXT")
     private String image;
 
     public Image() {
     }
 
-    public Image(long id, long idProduct, String image) {
+    public Image(long id, String image) {
         this.id = id;
-        this.idProduct = idProduct;
         this.image = image;
     }
 
@@ -28,14 +24,6 @@ public class Image {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getIdProduct() {
-        return idProduct;
-    }
-
-    public void setIdProduct(long idProduct) {
-        this.idProduct = idProduct;
     }
 
     public String getImage() {

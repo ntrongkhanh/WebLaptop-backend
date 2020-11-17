@@ -1,11 +1,10 @@
-package com.weblaptop.backend.models;
+package com.weblaptop.backend.models.ENTITY;
 
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 import java.util.Date;
 
 
@@ -14,20 +13,24 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private long idProduct;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "idProduct", nullable = false)
+    private Product product;
     private long idParents;
-    private long idUser;
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private User user;
     private String content;
     private Date time;
 
     public Comment() {
     }
 
-    public Comment(long id, long idProduct, long idParents, long idUser, String content, Date time) {
+    public Comment(long id, Product product, long idParents, User user, String content, Date time) {
         this.id = id;
-        this.idProduct = idProduct;
+        this.product = product;
         this.idParents = idParents;
-        this.idUser = idUser;
+        this.user = user;
         this.content = content;
         this.time = time;
     }
@@ -40,12 +43,12 @@ public class Comment {
         this.id = id;
     }
 
-    public long getIdProduct() {
-        return idProduct;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setIdProduct(long idProduct) {
-        this.idProduct = idProduct;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public long getIdParents() {
@@ -56,12 +59,12 @@ public class Comment {
         this.idParents = idParents;
     }
 
-    public long getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(long idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getContent() {
