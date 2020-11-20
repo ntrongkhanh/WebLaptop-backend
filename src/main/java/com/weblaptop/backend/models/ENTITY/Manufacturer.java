@@ -1,19 +1,11 @@
 package com.weblaptop.backend.models.ENTITY;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class Manufacturer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,63 +23,63 @@ public class Manufacturer {
     @OneToMany(mappedBy = "manufacturer")
     private List<Product> products;
 
-//    public Manufacturer() {
-//    }
-//
-//    public Manufacturer(long id, String name, Image image, Category category, String national, List<Product> products) {
-//        this.id = id;
-//        this.name = name;
-//        this.image = image;
-//        this.category = category;
-//        this.national = national;
-//        this.products = products;
-//    }
-//
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public Image getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(Image image) {
-//        this.image = image;
-//    }
-//
-//    public Category getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(Category category) {
-//        this.category = category;
-//    }
-//
-//    public String getNational() {
-//        return national;
-//    }
-//
-//    public void setNational(String national) {
-//        this.national = national;
-//    }
-//
-//    public List<Product> getProducts() {
-//        return products;
-//    }
-//
-//    public void setProducts(List<Product> products) {
-//        this.products = products;
-//    }
+    public Manufacturer() {
+    }
+
+    public Manufacturer(long id, String name, Image image, Category category, String national, List<Product> products) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.category = category;
+        this.national = national;
+        this.products = products;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getNational() {
+        return national;
+    }
+
+    public void setNational(String national) {
+        this.national = national;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }

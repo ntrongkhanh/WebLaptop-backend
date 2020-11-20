@@ -1,21 +1,12 @@
 package com.weblaptop.backend.models.ENTITY;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class CartDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,45 +15,45 @@ public class CartDetail {
     private boolean isLaptop;
     private long idProduct;
 
-//    public CartDetail() {
-//    }
-//
-//    public CartDetail(long id, long idCart, boolean isLaptop, long idProduct) {
-//        this.id = id;
-//        this.idCart = idCart;
-//        this.isLaptop = isLaptop;
-//        this.idProduct = idProduct;
-//    }
-//
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
-//
-//    public long getIdCart() {
-//        return idCart;
-//    }
-//
-//    public void setIdCart(long idCart) {
-//        this.idCart = idCart;
-//    }
-//
-//    public boolean isLaptop() {
-//        return isLaptop;
-//    }
-//
-//    public void setLaptop(boolean laptop) {
-//        isLaptop = laptop;
-//    }
-//
-//    public long getIdProduct() {
-//        return idProduct;
-//    }
-//
-//    public void setIdProduct(long idProduct) {
-//        this.idProduct = idProduct;
-//    }
+    public CartDetail() {
+    }
+
+    public CartDetail(long id, long idCart, boolean isLaptop, long idProduct) {
+        this.id = id;
+        this.idCart = idCart;
+        this.isLaptop = isLaptop;
+        this.idProduct = idProduct;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getIdCart() {
+        return idCart;
+    }
+
+    public void setIdCart(long idCart) {
+        this.idCart = idCart;
+    }
+
+    public boolean isLaptop() {
+        return isLaptop;
+    }
+
+    public void setLaptop(boolean laptop) {
+        isLaptop = laptop;
+    }
+
+    public long getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(long idProduct) {
+        this.idProduct = idProduct;
+    }
 }

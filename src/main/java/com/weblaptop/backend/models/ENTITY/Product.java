@@ -1,19 +1,11 @@
 package com.weblaptop.backend.models.ENTITY;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,128 +33,128 @@ public class Product {
     @OneToMany(mappedBy = "accessories")
     private List<AccessoriesDetail> accessoriesDetails;
 
-//    public Product() {
-//    }
-//
-//    public Product(long id, Manufacturer manufacturer, Category category, String modelCode, String name,
-//                   boolean isLaptop, Date year, Image arrImage, String status, long amount,
-//                   long price, List<RateDetail> rateDetails, List<AccessoriesDetail> accessoriesDetails) {
-//        this.id = id;
-//        this.manufacturer = manufacturer;
-//        this.category = category;
-//        this.modelCode = modelCode;
-//        this.name = name;
-//        this.isLaptop = isLaptop;
-//        this.year = year;
-//        this.arrImage = arrImage;
-//        this.status = status;
-//        this.amount = amount;
-//        this.price = price;
-//        this.rateDetails = rateDetails;
-//        this.accessoriesDetails = accessoriesDetails;
-//    }
-//
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
-//
-//    public Manufacturer getManufacturer() {
-//        return manufacturer;
-//    }
-//
-//    public void setManufacturer(Manufacturer manufacturer) {
-//        this.manufacturer = manufacturer;
-//    }
-//
-//    public Category getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(Category category) {
-//        this.category = category;
-//    }
-//
-//    public String getModelCode() {
-//        return modelCode;
-//    }
-//
-//    public void setModelCode(String modelCode) {
-//        this.modelCode = modelCode;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public boolean isLaptop() {
-//        return isLaptop;
-//    }
-//
-//    public void setLaptop(boolean laptop) {
-//        isLaptop = laptop;
-//    }
-//
-//    public Date getYear() {
-//        return year;
-//    }
-//
-//    public void setYear(Date year) {
-//        this.year = year;
-//    }
-//
-//    public Image getArrImage() {
-//        return arrImage;
-//    }
-//
-//    public void setArrImage(Image arrImage) {
-//        this.arrImage = arrImage;
-//    }
-//
-//    public String getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(String status) {
-//        this.status = status;
-//    }
-//
-//    public long getAmount() {
-//        return amount;
-//    }
-//
-//    public void setAmount(long amount) {
-//        this.amount = amount;
-//    }
-//
-//    public long getPrice() {
-//        return price;
-//    }
-//
-//    public void setPrice(long price) {
-//        this.price = price;
-//    }
-//
-//    public List<RateDetail> getRateDetails() {
-//        return rateDetails;
-//    }
-//
-//    public void setRateDetails(List<RateDetail> rateDetails) {
-//        this.rateDetails = rateDetails;
-//    }
-//
-//    public List<AccessoriesDetail> getAccessoriesDetails() {
-//        return accessoriesDetails;
-//    }
-//
-//    public void setAccessoriesDetails(List<AccessoriesDetail> accessoriesDetails) {
-//        this.accessoriesDetails = accessoriesDetails;
-//    }
+    public Product() {
+    }
+
+    public Product(long id, Manufacturer manufacturer, Category category, String modelCode, String name,
+                   boolean isLaptop, Date year, Image arrImage, String status, long amount,
+                   long price, List<RateDetail> rateDetails, List<AccessoriesDetail> accessoriesDetails) {
+        this.id = id;
+        this.manufacturer = manufacturer;
+        this.category = category;
+        this.modelCode = modelCode;
+        this.name = name;
+        this.isLaptop = isLaptop;
+        this.year = year;
+        this.arrImage = arrImage;
+        this.status = status;
+        this.amount = amount;
+        this.price = price;
+        this.rateDetails = rateDetails;
+        this.accessoriesDetails = accessoriesDetails;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getModelCode() {
+        return modelCode;
+    }
+
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isLaptop() {
+        return isLaptop;
+    }
+
+    public void setLaptop(boolean laptop) {
+        isLaptop = laptop;
+    }
+
+    public Date getYear() {
+        return year;
+    }
+
+    public void setYear(Date year) {
+        this.year = year;
+    }
+
+    public Image getArrImage() {
+        return arrImage;
+    }
+
+    public void setArrImage(Image arrImage) {
+        this.arrImage = arrImage;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(long amount) {
+        this.amount = amount;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+    public List<RateDetail> getRateDetails() {
+        return rateDetails;
+    }
+
+    public void setRateDetails(List<RateDetail> rateDetails) {
+        this.rateDetails = rateDetails;
+    }
+
+    public List<AccessoriesDetail> getAccessoriesDetails() {
+        return accessoriesDetails;
+    }
+
+    public void setAccessoriesDetails(List<AccessoriesDetail> accessoriesDetails) {
+        this.accessoriesDetails = accessoriesDetails;
+    }
 }
