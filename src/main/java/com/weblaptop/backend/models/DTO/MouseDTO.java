@@ -2,7 +2,7 @@ package com.weblaptop.backend.models.DTO;
 
 import java.util.Date;
 
-public class LaptopDTO {
+public class MouseDTO {
     private long id;
     private long idManufacturer;
     private String manufacturer;
@@ -23,23 +23,26 @@ public class LaptopDTO {
     private String guarantee;
     private String description;
 
-    private String cpu;
-    private String ram;
-    private String screen;
-    private String graphicCard;
-    private String storage;
+    private String standardConnection;
+    private String connectionProtocol;
+    private String sensorEye;
+    private String dpi;
+    private String led;
+    private String button;
+    private String size;
     private String battery;
-    private String port;
-    private String OS;
+    private String os;
+    private String color;
 
-    public LaptopDTO() {
+    public MouseDTO() {
     }
 
-    public LaptopDTO(long id, long idManufacturer, String manufacturer, long idCategory, String category,
-                     long idProductType, String productType, long idImage, String image, String modelCode,
-                     String name, Date year, String status, long amount, long price, String national,
-                     String weight, String guarantee, String description, String cpu, String ram, String screen,
-                     String graphicCard, String storage, String battery, String port, String OS) {
+    public MouseDTO(long id, long idManufacturer, String manufacturer, long idCategory, String category,
+                    long idProductType, String productType, long idImage, String image, String modelCode,
+                    String name, Date year, String status, long amount, long price, String national,
+                    String weight, String guarantee, String description, String standardConnection,
+                    String connectionProtocol, String sensorEye, String dpi, String led, String button,
+                    String size, String battery, String os, String color) {
         this.id = id;
         this.idManufacturer = idManufacturer;
         this.manufacturer = manufacturer;
@@ -59,14 +62,16 @@ public class LaptopDTO {
         this.weight = weight;
         this.guarantee = guarantee;
         this.description = description;
-        this.cpu = cpu;
-        this.ram = ram;
-        this.screen = screen;
-        this.graphicCard = graphicCard;
-        this.storage = storage;
+        this.standardConnection = standardConnection;
+        this.connectionProtocol = connectionProtocol;
+        this.sensorEye = sensorEye;
+        this.dpi = dpi;
+        this.led = led;
+        this.button = button;
+        this.size = size;
         this.battery = battery;
-        this.port = port;
-        this.OS = OS;
+        this.os = os;
+        this.color = color;
     }
 
     public long getId() {
@@ -221,44 +226,60 @@ public class LaptopDTO {
         this.description = description;
     }
 
-    public String getCpu() {
-        return cpu;
+    public String getStandardConnection() {
+        return standardConnection;
     }
 
-    public void setCpu(String cpu) {
-        this.cpu = cpu;
+    public void setStandardConnection(String standardConnection) {
+        this.standardConnection = standardConnection;
     }
 
-    public String getRam() {
-        return ram;
+    public String getConnectionProtocol() {
+        return connectionProtocol;
     }
 
-    public void setRam(String ram) {
-        this.ram = ram;
+    public void setConnectionProtocol(String connectionProtocol) {
+        this.connectionProtocol = connectionProtocol;
     }
 
-    public String getScreen() {
-        return screen;
+    public String getSensorEye() {
+        return sensorEye;
     }
 
-    public void setScreen(String screen) {
-        this.screen = screen;
+    public void setSensorEye(String sensorEye) {
+        this.sensorEye = sensorEye;
     }
 
-    public String getGraphicCard() {
-        return graphicCard;
+    public String getDpi() {
+        return dpi;
     }
 
-    public void setGraphicCard(String graphicCard) {
-        this.graphicCard = graphicCard;
+    public void setDpi(String dpi) {
+        this.dpi = dpi;
     }
 
-    public String getStorage() {
-        return storage;
+    public String getLed() {
+        return led;
     }
 
-    public void setStorage(String storage) {
-        this.storage = storage;
+    public void setLed(String led) {
+        this.led = led;
+    }
+
+    public String getButton() {
+        return button;
+    }
+
+    public void setButton(String button) {
+        this.button = button;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     public String getBattery() {
@@ -269,19 +290,19 @@ public class LaptopDTO {
         this.battery = battery;
     }
 
-    public String getPort() {
-        return port;
+    public String getOs() {
+        return os;
     }
 
-    public void setPort(String port) {
-        this.port = port;
+    public void setOs(String os) {
+        this.os = os;
     }
 
-    public String getOS() {
-        return OS;
+    public String getColor() {
+        return color;
     }
 
-    public void setOS(String OS) {
-        this.OS = OS;
+    public void setColor(String color) {
+        this.color = color;
     }
 }

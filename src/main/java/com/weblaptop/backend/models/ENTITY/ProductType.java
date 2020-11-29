@@ -1,34 +1,33 @@
 package com.weblaptop.backend.models.ENTITY;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.weblaptop.backend.models.ENTITY.Product.Product;
 
 import javax.persistence.*;
 import java.util.List;
+// Laptop Ram ,..
 @Entity
-public class Category {
+public class ProductType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idProductType", nullable = false)
-    private ProductType productType;
-//    @OneToMany(mappedBy = "category")
-//    private List<Manufacturer> manufacturers;
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "productType")
+    private List<Manufacturer> productType;
+    @OneToMany(mappedBy = "productType")
     private List<Product> products;
-    public Category() {
+    @OneToMany(mappedBy = "productType")
+    private List<Category> categories;
+
+    public ProductType() {
     }
 
-    public Category(long id, String name, ProductType productType,
-                    List<Product> products) {
+    public ProductType(long id, String name, List<Manufacturer> productType, List<Product> products,
+                       List<Category> categories) {
         this.id = id;
         this.name = name;
         this.productType = productType;
-//        this.manufacturers = manufacturers;
         this.products = products;
+        this.categories = categories;
     }
 
     public long getId() {
@@ -47,14 +46,13 @@ public class Category {
         this.name = name;
     }
 
-    public ProductType getProductType() {
+    public List<Manufacturer> getProductType() {
         return productType;
     }
 
-    public void setProductType(ProductType productType) {
+    public void setProductType(List<Manufacturer> productType) {
         this.productType = productType;
     }
-
 
     public List<Product> getProducts() {
         return products;
@@ -62,5 +60,13 @@ public class Category {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }

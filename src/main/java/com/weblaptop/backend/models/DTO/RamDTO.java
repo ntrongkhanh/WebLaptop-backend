@@ -2,7 +2,7 @@ package com.weblaptop.backend.models.DTO;
 
 import java.util.Date;
 
-public class LaptopDTO {
+public class RamDTO {
     private long id;
     private long idManufacturer;
     private String manufacturer;
@@ -23,23 +23,17 @@ public class LaptopDTO {
     private String guarantee;
     private String description;
 
-    private String cpu;
-    private String ram;
-    private String screen;
-    private String graphicCard;
-    private String storage;
-    private String battery;
-    private String port;
-    private String OS;
+    private String buss;
+    private String capacity;
+    private String voltage;
 
-    public LaptopDTO() {
+    public RamDTO() {
     }
 
-    public LaptopDTO(long id, long idManufacturer, String manufacturer, long idCategory, String category,
-                     long idProductType, String productType, long idImage, String image, String modelCode,
-                     String name, Date year, String status, long amount, long price, String national,
-                     String weight, String guarantee, String description, String cpu, String ram, String screen,
-                     String graphicCard, String storage, String battery, String port, String OS) {
+    public RamDTO(long id, long idManufacturer, String manufacturer, long idCategory, String category,
+                  long idProductType, String productType, long idImage, String image, String modelCode,
+                  String name, Date year, String status, long amount, long price, String national,
+                  String weight, String guarantee, String description, String buss, String capacity, String voltage) {
         this.id = id;
         this.idManufacturer = idManufacturer;
         this.manufacturer = manufacturer;
@@ -59,14 +53,9 @@ public class LaptopDTO {
         this.weight = weight;
         this.guarantee = guarantee;
         this.description = description;
-        this.cpu = cpu;
-        this.ram = ram;
-        this.screen = screen;
-        this.graphicCard = graphicCard;
-        this.storage = storage;
-        this.battery = battery;
-        this.port = port;
-        this.OS = OS;
+        this.buss = buss;
+        this.capacity = capacity;
+        this.voltage = voltage;
     }
 
     public long getId() {
@@ -221,67 +210,27 @@ public class LaptopDTO {
         this.description = description;
     }
 
-    public String getCpu() {
-        return cpu;
+    public String getBuss() {
+        return buss;
     }
 
-    public void setCpu(String cpu) {
-        this.cpu = cpu;
+    public void setBuss(String buss) {
+        this.buss = buss;
     }
 
-    public String getRam() {
-        return ram;
+    public String getCapacity() {
+        return capacity;
     }
 
-    public void setRam(String ram) {
-        this.ram = ram;
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
     }
 
-    public String getScreen() {
-        return screen;
+    public String getVoltage() {
+        return voltage;
     }
 
-    public void setScreen(String screen) {
-        this.screen = screen;
-    }
-
-    public String getGraphicCard() {
-        return graphicCard;
-    }
-
-    public void setGraphicCard(String graphicCard) {
-        this.graphicCard = graphicCard;
-    }
-
-    public String getStorage() {
-        return storage;
-    }
-
-    public void setStorage(String storage) {
-        this.storage = storage;
-    }
-
-    public String getBattery() {
-        return battery;
-    }
-
-    public void setBattery(String battery) {
-        this.battery = battery;
-    }
-
-    public String getPort() {
-        return port;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
-
-    public String getOS() {
-        return OS;
-    }
-
-    public void setOS(String OS) {
-        this.OS = OS;
+    public void setVoltage(String voltage) {
+        this.voltage = voltage;
     }
 }

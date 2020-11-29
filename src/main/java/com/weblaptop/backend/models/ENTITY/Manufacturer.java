@@ -1,24 +1,25 @@
 package com.weblaptop.backend.models.ENTITY;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.weblaptop.backend.models.ENTITY.Product.Product;
 
 import javax.persistence.*;
 import java.util.List;
-
 @Entity
 public class Manufacturer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
-    @JsonBackReference
+@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idImage", nullable = false)
     private Image image;
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idCategory", nullable = false)
-    private Category category;
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "idProductType", nullable = true)
+    private ProductType productType;
+
     private String national;
     @OneToMany(mappedBy = "manufacturer")
     private List<Product> products;
@@ -26,11 +27,13 @@ public class Manufacturer {
     public Manufacturer() {
     }
 
-    public Manufacturer(long id, String name, Image image, Category category, String national, List<Product> products) {
+    public Manufacturer(long id, String name, Image image, ProductType productType,
+                        String national, List<Product> products) {
         this.id = id;
         this.name = name;
         this.image = image;
-        this.category = category;
+        this.productType = productType;
+
         this.national = national;
         this.products = products;
     }
@@ -59,13 +62,14 @@ public class Manufacturer {
         this.image = image;
     }
 
-    public Category getCategory() {
-        return category;
+    public ProductType getProductType() {
+        return productType;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
     }
+    
 
     public String getNational() {
         return national;
