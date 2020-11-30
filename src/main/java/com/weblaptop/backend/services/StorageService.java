@@ -162,6 +162,7 @@ public class StorageService {
             dto.setWeight(product.get().getWeight());
             dto.setGuarantee(product.get().getGuarantee());
             dto.setDescription(product.get().getDescription());
+            dto.setColor(product.get().getColor());
 
             dto.setCapacity(product.get().getStorage().getCapacity());
             dto.setConnectionProtocol(product.get().getStorage().getConnectionProtocol());

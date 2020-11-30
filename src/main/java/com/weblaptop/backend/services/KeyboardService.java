@@ -162,6 +162,7 @@ public class KeyboardService {
             dto.setWeight(product.get().getWeight());
             dto.setGuarantee(product.get().getGuarantee());
             dto.setDescription(product.get().getDescription());
+            dto.setColor(product.get().getColor());
 
             dto.setSize(product.get().getKeyboard().getSize());
             dto.setStandardConnection(product.get().getKeyboard().getStandardConnection());

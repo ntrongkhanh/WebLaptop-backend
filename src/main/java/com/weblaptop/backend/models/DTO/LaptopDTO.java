@@ -22,6 +22,7 @@ public class LaptopDTO {
     private String weight;
     private String guarantee;
     private String description;
+    private String color;
 
     private String cpu;
     private String ram;
@@ -39,7 +40,7 @@ public class LaptopDTO {
                      long idProductType, String productType, long idImage, String image, String modelCode,
                      String name, Date year, String status, long amount, long price, String national,
                      String weight, String guarantee, String description, String cpu, String ram, String screen,
-                     String graphicCard, String storage, String battery, String port, String OS) {
+                     String graphicCard, String storage,String color, String battery, String port, String OS) {
         this.id = id;
         this.idManufacturer = idManufacturer;
         this.manufacturer = manufacturer;
@@ -67,6 +68,15 @@ public class LaptopDTO {
         this.battery = battery;
         this.port = port;
         this.OS = OS;
+        this.color=color;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public long getId() {

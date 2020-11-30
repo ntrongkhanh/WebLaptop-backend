@@ -22,6 +22,7 @@ public class RamDTO {
     private String weight;
     private String guarantee;
     private String description;
+    private String color;
 
     private String buss;
     private String capacity;
@@ -33,7 +34,7 @@ public class RamDTO {
     public RamDTO(long id, long idManufacturer, String manufacturer, long idCategory, String category,
                   long idProductType, String productType, long idImage, String image, String modelCode,
                   String name, Date year, String status, long amount, long price, String national,
-                  String weight, String guarantee, String description, String buss, String capacity, String voltage) {
+                  String weight, String guarantee,String color, String description, String buss, String capacity, String voltage) {
         this.id = id;
         this.idManufacturer = idManufacturer;
         this.manufacturer = manufacturer;
@@ -56,6 +57,15 @@ public class RamDTO {
         this.buss = buss;
         this.capacity = capacity;
         this.voltage = voltage;
+        this.color=color;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public long getId() {

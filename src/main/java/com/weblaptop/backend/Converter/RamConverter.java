@@ -29,6 +29,7 @@ public class RamConverter {
         product.setGuarantee(dto.getGuarantee());
         product.setDescription(dto.getDescription());
         product.setAmount(dto.getAmount());
+        product.setColor(dto.getColor());
         return product;
     }
     public RamDTO toDTO(Product product){
@@ -52,6 +53,7 @@ public class RamConverter {
         dto.setName(product.getName());
         dto.setYear(product.getYear());
         dto.setId(product.getId());
+        dto.setColor(product.getColor());
 
         dto.setCapacity(product.getRam().getCapacity());
         dto.setBuss(product.getRam().getBuss());

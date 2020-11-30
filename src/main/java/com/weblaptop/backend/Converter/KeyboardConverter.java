@@ -17,6 +17,7 @@ public class KeyboardConverter {
         keyboard.setLed(dto.getLed());
         keyboard.setConnectionProtocol(dto.getConnectionProtocol());
         keyboard.set_switch(dto.get_switch());
+
         return keyboard;
     }
     public Product toProductEntity(KeyboardDTO dto){
@@ -31,6 +32,7 @@ public class KeyboardConverter {
         product.setGuarantee(dto.getGuarantee());
         product.setDescription(dto.getDescription());
         product.setAmount(dto.getAmount());
+        product.setColor(dto.getColor());
         return product;
     }
     public KeyboardDTO toKeyboardDTO(Product product){
@@ -54,6 +56,7 @@ public class KeyboardConverter {
         dto.setName(product.getName());
         dto.setYear(product.getYear());
         dto.setId(product.getId());
+        dto.setColor(product.getColor());
 
         dto.setSize(product.getKeyboard().getSize());
         dto.setStandardConnection(product.getKeyboard().getStandardConnection());

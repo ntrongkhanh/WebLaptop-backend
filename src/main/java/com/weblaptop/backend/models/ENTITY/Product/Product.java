@@ -41,6 +41,7 @@ public class Product {
     private long price;
     private String guarantee;
     private String description;
+    private String color;
 
     @OneToOne(mappedBy = "product")
     private Ram ram;
@@ -57,9 +58,9 @@ public class Product {
     }
 
     public Product(long id, Manufacturer manufacturer, ProductType productType, Category category, String name,
-                   String modelCode, Date year, Image image, String status, String weight, long amount,
-                   long price, String guarantee, String description, Ram ram, Storage storage, Laptop laptop,
-                   Keyboard keyboard, Mouse mouse) {
+                   String modelCode, Date year, Image image, String status, String weight, long amount, long price,
+                   String guarantee, String description, String color, Ram ram, Storage storage, Keyboard keyboard,
+                   Mouse mouse, Laptop laptop) {
         this.id = id;
         this.manufacturer = manufacturer;
         this.productType = productType;
@@ -74,11 +75,12 @@ public class Product {
         this.price = price;
         this.guarantee = guarantee;
         this.description = description;
+        this.color = color;
         this.ram = ram;
         this.storage = storage;
-        this.laptop = laptop;
         this.keyboard = keyboard;
         this.mouse = mouse;
+        this.laptop = laptop;
     }
 
     public long getId() {
@@ -193,6 +195,14 @@ public class Product {
         this.description = description;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public Ram getRam() {
         return ram;
     }
@@ -209,14 +219,6 @@ public class Product {
         this.storage = storage;
     }
 
-    public Laptop getLaptop() {
-        return laptop;
-    }
-
-    public void setLaptop(Laptop laptop) {
-        this.laptop = laptop;
-    }
-
     public Keyboard getKeyboard() {
         return keyboard;
     }
@@ -231,5 +233,13 @@ public class Product {
 
     public void setMouse(Mouse mouse) {
         this.mouse = mouse;
+    }
+
+    public Laptop getLaptop() {
+        return laptop;
+    }
+
+    public void setLaptop(Laptop laptop) {
+        this.laptop = laptop;
     }
 }

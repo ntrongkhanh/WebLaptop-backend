@@ -15,7 +15,6 @@ public class Mouse {
     private String size;
     private String battery;
     private String os;
-    private String color;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idProduct", referencedColumnName = "id")
     private Product product;
@@ -24,7 +23,7 @@ public class Mouse {
     }
 
     public Mouse(long id, String standardConnection, String connectionProtocol, String sensorEye, String dpi,
-                 String led, String button, String size, String battery, String os, String color, Product product) {
+                 String led, String button, String size, String battery, String os, Product product) {
         this.id = id;
         this.standardConnection = standardConnection;
         this.connectionProtocol = connectionProtocol;
@@ -35,7 +34,6 @@ public class Mouse {
         this.size = size;
         this.battery = battery;
         this.os = os;
-        this.color = color;
         this.product = product;
     }
 
@@ -120,13 +118,6 @@ public class Mouse {
         this.os = os;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public Product getProduct() {
         return product;

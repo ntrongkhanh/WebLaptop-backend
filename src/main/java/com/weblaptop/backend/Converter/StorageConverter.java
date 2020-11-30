@@ -30,6 +30,7 @@ public class StorageConverter {
         product.setGuarantee(dto.getGuarantee());
         product.setDescription(dto.getDescription());
         product.setAmount(dto.getAmount());
+        product.setColor(dto.getColor());
         return product;
     }
     public StorageDTO toDTO(Product product){
@@ -53,6 +54,7 @@ public class StorageConverter {
         dto.setName(product.getName());
         dto.setYear(product.getYear());
         dto.setId(product.getId());
+        dto.setColor(product.getColor());
 
         dto.setCapacity(product.getStorage().getCapacity());
         dto.setConnectionProtocol(product.getStorage().getConnectionProtocol());

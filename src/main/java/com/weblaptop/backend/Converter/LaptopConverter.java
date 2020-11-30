@@ -27,6 +27,7 @@ public class LaptopConverter {
         product.setGuarantee(dto.getGuarantee());
         product.setDescription(dto.getDescription());
         product.setAmount(dto.getAmount());
+        product.setColor(dto.getColor());
         return product;
     }
     public Laptop toLaptopEntity(LaptopDTO dto){
@@ -55,6 +56,7 @@ public class LaptopConverter {
         dto.setIdCategory(product.getCategory().getId());
         dto.setIdManufacturer(product.getManufacturer().getId());
         dto.setManufacturer(product.getManufacturer().getName());
+        dto.setColor(product.getColor());
 
         dto.setOS(product.getLaptop().getOS());
         dto.setWeight(product.getWeight());

@@ -22,6 +22,7 @@ public class KeyboardDTO {
     private String weight;
     private String guarantee;
     private String description;
+    private String color;
 
     private String size;
     private String standardConnection;
@@ -36,7 +37,7 @@ public class KeyboardDTO {
                        long idProductType, String productType, long idImage, String image, String modelCode,
                        String name, Date year, String status, long amount, long price, String national,
                        String weight, String guarantee, String description, String size, String standardConnection,
-                       String connectionProtocol, String led, String _switch) {
+                       String connectionProtocol, String led, String _switch,String color) {
         this.id = id;
         this.idManufacturer = idManufacturer;
         this.manufacturer = manufacturer;
@@ -61,6 +62,15 @@ public class KeyboardDTO {
         this.connectionProtocol = connectionProtocol;
         this.led = led;
         this._switch = _switch;
+        this.color=color;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public long getId() {

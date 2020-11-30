@@ -20,7 +20,7 @@ public class MouseConverter {
         mouse.setLed(dto.getLed());
         mouse.setDpi(dto.getDpi());
         mouse.setConnectionProtocol(dto.getConnectionProtocol());
-        mouse.setColor(dto.getColor());
+
         mouse.setButton(dto.getButton());
         mouse.setBattery(dto.getBattery());
         return mouse;
@@ -37,6 +37,7 @@ public class MouseConverter {
         product.setGuarantee(dto.getGuarantee());
         product.setDescription(dto.getDescription());
         product.setAmount(dto.getAmount());
+        product.setColor(product.getColor());
         return product;
     }
     public MouseDTO toDTO(Product product){
@@ -70,7 +71,7 @@ public class MouseConverter {
         dto.setSize(product.getMouse().getSize());
         dto.setBattery(product.getMouse().getBattery());
         dto.setOs(product.getMouse().getOs());
-        dto.setColor(product.getMouse().getColor());
+        dto.setColor(product.getColor());
 
         return dto;
     }

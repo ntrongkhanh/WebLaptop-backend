@@ -168,6 +168,7 @@ public class LaptopService {
             dto.setYear(product.get().getYear());
             dto.setCpu(product.get().getLaptop().getCpu());
             dto.setId(product.get().getId());
+            dto.setColor(product.get().getColor());
             Map<String, Object> response = new HashMap<>();
             response.put("Laptop", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);

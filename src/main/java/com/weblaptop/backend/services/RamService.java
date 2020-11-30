@@ -163,6 +163,7 @@ public class RamService {
             dto.setBuss(product.get().getRam().getBuss());
             dto.setAmount(product.get().getAmount());
             dto.setId(product.get().getId());
+            dto.setColor(product.get().getColor());
             Map<String, Object> response = new HashMap<>();
             response.put("Ram", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);

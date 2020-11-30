@@ -157,6 +157,7 @@ public class MouseService {
             dto.setWeight(product.get().getWeight());
             dto.setGuarantee(product.get().getGuarantee());
             dto.setDescription(product.get().getDescription());
+            dto.setColor(product.get().getColor());
 
             dto.setStandardConnection(product.get().getMouse().getStandardConnection());
             dto.setConnectionProtocol(product.get().getMouse().getConnectionProtocol());
@@ -167,7 +168,7 @@ public class MouseService {
             dto.setSize(product.get().getMouse().getSize());
             dto.setBattery(product.get().getMouse().getBattery());
             dto.setOs(product.get().getMouse().getOs());
-            dto.setColor(product.get().getMouse().getColor());
+
 
             Map<String, Object> response = new HashMap<>();
             response.put("Mouse", dto);

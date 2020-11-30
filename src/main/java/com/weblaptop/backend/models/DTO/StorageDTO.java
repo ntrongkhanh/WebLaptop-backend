@@ -24,6 +24,7 @@ public class StorageDTO {
     private String weight;
     private String guarantee;
     private String description;
+    private String color;
 
     private String capacity;
     private String connectionProtocol;
@@ -36,7 +37,7 @@ public class StorageDTO {
     public StorageDTO(long id, long idManufacturer, String manufacturer, long idCategory, String category,
                       long idProductType, String productType, long idImage, String image, String modelCode,
                       String name, Date year, String status, long amount, long price, String national,
-                      String weight, String guarantee, String description, String capacity,
+                      String weight, String guarantee, String description, String color, String capacity,
                       String connectionProtocol, String readSpeed, String writeSpeed) {
         this.id = id;
         this.idManufacturer = idManufacturer;
@@ -57,10 +58,19 @@ public class StorageDTO {
         this.weight = weight;
         this.guarantee = guarantee;
         this.description = description;
+        this.color = color;
         this.capacity = capacity;
         this.connectionProtocol = connectionProtocol;
         this.readSpeed = readSpeed;
         this.writeSpeed = writeSpeed;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public long getId() {
