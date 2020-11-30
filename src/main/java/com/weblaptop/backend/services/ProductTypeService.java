@@ -48,7 +48,12 @@ public class ProductTypeService {
         }
     }
     public void delete(long id)   {
-        productTypeRepo.deleteById(id);
+        try {
+            productTypeRepo.deleteById(id);
+        }catch (Exception e){
+            return;
+        }
+
     }
 
     public ResponseEntity<Map<String, Object>>  update(ProductTypeDTO dto) {
@@ -65,6 +70,10 @@ public class ProductTypeService {
     public ResponseEntity<Map<String, Object>>  getById(long id) {
         try {
             Optional<ProductType> productType=productTypeRepo.findById(id);
+            if (!productType.isPresent()){
+                Map<String, Object> response = new HashMap<>();
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
             ProductTypeDTO dto=new ProductTypeDTO();
             dto.setId(productType.get().getId());
             dto.setName(productType.get().getName());

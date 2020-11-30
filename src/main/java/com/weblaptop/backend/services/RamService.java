@@ -43,40 +43,72 @@ public class RamService {
     private ImageRepo imageRepo;
     @Autowired
     private ProductTypeRepo productTypeRepo;
+
     public ResponseEntity<Map<String, Object>> create(RamDTO dto) {
         try {
 
-            Product product=ramConverter.toProductEntity(dto);
-            Category category=entityManager.getReference(Category.class,dto.getIdCategory());
+            Product product = ramConverter.toProductEntity(dto);
+            Category category = entityManager.getReference(Category.class, dto.getIdCategory());
             product.setCategory(category);
-            Image image=new Image();
+            Image image = new Image();
             image.setImage(dto.getImage());
-            image=imageRepo.saveAndFlush(image);
+            image = imageRepo.saveAndFlush(image);
             product.setImage(image);
-            Manufacturer manufacturer=entityManager.getReference(Manufacturer.class,dto.getIdManufacturer());
+            Manufacturer manufacturer = entityManager.getReference(Manufacturer.class, dto.getIdManufacturer());
             product.setManufacturer(manufacturer);
             ProductType productType = productTypeRepo.getByName("RAM");
             product.setProductType(productType);
             product = productRepo.saveAndFlush(product);
             Ram ram = ramConverter.toRamEntity(dto);
 
-            Product product1=entityManager.getReference(Product.class,product.getId());
+            Product product1 = entityManager.getReference(Product.class, product.getId());
             ram.setProduct(product1);
             ram = ramRepo.save(ram);
 
 
             Map<String, Object> response = new HashMap<>();
             response.put("Product", product);
-            response.put("Ram", ram);
+            response.put("Ram", image);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    public ResponseEntity<Map<String, Object>> update(RamDTO dto) {
+        Optional<Product> productOptional = productRepo.findById(dto.getId());
+        if (!productOptional.isPresent())
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Ram ram = ramRepo.findById(productOptional.get().getRam().getId()).get();
+        ram = ramConverter.toRamEntity(dto);
+        Product product = entityManager.getReference(Product.class, dto.getId());
+        ram.setProduct(product);
+        ram.setId(product.getRam().getId());
+        ram = ramRepo.saveAndFlush(ram);
+
+
+        product = ramConverter.toProductEntity(dto);
+        Category category = entityManager.getReference(Category.class, dto.getIdCategory());
+        product.setCategory(category);
+        Image image = new Image();
+        image.setImage(dto.getImage());
+        image = imageRepo.saveAndFlush(image);
+        product.setImage(image);
+        Manufacturer manufacturer = entityManager.getReference(Manufacturer.class, dto.getIdManufacturer());
+        product.setManufacturer(manufacturer);
+        ProductType productType = productTypeRepo.getByName("RAM");
+        product.setProductType(productType);
+        product = productRepo.save(product);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Product", product);
+        response.put("Ram", ram);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     public ResponseEntity<Map<String, Object>> getAll() {
         try {
-            List<RamDTO> dtos = ramConverter.toDTOs( productRepo.findAllRam());
+            List<RamDTO> dtos = ramConverter.toDTOs(productRepo.findAllRam());
             Map<String, Object> response = new HashMap<>();
             response.put("Rams", dtos);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -86,16 +118,29 @@ public class RamService {
     }
 
     public void delete(long id) {
-        productRepo.deleteById(id);
+        Optional<Product> product = productRepo.findById(id);
+        if (!product.isPresent())
+            return;
+        Product product1 = entityManager.getReference(Product.class, id);
+        try {
+            ramRepo.deleteById(product1.getRam().getId());
+            productRepo.deleteById(id);
+        } catch (Exception e) {
+            return;
+        }
+
     }
 
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
             Optional<Product> product = productRepo.findById(id);
-
+            if (!product.isPresent()) {
+                Map<String, Object> response = new HashMap<>();
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
             //  Laptop dto = product.get().getLaptop();
-            RamDTO dto=new RamDTO();
+            RamDTO dto = new RamDTO();
             dto.setYear(product.get().getYear());
             dto.setWeight(product.get().getWeight());
             dto.setVoltage(product.get().getRam().getVoltage());
@@ -117,7 +162,7 @@ public class RamService {
             dto.setCapacity(product.get().getRam().getCapacity());
             dto.setBuss(product.get().getRam().getBuss());
             dto.setAmount(product.get().getAmount());
-
+            dto.setId(product.get().getId());
             Map<String, Object> response = new HashMap<>();
             response.put("Ram", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);

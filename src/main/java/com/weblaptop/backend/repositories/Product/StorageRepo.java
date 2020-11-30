@@ -10,6 +10,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StorageRepo extends JpaRepository<Storage,Long> {
-    @Query(value = "select * from product p where c.id_product_type=3", nativeQuery = true)
-    public Product findAllProduct();
 }

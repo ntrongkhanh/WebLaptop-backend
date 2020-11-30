@@ -27,7 +27,7 @@ public class ImageController {
         return imageService.getById(id);
     }
     @DeleteMapping("/{id}")
-    public void detele(@PathVariable(value = "id") long id) {
+    public void delete(@PathVariable(value = "id") long id) {
         imageService.delete(id);
     }
     @PutMapping("/{id}")

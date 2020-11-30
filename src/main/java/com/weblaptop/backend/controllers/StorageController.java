@@ -1,5 +1,6 @@
 package com.weblaptop.backend.controllers;
 
+import com.weblaptop.backend.models.DTO.RamDTO;
 import com.weblaptop.backend.models.DTO.StorageDTO;
 import com.weblaptop.backend.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.Map;
 @RequestMapping("/api/storage")
 public class StorageController {
     @Autowired
-    private com.weblaptop.backend.services.StorageService StorageService;
+    private StorageService StorageService;
     @GetMapping("/")
     public ResponseEntity<Map<String, Object>> getAll() {
         return  StorageService.getAll();
@@ -27,7 +28,11 @@ public class StorageController {
         return StorageService.getById(id);
     }
     @DeleteMapping("/{id}")
-    public void detele(@PathVariable(value = "id") long id) {
+    public void delete(@PathVariable(value = "id") long id) {
         StorageService.delete(id);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> update(@RequestBody StorageDTO dto) {
+        return StorageService.update(dto);
     }
 }

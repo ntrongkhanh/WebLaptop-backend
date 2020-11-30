@@ -2,11 +2,13 @@ package com.weblaptop.backend.services;
 
 import com.weblaptop.backend.Converter.LaptopConverter;
 import com.weblaptop.backend.models.DTO.LaptopDTO;
+import com.weblaptop.backend.models.DTO.RamDTO;
 import com.weblaptop.backend.models.ENTITY.Category;
 import com.weblaptop.backend.models.ENTITY.Image;
 import com.weblaptop.backend.models.ENTITY.Manufacturer;
 import com.weblaptop.backend.models.ENTITY.Product.Laptop;
 import com.weblaptop.backend.models.ENTITY.Product.Product;
+import com.weblaptop.backend.models.ENTITY.Product.Ram;
 import com.weblaptop.backend.models.ENTITY.ProductType;
 import com.weblaptop.backend.repositories.CategoryRepo;
 import com.weblaptop.backend.repositories.ImageRepo;
@@ -59,7 +61,7 @@ public class LaptopService {
             Laptop laptop = converter.toLaptopEntity(dto);
 
 
-            Product product1=entityManager.getReference(Product.class,product.getId());
+            Product product1 = entityManager.getReference(Product.class, product.getId());
             laptop.setProduct(product1);
             laptop = laptopRepo.save(laptop);
 
@@ -71,6 +73,37 @@ public class LaptopService {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public ResponseEntity<Map<String, Object>> update(LaptopDTO dto) {
+        Optional<Product> productOptional = productRepo.findById(dto.getId());
+        if (!productOptional.isPresent())
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Laptop laptop = laptopRepo.findById(productOptional.get().getLaptop().getId()).get();
+        laptop = converter.toLaptopEntity(dto);
+        Product product = entityManager.getReference(Product.class, dto.getId());
+        laptop.setProduct(product);
+        laptop.setId(product.getLaptop().getId());
+        laptop = laptopRepo.saveAndFlush(laptop);
+
+
+        product = converter.toProductEntity(dto);
+        Category category = entityManager.getReference(Category.class, dto.getIdCategory());
+        product.setCategory(category);
+        Image image = new Image();
+        image.setImage(dto.getImage());
+        image = imageRepo.saveAndFlush(image);
+        product.setImage(image);
+        Manufacturer manufacturer = entityManager.getReference(Manufacturer.class, dto.getIdManufacturer());
+        product.setManufacturer(manufacturer);
+        ProductType productType = productTypeRepo.getByName("LAPTOP");
+        product.setProductType(productType);
+        product = productRepo.save(product);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Product", product);
+        response.put("Ram", laptop);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     public ResponseEntity<Map<String, Object>> getAll() {
@@ -85,16 +118,29 @@ public class LaptopService {
     }
 
     public void delete(long id) {
-        productRepo.deleteById(id);
+        Optional<Product> product = productRepo.findById(id);
+        if (!product.isPresent())
+            return;
+        Product product1 = entityManager.getReference(Product.class, id);
+        try {
+            laptopRepo.deleteById(product1.getLaptop().getId());
+            productRepo.deleteById(id);
+        } catch (Exception e) {
+            return;
+        }
+
     }
 
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
             Optional<Product> product = productRepo.findById(id);
-
-          //  Laptop dto = product.get().getLaptop();
-            LaptopDTO dto=new LaptopDTO();
+            if (!product.isPresent()) {
+                Map<String, Object> response = new HashMap<>();
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+            //  Laptop dto = product.get().getLaptop();
+            LaptopDTO dto = new LaptopDTO();
             dto.setProductType(product.get().getProductType().getName());
             dto.setImage(product.get().getImage().getImage());
             dto.setIdProductType(product.get().getProductType().getId());

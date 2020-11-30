@@ -29,7 +29,7 @@ public class ProductTypeController {
         return productTypeService.getById(id);
     }
     @DeleteMapping("/{id}")
-    public void detele(@PathVariable(value = "id") long id) {
+    public void delete(@PathVariable(value = "id") long id) {
         productTypeService.delete(id);
     }
     @PutMapping("/{id}")

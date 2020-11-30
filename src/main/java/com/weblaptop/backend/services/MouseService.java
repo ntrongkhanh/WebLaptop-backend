@@ -28,9 +28,9 @@ import java.util.Optional;
 @Service
 public class MouseService {
     @Autowired
-    private com.weblaptop.backend.Converter.MouseConverter MouseConverter;
+    private MouseConverter MouseConverter;
     @Autowired
-    private com.weblaptop.backend.repositories.Product.MouseRepo MouseRepo;
+    private MouseRepo MouseRepo;
     @Autowired
     private ProductRepo productRepo;
     @Autowired
@@ -73,7 +73,36 @@ public class MouseService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    public ResponseEntity<Map<String, Object>> update(MouseDTO dto) {
+        Optional<Product> productOptional = productRepo.findById(dto.getId());
+        if (!productOptional.isPresent())
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Mouse mouse = MouseRepo.findById(productOptional.get().getMouse().getId()).get();
+        mouse = MouseConverter.toMouseEntity(dto);
+        Product product=entityManager.getReference(Product.class,dto.getId());
+        mouse.setProduct(product);
+        mouse.setId(product.getMouse().getId());
+        mouse = MouseRepo.saveAndFlush(mouse);
 
+
+        product = MouseConverter.toProductEntity(dto);
+        Category category = entityManager.getReference(Category.class, dto.getIdCategory());
+        product.setCategory(category);
+        Image image = new Image();
+        image.setImage(dto.getImage());
+        image = imageRepo.saveAndFlush(image);
+        product.setImage(image);
+        Manufacturer manufacturer = entityManager.getReference(Manufacturer.class, dto.getIdManufacturer());
+        product.setManufacturer(manufacturer);
+        ProductType productType = productTypeRepo.getByName("MOUSE");
+        product.setProductType(productType);
+        product = productRepo.save(product);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Product", product);
+        response.put("Mouse", mouse);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     public ResponseEntity<Map<String, Object>> getAll() {
         try {
             List<MouseDTO> dtos = MouseConverter.toDTOs(productRepo.findAllMouse());
@@ -86,17 +115,30 @@ public class MouseService {
     }
 
     public void delete(long id) {
-        productRepo.deleteById(id);
+        Optional<Product> product = productRepo.findById(id);
+        if (!product.isPresent())
+            return;
+        Product product1=entityManager.getReference(Product.class,id);
+
+        try {
+            MouseRepo.deleteById(product1.getMouse().getId());
+            productRepo.deleteById(id);
+        }catch (Exception e){
+            return;
+        }
     }
 
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
             Optional<Product> product = productRepo.findById(id);
-
+            if (!product.isPresent()){
+                Map<String, Object> response = new HashMap<>();
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
             //  Laptop dto = product.get().getLaptop();
             MouseDTO dto=new MouseDTO();
-            dto.setId(product.get().getRam().getId());
+            dto.setId(product.get().getId());
             dto.setIdManufacturer(product.get().getManufacturer().getId());
             dto.setManufacturer(product.get().getManufacturer().getName());
             dto.setIdCategory(product.get().getCategory().getId());

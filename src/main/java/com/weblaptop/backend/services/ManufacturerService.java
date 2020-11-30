@@ -34,18 +34,19 @@ public class ManufacturerService {
     private ImageConverter imageConverter;
     @Autowired
     private ImageRepo imageRepo;
-//, ImageDTO imageDTO
+
+    //, ImageDTO imageDTO
     public ResponseEntity<Map<String, Object>> create(ManufacturerDTO dto) {
-       // Image image=imageConverter.toEntity(imageDTO);
+        // Image image=imageConverter.toEntity(imageDTO);
         Manufacturer manufacturer = converter.toEntity(dto);
-        ImageDTO imageDTO=new ImageDTO();
+        ImageDTO imageDTO = new ImageDTO();
         imageDTO.setImage(dto.getImage());
 
         try {
             Image imageEntity = imageConverter.toEntity(imageDTO);
             imageEntity = imageRepo.saveAndFlush(imageEntity);
 
-            ProductType productType = entityManager.getReference(ProductType.class,dto.getIdProductType());
+            ProductType productType = entityManager.getReference(ProductType.class, dto.getIdProductType());
             manufacturer.setProductType(productType);
             manufacturer.setImage(imageEntity);
             manufacturer = repo.save(manufacturer);
@@ -69,13 +70,22 @@ public class ManufacturerService {
     }
 
     public void delete(long id) {
-        repo.deleteById(id);
+        try {
+            repo.deleteById(id);
+        } catch (Exception e) {
+            return;
+        }
+
     }
 
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
             Optional<Manufacturer> manufacturer = repo.findById(id);
+            if (!manufacturer.isPresent()){
+                Map<String, Object> response = new HashMap<>();
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
             ManufacturerDTO dto = new ManufacturerDTO();
             dto.setId(manufacturer.get().getId());
             dto.setImage(manufacturer.get().getImage().getImage());

@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface KeyboardRepo extends JpaRepository<Keyboard,Long> {
-    @Query(value = "select * from product p where c.id_product_type=4", nativeQuery = true)
-    public Product findAllProduct();
+
 }

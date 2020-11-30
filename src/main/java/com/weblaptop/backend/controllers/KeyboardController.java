@@ -1,6 +1,7 @@
 package com.weblaptop.backend.controllers;
 
 import com.weblaptop.backend.models.DTO.KeyboardDTO;
+import com.weblaptop.backend.models.DTO.RamDTO;
 import com.weblaptop.backend.services.KeyboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,11 @@ public class KeyboardController {
         return KeyboardService.getById(id);
     }
     @DeleteMapping("/{id}")
-    public void detele(@PathVariable(value = "id") long id) {
+    public void delete(@PathVariable(value = "id") long id) {
         KeyboardService.delete(id);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> update(@RequestBody KeyboardDTO dto) {
+        return KeyboardService.update(dto);
     }
 }

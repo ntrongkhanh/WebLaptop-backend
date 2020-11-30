@@ -29,11 +29,11 @@ public class LaptopController {
         return laptopService.getById(id);
     }
     @DeleteMapping("/{id}")
-    public void detele(@PathVariable(value = "id") long id) {
+    public void delete(@PathVariable(value = "id") long id) {
         laptopService.delete(id);
     }
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Map<String, Object>> update(@RequestBody ImageDTO imageDTO)  {
-//        return laptopService.update(imageDTO);
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> update(@RequestBody LaptopDTO dto)  {
+        return laptopService.update(dto);
+    }
 }

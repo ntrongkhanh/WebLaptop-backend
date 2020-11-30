@@ -51,7 +51,12 @@ public class CategoryService {
         }
     }
     public void delete(long id)   {
-        repo.deleteById(id);
+        try{
+            repo.deleteById(id);
+        }catch (Exception e){
+            return;
+        }
+
     }
 
     public ResponseEntity<Map<String, Object>>  update(CategoryDTO dto) {
@@ -68,6 +73,10 @@ public class CategoryService {
     public ResponseEntity<Map<String, Object>>  getById(long id) {
         try {
             Optional<Category> category=repo.findById(id);
+            if (!category.isPresent()){
+                Map<String, Object> response = new HashMap<>();
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
             CategoryDTO dto=new CategoryDTO();
             dto.setId(category.get().getId());
             dto.setName(category.get().getName());

@@ -9,6 +9,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MouseRepo extends JpaRepository<Mouse,Long> {
-    @Query(value = "select * from product p where c.id_product_type=5", nativeQuery = true)
-    public Product findAllProduct();
 }

@@ -29,7 +29,7 @@ public class CategoryController {
         return service.getById(id);
     }
     @DeleteMapping("/{id}")
-    public void detele(@PathVariable(value = "id") long id) {
+    public void delete(@PathVariable(value = "id") long id) {
         service.delete(id);
     }
     @PutMapping("/{id}")

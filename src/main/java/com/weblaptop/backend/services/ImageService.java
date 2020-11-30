@@ -46,7 +46,12 @@ public class ImageService {
         }
     }
     public void delete(long id)   {
-        imageRepo.deleteById(id);
+        try{
+            imageRepo.deleteById(id);
+        }
+        catch (Exception e){
+            return;
+        }
     }
 
     public ResponseEntity<Map<String, Object>>  update(ImageDTO imageDTO) {
@@ -54,7 +59,7 @@ public class ImageService {
         Optional<Image> imageOptional = imageRepo.findById(image.getId());
         if (!imageOptional.isPresent())
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        imageRepo.save(image);
+        imageRepo.saveAndFlush(image);
         Map<String, Object> response = new HashMap<>();
         response.put("Image", image);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -63,6 +68,10 @@ public class ImageService {
     public ResponseEntity<Map<String, Object>>  getById(long id) {
         try {
             Optional<Image> image=imageRepo.findById(id);
+            if (!image.isPresent()){
+                Map<String, Object> response = new HashMap<>();
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
             ImageDTO imageDTO=new ImageDTO();
             imageDTO.setId(image.get().getId());
             imageDTO.setImage(image.get().getImage());

@@ -2,6 +2,7 @@ package com.weblaptop.backend.controllers;
 
 
 import com.weblaptop.backend.models.DTO.MouseDTO;
+import com.weblaptop.backend.models.DTO.RamDTO;
 import com.weblaptop.backend.services.MouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,11 @@ public class MouseController {
         return MouseService.getById(id);
     }
     @DeleteMapping("/{id}")
-    public void detele(@PathVariable(value = "id") long id) {
+    public void delete(@PathVariable(value = "id") long id) {
         MouseService.delete(id);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> update(@RequestBody MouseDTO dto) {
+        return MouseService.update(dto);
     }
 }

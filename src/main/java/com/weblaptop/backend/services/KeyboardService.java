@@ -2,11 +2,13 @@ package com.weblaptop.backend.services;
 
 import com.weblaptop.backend.Converter.KeyboardConverter;
 import com.weblaptop.backend.models.DTO.KeyboardDTO;
+import com.weblaptop.backend.models.DTO.RamDTO;
 import com.weblaptop.backend.models.ENTITY.Category;
 import com.weblaptop.backend.models.ENTITY.Image;
 import com.weblaptop.backend.models.ENTITY.Manufacturer;
 import com.weblaptop.backend.models.ENTITY.Product.Product;
 import com.weblaptop.backend.models.ENTITY.Product.Keyboard;
+import com.weblaptop.backend.models.ENTITY.Product.Ram;
 import com.weblaptop.backend.models.ENTITY.ProductType;
 import com.weblaptop.backend.repositories.CategoryRepo;
 import com.weblaptop.backend.repositories.ImageRepo;
@@ -43,24 +45,25 @@ public class KeyboardService {
     private ManufacturerRepo manufacturerRepo;
     @Autowired
     private ImageRepo imageRepo;
+
     public ResponseEntity<Map<String, Object>> create(KeyboardDTO dto) {
         try {
 
-            Product product=KeyboardConverter.toProductEntity(dto);
-            Category category=entityManager.getReference(Category.class,dto.getIdCategory());
+            Product product = KeyboardConverter.toProductEntity(dto);
+            Category category = entityManager.getReference(Category.class, dto.getIdCategory());
             product.setCategory(category);
-            Image image=new Image();
+            Image image = new Image();
             image.setImage(dto.getImage());
-            image=imageRepo.saveAndFlush(image);
+            image = imageRepo.saveAndFlush(image);
             product.setImage(image);
-            Manufacturer manufacturer=entityManager.getReference(Manufacturer.class,dto.getIdManufacturer());
+            Manufacturer manufacturer = entityManager.getReference(Manufacturer.class, dto.getIdManufacturer());
             product.setManufacturer(manufacturer);
             ProductType productType = productTypeRepo.getByName("KEYBOARD");
             product.setProductType(productType);
             product = productRepo.saveAndFlush(product);
             Keyboard Keyboard = KeyboardConverter.toKeyboardEntity(dto);
 
-            Product product1=entityManager.getReference(Product.class,product.getId());
+            Product product1 = entityManager.getReference(Product.class, product.getId());
             Keyboard.setProduct(product1);
             Keyboard = KeyboardRepo.save(Keyboard);
 
@@ -72,6 +75,37 @@ public class KeyboardService {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public ResponseEntity<Map<String, Object>> update(KeyboardDTO dto) {
+        Optional<Product> productOptional = productRepo.findById(dto.getId());
+        if (!productOptional.isPresent())
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        Keyboard keyboard = KeyboardRepo.findById(productOptional.get().getKeyboard().getId()).get();
+        keyboard = KeyboardConverter.toKeyboardEntity(dto);
+        Product product = entityManager.getReference(Product.class, dto.getId());
+        keyboard.setProduct(product);
+        keyboard.setId(product.getKeyboard().getId());
+        keyboard = KeyboardRepo.saveAndFlush(keyboard);
+
+
+        product = KeyboardConverter.toProductEntity(dto);
+        Category category = entityManager.getReference(Category.class, dto.getIdCategory());
+        product.setCategory(category);
+        Image image = new Image();
+        image.setImage(dto.getImage());
+        image = imageRepo.saveAndFlush(image);
+        product.setImage(image);
+        Manufacturer manufacturer = entityManager.getReference(Manufacturer.class, dto.getIdManufacturer());
+        product.setManufacturer(manufacturer);
+        ProductType productType = productTypeRepo.getByName("KEYBOARD");
+        product.setProductType(productType);
+        product = productRepo.save(product);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Product", product);
+        response.put("Keyboard", keyboard);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     public ResponseEntity<Map<String, Object>> getAll() {
@@ -86,17 +120,30 @@ public class KeyboardService {
     }
 
     public void delete(long id) {
-        productRepo.deleteById(id);
+        Optional<Product> product = productRepo.findById(id);
+        if (!product.isPresent())
+            return;
+        Product product1 = entityManager.getReference(Product.class, id);
+        try {
+            KeyboardRepo.deleteById(product1.getKeyboard().getId());
+            productRepo.deleteById(id);
+        } catch (Exception e) {
+            return;
+        }
+
     }
 
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
             Optional<Product> product = productRepo.findById(id);
-
+            if (!product.isPresent()) {
+                Map<String, Object> response = new HashMap<>();
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
             //  Laptop dto = product.get().getLaptop();
-            KeyboardDTO dto=new KeyboardDTO();
-            dto.setId(product.get().getRam().getId());
+            KeyboardDTO dto = new KeyboardDTO();
+            dto.setId(product.get().getId());
             dto.setIdManufacturer(product.get().getManufacturer().getId());
             dto.setManufacturer(product.get().getManufacturer().getName());
             dto.setIdCategory(product.get().getCategory().getId());
