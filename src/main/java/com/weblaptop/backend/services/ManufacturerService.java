@@ -7,8 +7,8 @@ import com.weblaptop.backend.models.DTO.ManufacturerDTO;
 import com.weblaptop.backend.models.ENTITY.ImageEntity;
 import com.weblaptop.backend.models.ENTITY.ManufacturerEntity;
 import com.weblaptop.backend.models.ENTITY.ProductTypeEntity;
-import com.weblaptop.backend.repositories.ImageRepo;
-import com.weblaptop.backend.repositories.ManufacturerRepo;
+import com.weblaptop.backend.repositories.ImageRepository;
+import com.weblaptop.backend.repositories.ManufacturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import java.util.Optional;
 @Service
 public class ManufacturerService {
     @Autowired
-    private ManufacturerRepo repo;
+    private ManufacturerRepository repo;
     @Autowired
     private ManufacturerConverter converter;
     @Autowired
@@ -31,7 +31,7 @@ public class ManufacturerService {
     @Autowired
     private ImageConverter imageConverter;
     @Autowired
-    private ImageRepo imageRepo;
+    private ImageRepository imageRepository;
 
     //, ImageDTO imageDTO
     public ResponseEntity<Map<String, Object>> create(ManufacturerDTO dto) {
@@ -42,14 +42,14 @@ public class ManufacturerService {
 
         try {
             ImageEntity imageEntity = imageConverter.toEntity(imageDTO);
-            imageEntity = imageRepo.saveAndFlush(imageEntity);
+            imageEntity = imageRepository.saveAndFlush(imageEntity);
 
             ProductTypeEntity productTypeEntity = entityManager.getReference(ProductTypeEntity.class, dto.getIdProductType());
             manufacturerEntity.setProductType(productTypeEntity);
             manufacturerEntity.setImage(imageEntity);
             manufacturerEntity = repo.save(manufacturerEntity);
             Map<String, Object> response = new HashMap<>();
-            response.put("ManufacturerEntity", manufacturerEntity);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -60,7 +60,7 @@ public class ManufacturerService {
         try {
             List<ManufacturerDTO> manufacturerDTOS = converter.toDTOs(repo.findAll());
             Map<String, Object> response = new HashMap<>();
-            response.put("ManufacturerEntity", manufacturerDTOS);
+            response.put("data", manufacturerDTOS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,10 +71,10 @@ public class ManufacturerService {
         Map<String, Object> response = new HashMap<>();
         try{
             repo.deleteById(id);
-            response.put("data","delete success");
+            response.put("data","Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
-            response.put("data","delete failed");
+            response.put("data","Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
 

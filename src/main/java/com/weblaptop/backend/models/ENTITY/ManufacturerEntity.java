@@ -23,7 +23,7 @@ public class ManufacturerEntity {
     private ProductTypeEntity productTypeEntity;
 
     private String national;
-    @OneToMany(mappedBy = "manufacturer")
+    @OneToMany(mappedBy = "manufacturerEntity")
     private List<ProductEntity> productEntities;
 
     public ManufacturerEntity() {

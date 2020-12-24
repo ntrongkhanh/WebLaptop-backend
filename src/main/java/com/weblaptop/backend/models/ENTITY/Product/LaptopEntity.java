@@ -4,7 +4,7 @@ package com.weblaptop.backend.models.ENTITY.Product;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "LaptopEntity")
+@Table(name = "Laptop")
 public class LaptopEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

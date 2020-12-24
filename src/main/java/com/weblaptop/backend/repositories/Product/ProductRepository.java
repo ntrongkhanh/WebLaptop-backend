@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductRepo extends JpaRepository<ProductEntity,Long> {
+public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
     @Query(value = "select * from product p where p.id_product_type=100001", nativeQuery = true)
     public List<ProductEntity> findAllLaptop();
     @Query(value = "select * from product p where p.id_product_type=100002", nativeQuery = true)

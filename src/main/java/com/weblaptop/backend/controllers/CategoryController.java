@@ -1,8 +1,6 @@
 package com.weblaptop.backend.controllers;
 
 import com.weblaptop.backend.models.DTO.CategoryDTO;
-import com.weblaptop.backend.models.DTO.ImageDTO;
-import com.weblaptop.backend.repositories.CategoryRepo;
 import com.weblaptop.backend.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -12,11 +12,11 @@ public class ProductTypeEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
-    @OneToMany(mappedBy = "productType")
+    @OneToMany(mappedBy = "productTypeEntity")
     private List<ManufacturerEntity> productType;
-    @OneToMany(mappedBy = "productType")
+    @OneToMany(mappedBy = "productTypeEntity")
     private List<ProductEntity> productEntities;
-    @OneToMany(mappedBy = "productType")
+    @OneToMany(mappedBy = "productTypeEntity")
     private List<CategoryEntity> categories;
 
     public ProductTypeEntity() {

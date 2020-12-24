@@ -1,6 +1,5 @@
 package com.weblaptop.backend.services;
 
-import com.weblaptop.backend.models.DTO.StorageDTO;
 import com.weblaptop.backend.models.ENTITY.CartDetailEntity;
 import com.weblaptop.backend.models.ENTITY.CartEntity;
 import com.weblaptop.backend.models.ENTITY.OrdersEntity;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +49,7 @@ public class UserService {
             CartDetailEntity cartDetailEntity=new CartDetailEntity(amount,ordersEntity,productEntity);
             cartDetailEntity=cartDetailRepository.saveAndFlush(cartDetailEntity);
             Map<String, Object> response = new HashMap<>();
-            response.put("data", cartDetailEntity);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -65,7 +63,7 @@ public class UserService {
             CartDetailEntity cartDetailEntity=new CartDetailEntity(amount,cartEntity,productEntity);
             cartDetailEntity=cartDetailRepository.saveAndFlush(cartDetailEntity);
             Map<String, Object> response = new HashMap<>();
-            response.put("StorageEntity", cartDetailEntity);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -76,15 +74,15 @@ public class UserService {
         Map<String, Object> response = new HashMap<>();
         Optional<CartDetailEntity> cartDetailEntity = cartDetailRepository.findById(idCartDetail);
         if (!cartDetailEntity.isPresent()) {
-            response.put("data", "delete failed");
+            response.put("data", "Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         try {
             cartDetailRepository.deleteById(idCartDetail);
-            response.put("data", "delete success");
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response.put("data", "delete failed");
+            response.put("data", "Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
@@ -143,7 +141,7 @@ public class UserService {
             dto.setStatus(status);
             dto=ordersRepository.save(dto);
             Map<String, Object> response = new HashMap<>();
-            response.put("data", dto);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

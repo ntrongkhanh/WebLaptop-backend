@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "ProductEntity")
+@Table(name = "Product")
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,15 +41,15 @@ public class ProductEntity {
     private String description;
     private String color;
 
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "productEntity")
     private RamEntity ramEntity;
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "productEntity")
     private StorageEntity storageEntity;
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "productEntity")
     private KeyboardEntity keyboardEntity;
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "productEntity")
     private MouseEntity mouseEntity;
-    @OneToOne(mappedBy = "product")
+    @OneToOne(mappedBy = "productEntity")
     private LaptopEntity laptopEntity;
     @OneToMany(mappedBy = "productEntity")
     private List<CartDetailEntity> cartDetailEntities;

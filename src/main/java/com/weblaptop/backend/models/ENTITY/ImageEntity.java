@@ -13,9 +13,9 @@ public class ImageEntity {
     private long id;
     @Column(name = "image", columnDefinition = "TEXT")
     private String image;
-    @OneToMany(mappedBy = "image")
+    @OneToMany(mappedBy = "imageEntity")
     private List<ManufacturerEntity> manufacturerEntities;
-    @OneToMany(mappedBy = "image")
+    @OneToMany(mappedBy = "imageEntity")
     private List<ProductEntity> productEntities;
     public ImageEntity() {
     }

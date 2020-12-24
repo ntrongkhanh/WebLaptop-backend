@@ -8,12 +8,12 @@ import com.weblaptop.backend.models.ENTITY.ManufacturerEntity;
 import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
 import com.weblaptop.backend.models.ENTITY.Product.StorageEntity;
 import com.weblaptop.backend.models.ENTITY.ProductTypeEntity;
-import com.weblaptop.backend.repositories.CategoryRepo;
-import com.weblaptop.backend.repositories.ImageRepo;
-import com.weblaptop.backend.repositories.ManufacturerRepo;
-import com.weblaptop.backend.repositories.Product.ProductRepo;
-import com.weblaptop.backend.repositories.Product.StorageRepo;
-import com.weblaptop.backend.repositories.ProductTypeRepo;
+import com.weblaptop.backend.repositories.CategoryRepository;
+import com.weblaptop.backend.repositories.ImageRepository;
+import com.weblaptop.backend.repositories.ManufacturerRepository;
+import com.weblaptop.backend.repositories.Product.ProductRepository;
+import com.weblaptop.backend.repositories.Product.StorageRepository;
+import com.weblaptop.backend.repositories.ProductTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,19 +30,19 @@ public class StorageService {
     @Autowired
     private StorageConverter storageConverter;
     @Autowired
-    private StorageRepo storageRepo;
+    private StorageRepository storageRepository;
     @Autowired
-    private ProductRepo productRepo;
+    private ProductRepository productRepository;
     @Autowired
-    private ProductTypeRepo productTypeRepo;
+    private ProductTypeRepository productTypeRepository;
     @Autowired
-    private CategoryRepo categoryRepo;
+    private CategoryRepository categoryRepository;
     @Autowired
     private EntityManager entityManager;
     @Autowired
-    private ManufacturerRepo manufacturerRepo;
+    private ManufacturerRepository manufacturerRepository;
     @Autowired
-    private ImageRepo imageRepo;
+    private ImageRepository imageRepository;
 
     public ResponseEntity<Map<String, Object>> create(StorageDTO dto) {
         try {
@@ -52,23 +52,22 @@ public class StorageService {
             productEntity.setCategoryEntity(categoryEntity);
             ImageEntity imageEntity = new ImageEntity();
             imageEntity.setImage(dto.getImage());
-            imageEntity = imageRepo.saveAndFlush(imageEntity);
+            imageEntity = imageRepository.saveAndFlush(imageEntity);
             productEntity.setImageEntity(imageEntity);
             ManufacturerEntity manufacturerEntity = entityManager.getReference(ManufacturerEntity.class, dto.getIdManufacturer());
             productEntity.setManufacturerEntity(manufacturerEntity);
-            ProductTypeEntity productTypeEntity = productTypeRepo.getByName("STORAGE");
+            ProductTypeEntity productTypeEntity = productTypeRepository.getByName("STORAGE");
             productEntity.setProductTypeEntity(productTypeEntity);
-            productEntity = productRepo.saveAndFlush(productEntity);
+            productEntity = productRepository.saveAndFlush(productEntity);
             StorageEntity storageEntity = storageConverter.toStorageEntity(dto);
 
             ProductEntity productEntity1 = entityManager.getReference(ProductEntity.class, productEntity.getId());
             storageEntity.setProduct(productEntity1);
-            storageEntity = storageRepo.save(storageEntity);
+            storageEntity = storageRepository.save(storageEntity);
 
 
             Map<String, Object> response = new HashMap<>();
-            response.put("ProductEntity", productEntity);
-            response.put("StorageEntity", storageEntity);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -76,41 +75,44 @@ public class StorageService {
     }
 
     public ResponseEntity<Map<String, Object>> update(StorageDTO dto) {
-        Optional<ProductEntity> productOptional = productRepo.findById(dto.getId());
-        if (!productOptional.isPresent())
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        StorageEntity storageEntity = storageRepo.findById(productOptional.get().getStorageEntity().getId()).get();
-        storageEntity = storageConverter.toStorageEntity(dto);
-        ProductEntity productEntity = entityManager.getReference(ProductEntity.class, dto.getId());
-        storageEntity.setProduct(productEntity);
-        storageEntity.setId(productEntity.getStorageEntity().getId());
-        storageEntity = storageRepo.saveAndFlush(storageEntity);
+       try{
+           Optional<ProductEntity> productOptional = productRepository.findById(dto.getId());
+           if (!productOptional.isPresent())
+               return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+           StorageEntity storageEntity = storageRepository.findById(productOptional.get().getStorageEntity().getId()).get();
+           storageEntity = storageConverter.toStorageEntity(dto);
+           ProductEntity productEntity = entityManager.getReference(ProductEntity.class, dto.getId());
+           storageEntity.setProduct(productEntity);
+           storageEntity.setId(productEntity.getStorageEntity().getId());
+           storageEntity = storageRepository.saveAndFlush(storageEntity);
 
 
-        productEntity = storageConverter.toProductEntity(dto);
-        CategoryEntity categoryEntity = entityManager.getReference(CategoryEntity.class, dto.getIdCategory());
-        productEntity.setCategoryEntity(categoryEntity);
-        ImageEntity imageEntity = new ImageEntity();
-        imageEntity.setImage(dto.getImage());
-        imageEntity = imageRepo.saveAndFlush(imageEntity);
-        productEntity.setImageEntity(imageEntity);
-        ManufacturerEntity manufacturerEntity = entityManager.getReference(ManufacturerEntity.class, dto.getIdManufacturer());
-        productEntity.setManufacturerEntity(manufacturerEntity);
-        ProductTypeEntity productTypeEntity = productTypeRepo.getByName("STORAGE");
-        productEntity.setProductTypeEntity(productTypeEntity);
-        productEntity = productRepo.save(productEntity);
+           productEntity = storageConverter.toProductEntity(dto);
+           CategoryEntity categoryEntity = entityManager.getReference(CategoryEntity.class, dto.getIdCategory());
+           productEntity.setCategoryEntity(categoryEntity);
+           ImageEntity imageEntity = new ImageEntity();
+           imageEntity.setImage(dto.getImage());
+           imageEntity = imageRepository.saveAndFlush(imageEntity);
+           productEntity.setImageEntity(imageEntity);
+           ManufacturerEntity manufacturerEntity = entityManager.getReference(ManufacturerEntity.class, dto.getIdManufacturer());
+           productEntity.setManufacturerEntity(manufacturerEntity);
+           ProductTypeEntity productTypeEntity = productTypeRepository.getByName("STORAGE");
+           productEntity.setProductTypeEntity(productTypeEntity);
+           productEntity = productRepository.save(productEntity);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("ProductEntity", productEntity);
-        response.put("RamEntity", storageEntity);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+           Map<String, Object> response = new HashMap<>();
+           response.put("data", "Success");
+           return new ResponseEntity<>(response, HttpStatus.OK);
+       }catch (Exception e){
+           return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 
     public ResponseEntity<Map<String, Object>> getAll() {
         try {
-            List<StorageDTO> dtos = storageConverter.toDTOs(productRepo.findAllStorage());
+            List<StorageDTO> dtos = storageConverter.toDTOs(productRepository.findAllStorage());
             Map<String, Object> response = new HashMap<>();
-            response.put("StorageEntity", dtos);
+            response.put("data", dtos);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -119,19 +121,19 @@ public class StorageService {
 
     public ResponseEntity<Map<String, Object>> delete(long id) {
         Map<String, Object> response = new HashMap<>();
-        Optional<ProductEntity> product = productRepo.findById(id);
+        Optional<ProductEntity> product = productRepository.findById(id);
         if (!product.isPresent()) {
-            response.put("data", "delete failed");
+            response.put("data", "Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         ProductEntity productEntity1 = entityManager.getReference(ProductEntity.class, id);
         try {
-            storageRepo.deleteById(productEntity1.getStorageEntity().getId());
-            productRepo.deleteById(id);
-            response.put("data", "delete success");
+            storageRepository.deleteById(productEntity1.getStorageEntity().getId());
+            productRepository.deleteById(id);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response.put("data", "delete failed");
+            response.put("data", "Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
@@ -139,7 +141,7 @@ public class StorageService {
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
-            Optional<ProductEntity> product = productRepo.findById(id);
+            Optional<ProductEntity> product = productRepository.findById(id);
             if (!product.isPresent()) {
                 Map<String, Object> response = new HashMap<>();
                 return new ResponseEntity<>(response, HttpStatus.OK);
@@ -174,7 +176,7 @@ public class StorageService {
 //            dto.setWriteSpeed(product.get().getStorageEntity().getWriteSpeed());
 
             Map<String, Object> response = new HashMap<>();
-            response.put("StorageEntity", dto);
+            response.put("data", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -4,7 +4,7 @@ package com.weblaptop.backend.services;
 import com.weblaptop.backend.Converter.ImageConverter;
 import com.weblaptop.backend.models.DTO.ImageDTO;
 import com.weblaptop.backend.models.ENTITY.ImageEntity;
-import com.weblaptop.backend.repositories.ImageRepo;
+import com.weblaptop.backend.repositories.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,18 +18,16 @@ import java.util.Optional;
 @Service
 public class ImageService {
     @Autowired
-    private ImageRepo imageRepo;
+    private ImageRepository imageRepository;
     @Autowired
     private ImageConverter converter;
 
     public ResponseEntity<Map<String, Object>> create(ImageDTO imageDTO) {
-
         try {
-
             ImageEntity imageEntity = converter.toEntity(imageDTO);
-            imageEntity = imageRepo.save(imageEntity);
+            imageEntity = imageRepository.save(imageEntity);
             Map<String, Object> response = new HashMap<>();
-            response.put("ImageEntity", imageEntity);
+            response.put("ImageEntity", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -38,7 +36,7 @@ public class ImageService {
 
     public ResponseEntity<Map<String, Object>> getAll() {
         try {
-            List<ImageDTO> imageDTOS = converter.toDTOs(imageRepo.findAll());
+            List<ImageDTO> imageDTOS = converter.toDTOs(imageRepository.findAll());
             Map<String, Object> response = new HashMap<>();
             response.put("Images", imageDTOS);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -46,33 +44,32 @@ public class ImageService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     public ResponseEntity<Map<String, Object>> delete(long id) {
         Map<String, Object> response = new HashMap<>();
         try {
-            imageRepo.deleteById(id);
-            response.put("data", "delete success");
+            imageRepository.deleteById(id);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response.put("data", "delete failed");
+            response.put("data", "Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 
     public ResponseEntity<Map<String, Object>> update(ImageDTO imageDTO) {
         ImageEntity imageEntity = converter.toEntity(imageDTO);
-        Optional<ImageEntity> imageOptional = imageRepo.findById(imageEntity.getId());
+        Optional<ImageEntity> imageOptional = imageRepository.findById(imageEntity.getId());
         if (!imageOptional.isPresent())
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        imageRepo.saveAndFlush(imageEntity);
+        imageRepository.saveAndFlush(imageEntity);
         Map<String, Object> response = new HashMap<>();
-        response.put("ImageEntity", imageEntity);
+        response.put("ImageEntity", "Success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
-            Optional<ImageEntity> image = imageRepo.findById(id);
+            Optional<ImageEntity> image = imageRepository.findById(id);
             if (!image.isPresent()) {
                 Map<String, Object> response = new HashMap<>();
                 return new ResponseEntity<>(response, HttpStatus.OK);

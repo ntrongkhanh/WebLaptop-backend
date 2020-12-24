@@ -8,11 +8,11 @@ import com.weblaptop.backend.models.ENTITY.ManufacturerEntity;
 import com.weblaptop.backend.models.ENTITY.Product.LaptopEntity;
 import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
 import com.weblaptop.backend.models.ENTITY.ProductTypeEntity;
-import com.weblaptop.backend.repositories.CategoryRepo;
-import com.weblaptop.backend.repositories.ImageRepo;
-import com.weblaptop.backend.repositories.Product.LaptopRepo;
-import com.weblaptop.backend.repositories.Product.ProductRepo;
-import com.weblaptop.backend.repositories.ProductTypeRepo;
+import com.weblaptop.backend.repositories.CategoryRepository;
+import com.weblaptop.backend.repositories.ImageRepository;
+import com.weblaptop.backend.repositories.Product.LaptopRepository;
+import com.weblaptop.backend.repositories.Product.ProductRepository;
+import com.weblaptop.backend.repositories.ProductTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,17 +27,17 @@ import java.util.Optional;
 @Service
 public class LaptopService {
     @Autowired
-    private ProductRepo productRepo;
+    private ProductRepository productRepository;
     @Autowired
-    private LaptopRepo laptopRepo;
+    private LaptopRepository laptopRepository;
     @Autowired
-    private CategoryRepo categoryRepo;
+    private CategoryRepository categoryRepository;
     @Autowired
     private LaptopConverter converter;
     @Autowired
-    private ProductTypeRepo productTypeRepo;
+    private ProductTypeRepository productTypeRepository;
     @Autowired
-    private ImageRepo imageRepo;
+    private ImageRepository imageRepository;
     @Autowired
     private EntityManager entityManager;
 
@@ -48,25 +48,24 @@ public class LaptopService {
             productEntity.setCategoryEntity(categoryEntity);
             ImageEntity imageEntity = new ImageEntity();
             imageEntity.setImage(dto.getImage());
-            imageEntity = imageRepo.saveAndFlush(imageEntity);
+            imageEntity = imageRepository.saveAndFlush(imageEntity);
             productEntity.setImageEntity(imageEntity);
             ManufacturerEntity manufacturerEntity = entityManager.getReference(ManufacturerEntity.class, dto.getIdManufacturer());
             productEntity.setManufacturerEntity(manufacturerEntity);
-            ProductTypeEntity productTypeEntity = productTypeRepo.getByName("LAPTOP");
+            ProductTypeEntity productTypeEntity = productTypeRepository.getByName("LAPTOP");
             productEntity.setProductTypeEntity(productTypeEntity);
-            productEntity = productRepo.saveAndFlush(productEntity);
+            productEntity = productRepository.saveAndFlush(productEntity);
 
             LaptopEntity laptopEntity = converter.toLaptopEntity(dto);
 
 
             ProductEntity productEntity1 = entityManager.getReference(ProductEntity.class, productEntity.getId());
             laptopEntity.setProduct(productEntity1);
-            laptopEntity = laptopRepo.save(laptopEntity);
+            laptopEntity = laptopRepository.save(laptopEntity);
 
 
             Map<String, Object> response = new HashMap<>();
-            response.put("ProductEntity", productEntity);
-            response.put("LaptopEntity", laptopEntity);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,41 +73,44 @@ public class LaptopService {
     }
 
     public ResponseEntity<Map<String, Object>> update(LaptopDTO dto) {
-        Optional<ProductEntity> productOptional = productRepo.findById(dto.getId());
-        if (!productOptional.isPresent())
+        try {
+            Optional<ProductEntity> productOptional = productRepository.findById(dto.getId());
+            if (!productOptional.isPresent())
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            LaptopEntity laptopEntity = laptopRepository.findById(productOptional.get().getLaptopEntity().getId()).get();
+            laptopEntity = converter.toLaptopEntity(dto);
+            ProductEntity productEntity = entityManager.getReference(ProductEntity.class, dto.getId());
+            laptopEntity.setProduct(productEntity);
+            laptopEntity.setId(productEntity.getLaptopEntity().getId());
+            laptopEntity = laptopRepository.saveAndFlush(laptopEntity);
+
+
+            productEntity = converter.toProductEntity(dto);
+            CategoryEntity categoryEntity = entityManager.getReference(CategoryEntity.class, dto.getIdCategory());
+            productEntity.setCategoryEntity(categoryEntity);
+            ImageEntity imageEntity = new ImageEntity();
+            imageEntity.setImage(dto.getImage());
+            imageEntity = imageRepository.saveAndFlush(imageEntity);
+            productEntity.setImageEntity(imageEntity);
+            ManufacturerEntity manufacturerEntity = entityManager.getReference(ManufacturerEntity.class, dto.getIdManufacturer());
+            productEntity.setManufacturerEntity(manufacturerEntity);
+            ProductTypeEntity productTypeEntity = productTypeRepository.getByName("LAPTOP");
+            productEntity.setProductTypeEntity(productTypeEntity);
+            productEntity = productRepository.save(productEntity);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", "Success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        LaptopEntity laptopEntity = laptopRepo.findById(productOptional.get().getLaptopEntity().getId()).get();
-        laptopEntity = converter.toLaptopEntity(dto);
-        ProductEntity productEntity = entityManager.getReference(ProductEntity.class, dto.getId());
-        laptopEntity.setProduct(productEntity);
-        laptopEntity.setId(productEntity.getLaptopEntity().getId());
-        laptopEntity = laptopRepo.saveAndFlush(laptopEntity);
-
-
-        productEntity = converter.toProductEntity(dto);
-        CategoryEntity categoryEntity = entityManager.getReference(CategoryEntity.class, dto.getIdCategory());
-        productEntity.setCategoryEntity(categoryEntity);
-        ImageEntity imageEntity = new ImageEntity();
-        imageEntity.setImage(dto.getImage());
-        imageEntity = imageRepo.saveAndFlush(imageEntity);
-        productEntity.setImageEntity(imageEntity);
-        ManufacturerEntity manufacturerEntity = entityManager.getReference(ManufacturerEntity.class, dto.getIdManufacturer());
-        productEntity.setManufacturerEntity(manufacturerEntity);
-        ProductTypeEntity productTypeEntity = productTypeRepo.getByName("LAPTOP");
-        productEntity.setProductTypeEntity(productTypeEntity);
-        productEntity = productRepo.save(productEntity);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("ProductEntity", productEntity);
-        response.put("RamEntity", laptopEntity);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        }
     }
 
     public ResponseEntity<Map<String, Object>> getAll() {
         try {
-            List<LaptopDTO> laptopDTOS = converter.toDTOs(productRepo.findAllLaptop());
+            List<LaptopDTO> laptopDTOS = converter.toDTOs(productRepository.findAllLaptop());
             Map<String, Object> response = new HashMap<>();
-            response.put("LaptopEntity", laptopDTOS);
+            response.put("data", laptopDTOS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -116,17 +118,17 @@ public class LaptopService {
     }
 
     public ResponseEntity<Map<String, Object>> delete(long id) {
-        Optional<ProductEntity> product = productRepo.findById(id);
+        Optional<ProductEntity> product = productRepository.findById(id);
         Map<String, Object> response = new HashMap<>();
         if (!product.isPresent()) {
-            response.put("data","delete failed");
+            response.put("data","Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         ProductEntity productEntity1 = entityManager.getReference(ProductEntity.class, id);
         try {
-            laptopRepo.deleteById(productEntity1.getLaptopEntity().getId());
-            productRepo.deleteById(id);
-            response.put("data","delete success");
+            laptopRepository.deleteById(productEntity1.getLaptopEntity().getId());
+            productRepository.deleteById(id);
+            response.put("data","Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -137,7 +139,7 @@ public class LaptopService {
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
-            Optional<ProductEntity> product = productRepo.findById(id);
+            Optional<ProductEntity> product = productRepository.findById(id);
             if (!product.isPresent()) {
                 Map<String, Object> response = new HashMap<>();
                 return new ResponseEntity<>(response, HttpStatus.OK);
@@ -174,7 +176,7 @@ public class LaptopService {
 //            dto.setId(product.get().getId());
 //            dto.setColor(product.get().getColor());
             Map<String, Object> response = new HashMap<>();
-            response.put("LaptopEntity", dto);
+            response.put("data", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

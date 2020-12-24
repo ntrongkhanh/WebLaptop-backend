@@ -37,19 +37,19 @@ public class KeyboardConverter {
     }
     public KeyboardDTO toKeyboardDTO(ProductEntity productEntity){
         KeyboardDTO dto=new KeyboardDTO();
-        dto.setProductType(productEntity.getProductType().getName());
-        dto.setImage(productEntity.getImage().getImage());
-        dto.setIdProductType(productEntity.getProductType().getId());
+        dto.setProductType(productEntity.getProductTypeEntity().getName());
+        dto.setImage(productEntity.getImageEntity().getImage());
+        dto.setIdProductType(productEntity.getProductTypeEntity().getId());
         dto.setGuarantee(productEntity.getGuarantee());
         dto.setDescription(productEntity.getDescription());
-        dto.setIdImage(productEntity.getImage().getId());
-        dto.setCategory(productEntity.getCategory().getName());
-        dto.setIdCategory(productEntity.getCategory().getId());
-        dto.setIdManufacturer(productEntity.getManufacturer().getId());
-        dto.setManufacturer(productEntity.getManufacturer().getName());
+        dto.setIdImage(productEntity.getImageEntity().getId());
+        dto.setCategory(productEntity.getCategoryEntity().getName());
+        dto.setIdCategory(productEntity.getCategoryEntity().getId());
+        dto.setIdManufacturer(productEntity.getManufacturerEntity().getId());
+        dto.setManufacturer(productEntity.getManufacturerEntity().getName());
         dto.setWeight(productEntity.getWeight());
         dto.setModelCode(productEntity.getModelCode());
-        dto.setNational(productEntity.getManufacturer().getNational());
+        dto.setNational(productEntity.getManufacturerEntity().getNational());
         dto.setStatus(productEntity.getStatus());
         dto.setPrice(productEntity.getPrice());
         dto.setAmount(productEntity.getAmount());
@@ -58,11 +58,11 @@ public class KeyboardConverter {
         dto.setId(productEntity.getId());
         dto.setColor(productEntity.getColor());
 
-        dto.setSize(productEntity.getKeyboard().getSize());
-        dto.setStandardConnection(productEntity.getKeyboard().getStandardConnection());
-        dto.setConnectionProtocol(productEntity.getKeyboard().getConnectionProtocol());
-        dto.setLed(productEntity.getKeyboard().getLed());
-        dto.set_switch(productEntity.getKeyboard().get_switch());
+        dto.setSize(productEntity.getKeyboardEntity().getSize());
+        dto.setStandardConnection(productEntity.getKeyboardEntity().getStandardConnection());
+        dto.setConnectionProtocol(productEntity.getKeyboardEntity().getConnectionProtocol());
+        dto.setLed(productEntity.getKeyboardEntity().getLed());
+        dto.set_switch(productEntity.getKeyboardEntity().get_switch());
         return dto;
     }
     public List<KeyboardDTO> toDTOs(List<ProductEntity> productEntities){

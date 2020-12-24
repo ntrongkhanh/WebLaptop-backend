@@ -8,12 +8,12 @@ import com.weblaptop.backend.models.ENTITY.ManufacturerEntity;
 import com.weblaptop.backend.models.ENTITY.Product.MouseEntity;
 import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
 import com.weblaptop.backend.models.ENTITY.ProductTypeEntity;
-import com.weblaptop.backend.repositories.CategoryRepo;
-import com.weblaptop.backend.repositories.ImageRepo;
-import com.weblaptop.backend.repositories.ManufacturerRepo;
-import com.weblaptop.backend.repositories.Product.MouseRepo;
-import com.weblaptop.backend.repositories.Product.ProductRepo;
-import com.weblaptop.backend.repositories.ProductTypeRepo;
+import com.weblaptop.backend.repositories.CategoryRepository;
+import com.weblaptop.backend.repositories.ImageRepository;
+import com.weblaptop.backend.repositories.ManufacturerRepository;
+import com.weblaptop.backend.repositories.Product.MouseRepository;
+import com.weblaptop.backend.repositories.Product.ProductRepository;
+import com.weblaptop.backend.repositories.ProductTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,19 +30,19 @@ public class MouseService {
     @Autowired
     private MouseConverter MouseConverter;
     @Autowired
-    private MouseRepo MouseRepo;
+    private MouseRepository MouseRepository;
     @Autowired
-    private ProductRepo productRepo;
+    private ProductRepository productRepository;
     @Autowired
-    private ProductTypeRepo productTypeRepo;
+    private ProductTypeRepository productTypeRepository;
     @Autowired
-    private CategoryRepo categoryRepo;
+    private CategoryRepository categoryRepository;
     @Autowired
     private EntityManager entityManager;
     @Autowired
-    private ManufacturerRepo manufacturerRepo;
+    private ManufacturerRepository manufacturerRepository;
     @Autowired
-    private ImageRepo imageRepo;
+    private ImageRepository imageRepository;
     public ResponseEntity<Map<String, Object>> create(MouseDTO dto) {
         try {
 
@@ -51,38 +51,37 @@ public class MouseService {
             productEntity.setCategoryEntity(categoryEntity);
             ImageEntity imageEntity =new ImageEntity();
             imageEntity.setImage(dto.getImage());
-            imageEntity =imageRepo.saveAndFlush(imageEntity);
+            imageEntity = imageRepository.saveAndFlush(imageEntity);
             productEntity.setImageEntity(imageEntity);
             ManufacturerEntity manufacturerEntity =entityManager.getReference(ManufacturerEntity.class,dto.getIdManufacturer());
             productEntity.setManufacturerEntity(manufacturerEntity);
-            ProductTypeEntity productTypeEntity = productTypeRepo.getByName("MOUSE");
+            ProductTypeEntity productTypeEntity = productTypeRepository.getByName("MOUSE");
             productEntity.setProductTypeEntity(productTypeEntity);
-            productEntity = productRepo.saveAndFlush(productEntity);
+            productEntity = productRepository.saveAndFlush(productEntity);
             MouseEntity MouseEntity = MouseConverter.toMouseEntity(dto);
 
             ProductEntity productEntity1 =entityManager.getReference(ProductEntity.class, productEntity.getId());
             MouseEntity.setProduct(productEntity1);
-            MouseEntity = MouseRepo.save(MouseEntity);
+            MouseEntity = MouseRepository.save(MouseEntity);
 
 
             Map<String, Object> response = new HashMap<>();
-            response.put("ProductEntity", productEntity);
-            response.put("MouseEntity", MouseEntity);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     public ResponseEntity<Map<String, Object>> update(MouseDTO dto) {
-        Optional<ProductEntity> productOptional = productRepo.findById(dto.getId());
+        Optional<ProductEntity> productOptional = productRepository.findById(dto.getId());
         if (!productOptional.isPresent())
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        MouseEntity mouseEntity = MouseRepo.findById(productOptional.get().getMouseEntity().getId()).get();
+        MouseEntity mouseEntity = MouseRepository.findById(productOptional.get().getMouseEntity().getId()).get();
         mouseEntity = MouseConverter.toMouseEntity(dto);
         ProductEntity productEntity =entityManager.getReference(ProductEntity.class,dto.getId());
         mouseEntity.setProduct(productEntity);
         mouseEntity.setId(productEntity.getMouseEntity().getId());
-        mouseEntity = MouseRepo.saveAndFlush(mouseEntity);
+        mouseEntity = MouseRepository.saveAndFlush(mouseEntity);
 
 
         productEntity = MouseConverter.toProductEntity(dto);
@@ -90,24 +89,23 @@ public class MouseService {
         productEntity.setCategoryEntity(categoryEntity);
         ImageEntity imageEntity = new ImageEntity();
         imageEntity.setImage(dto.getImage());
-        imageEntity = imageRepo.saveAndFlush(imageEntity);
+        imageEntity = imageRepository.saveAndFlush(imageEntity);
         productEntity.setImageEntity(imageEntity);
         ManufacturerEntity manufacturerEntity = entityManager.getReference(ManufacturerEntity.class, dto.getIdManufacturer());
         productEntity.setManufacturerEntity(manufacturerEntity);
-        ProductTypeEntity productTypeEntity = productTypeRepo.getByName("MOUSE");
+        ProductTypeEntity productTypeEntity = productTypeRepository.getByName("MOUSE");
         productEntity.setProductTypeEntity(productTypeEntity);
-        productEntity = productRepo.save(productEntity);
+        productEntity = productRepository.save(productEntity);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("ProductEntity", productEntity);
-        response.put("MouseEntity", mouseEntity);
+        response.put("data", "Success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     public ResponseEntity<Map<String, Object>> getAll() {
         try {
-            List<MouseDTO> dtos = MouseConverter.toDTOs(productRepo.findAllMouse());
+            List<MouseDTO> dtos = MouseConverter.toDTOs(productRepository.findAllMouse());
             Map<String, Object> response = new HashMap<>();
-            response.put("MouseEntity", dtos);
+            response.put("data", dtos);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -116,20 +114,20 @@ public class MouseService {
 
     public ResponseEntity<Map<String, Object>>  delete(long id) {
         Map<String, Object> response = new HashMap<>();
-        Optional<ProductEntity> product = productRepo.findById(id);
+        Optional<ProductEntity> product = productRepository.findById(id);
         if (!product.isPresent()){
-            response.put("data","delete failed");
+            response.put("data","Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         ProductEntity productEntity1 =entityManager.getReference(ProductEntity.class,id);
 
         try {
-            MouseRepo.deleteById(productEntity1.getMouseEntity().getId());
-            productRepo.deleteById(id);
-            response.put("data","delete success");
+            MouseRepository.deleteById(productEntity1.getMouseEntity().getId());
+            productRepository.deleteById(id);
+            response.put("data","Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
-            response.put("data","delete failed");
+            response.put("data","Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
@@ -138,7 +136,7 @@ public class MouseService {
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
-            Optional<ProductEntity> product = productRepo.findById(id);
+            Optional<ProductEntity> product = productRepository.findById(id);
             if (!product.isPresent()){
                 Map<String, Object> response = new HashMap<>();
                 return new ResponseEntity<>(response, HttpStatus.OK);

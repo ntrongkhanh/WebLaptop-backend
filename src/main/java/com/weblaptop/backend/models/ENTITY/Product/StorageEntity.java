@@ -2,7 +2,7 @@ package com.weblaptop.backend.models.ENTITY.Product;
 
 import javax.persistence.*;
 @Entity
-@Table(name = "StorageEntity")
+@Table(name = "Storage")
 public class StorageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

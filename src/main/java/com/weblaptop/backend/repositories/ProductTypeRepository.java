@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductTypeRepo extends JpaRepository<ProductTypeEntity,Long> {
+public interface ProductTypeRepository extends JpaRepository<ProductTypeEntity,Long> {
     @Query(value = "select * from product_type c where c.name like %:name%", nativeQuery = true)
     public ProductTypeEntity getByName(@Param("name") String name);
 }

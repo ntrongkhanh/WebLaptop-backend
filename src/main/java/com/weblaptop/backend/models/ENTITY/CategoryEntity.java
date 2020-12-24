@@ -18,7 +18,7 @@ public class CategoryEntity {
     private ProductTypeEntity productTypeEntity;
 //    @OneToMany(mappedBy = "category")
 //    private List<ManufacturerEntity> manufacturers;
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "categoryEntity")
     private List<ProductEntity> productEntities;
     public CategoryEntity() {
     }

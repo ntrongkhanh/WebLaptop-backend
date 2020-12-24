@@ -2,7 +2,7 @@ package com.weblaptop.backend.models.ENTITY.Product;
 
 import javax.persistence.*;
 @Entity
-@Table(name = "MouseEntity")
+@Table(name = "Mouse")
 public class MouseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

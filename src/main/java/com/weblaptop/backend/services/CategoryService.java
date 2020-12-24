@@ -4,7 +4,7 @@ import com.weblaptop.backend.Converter.CategoryConverter;
 import com.weblaptop.backend.models.DTO.CategoryDTO;
 import com.weblaptop.backend.models.ENTITY.CategoryEntity;
 import com.weblaptop.backend.models.ENTITY.ProductTypeEntity;
-import com.weblaptop.backend.repositories.CategoryRepo;
+import com.weblaptop.backend.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class CategoryService {
     @Autowired
     private CategoryConverter converter;
     @Autowired
-    private CategoryRepo repo;
+    private CategoryRepository repo;
     @Autowired
     private EntityManager entityManager;
     public ResponseEntity<Map<String, Object>> create(CategoryDTO dto){
@@ -32,7 +32,7 @@ public class CategoryService {
             categoryEntity.setProductType(productTypeEntity);
             categoryEntity =repo.save(categoryEntity);
             Map<String, Object> response = new HashMap<>();
-            response.put("CategoryEntity", categoryEntity);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -42,7 +42,7 @@ public class CategoryService {
         try {
             List<CategoryDTO> categoryList = converter.toDTOs(repo.findAll());
             Map<String, Object> response = new HashMap<>();
-            response.put("Categories", categoryList);
+            response.put("data", categoryList);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,23 +52,27 @@ public class CategoryService {
         Map<String, Object> response = new HashMap<>();
         try{
             repo.deleteById(id);
-            response.put("data","delete success");
+            response.put("data","Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
-           response.put("data","delete failed");
+           response.put("data","Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 
     public ResponseEntity<Map<String, Object>>  update(CategoryDTO dto) {
-        CategoryEntity categoryEntity =converter.toEntity(dto);
-        Optional<CategoryEntity> imageOptional = repo.findById(dto.getId());
-        if (!imageOptional.isPresent())
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        repo.save(categoryEntity);
         Map<String, Object> response = new HashMap<>();
-        response.put("CategoryEntity", categoryEntity);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        try {
+            CategoryEntity categoryEntity =converter.toEntity(dto);
+            Optional<CategoryEntity> imageOptional = repo.findById(dto.getId());
+            if (!imageOptional.isPresent())
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            repo.save(categoryEntity);
+            response.put("data", "Success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public ResponseEntity<Map<String, Object>>  getById(long id) {
@@ -82,7 +86,7 @@ public class CategoryService {
             dto.setId(category.get().getId());
             dto.setName(category.get().getName());
             Map<String, Object> response = new HashMap<>();
-            response.put("ImageEntity", dto);
+            response.put("data", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

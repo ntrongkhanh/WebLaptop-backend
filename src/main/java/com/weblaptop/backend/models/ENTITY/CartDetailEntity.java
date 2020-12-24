@@ -26,7 +26,7 @@ public class CartDetailEntity {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "idCart", nullable = true)
+    @JoinColumn(name = "idOrder", nullable = true)
     private OrdersEntity ordersEntity;
 
     public CartDetailEntity() {

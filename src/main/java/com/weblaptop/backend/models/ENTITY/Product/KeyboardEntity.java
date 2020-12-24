@@ -2,7 +2,7 @@ package com.weblaptop.backend.models.ENTITY.Product;
 
 import javax.persistence.*;
 @Entity
-@Table(name = "KeyboardEntity")
+@Table(name = "Keyboard")
 public class KeyboardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
