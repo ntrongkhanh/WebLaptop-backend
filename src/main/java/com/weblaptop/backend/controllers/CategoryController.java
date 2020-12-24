@@ -14,24 +14,29 @@ import java.util.Map;
 public class CategoryController {
     @Autowired
     private CategoryService service;
+
     @GetMapping("/")
     public ResponseEntity<Map<String, Object>> getAll() {
-        return  service.getAll();
+        return service.getAll();
     }
+
     @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> create(@Validated @RequestBody CategoryDTO dto) {
         return service.create(dto);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable(value = "id") long id) {
         return service.getById(id);
     }
+
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable(value = "id") long id) {
-        service.delete(id);
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
+        return service.delete(id);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody CategoryDTO dto)  {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody CategoryDTO dto) {
         return service.update(dto);
     }
 }

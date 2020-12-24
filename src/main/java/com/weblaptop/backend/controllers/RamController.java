@@ -31,8 +31,8 @@ public class RamController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable(value = "id") long id) {
-        RamService.delete(id);
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
+        return RamService.delete(id);
     }
 
     @PutMapping("/{id}")

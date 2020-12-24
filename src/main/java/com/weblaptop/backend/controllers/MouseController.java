@@ -29,8 +29,8 @@ public class MouseController {
         return MouseService.getById(id);
     }
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable(value = "id") long id) {
-        MouseService.delete(id);
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
+        return MouseService.delete(id);
     }
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> update(@RequestBody MouseDTO dto) {

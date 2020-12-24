@@ -27,7 +27,7 @@ public class ImageService {
             ImageEntity imageEntity = converter.toEntity(imageDTO);
             imageEntity = imageRepository.save(imageEntity);
             Map<String, Object> response = new HashMap<>();
-            response.put("ImageEntity", "Success");
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -38,12 +38,13 @@ public class ImageService {
         try {
             List<ImageDTO> imageDTOS = converter.toDTOs(imageRepository.findAll());
             Map<String, Object> response = new HashMap<>();
-            response.put("Images", imageDTOS);
+            response.put("data", imageDTOS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     public ResponseEntity<Map<String, Object>> delete(long id) {
         Map<String, Object> response = new HashMap<>();
         try {
@@ -63,7 +64,7 @@ public class ImageService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         imageRepository.saveAndFlush(imageEntity);
         Map<String, Object> response = new HashMap<>();
-        response.put("ImageEntity", "Success");
+        response.put("data", "Success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -78,7 +79,7 @@ public class ImageService {
             imageDTO.setId(image.get().getId());
             imageDTO.setImage(image.get().getImage());
             Map<String, Object> response = new HashMap<>();
-            response.put("ImageEntity", imageDTO);
+            response.put("data", imageDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

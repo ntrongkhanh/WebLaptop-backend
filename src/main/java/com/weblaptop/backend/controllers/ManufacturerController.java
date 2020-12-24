@@ -30,8 +30,8 @@ public class ManufacturerController {
         return service.getById(id);
     }
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable(value = "id") long id) {
-        service.delete(id);
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
+     return    service.delete(id);
     }
 //    @PutMapping("/{id}")
 //    public ResponseEntity<Map<String, Object>> update(@RequestBody ProductTypeDTO productTypeDTO)  {

@@ -24,13 +24,14 @@ public class CategoryService {
     private CategoryRepository repo;
     @Autowired
     private EntityManager entityManager;
-    public ResponseEntity<Map<String, Object>> create(CategoryDTO dto){
+
+    public ResponseEntity<Map<String, Object>> create(CategoryDTO dto) {
 
         try {
-            CategoryEntity categoryEntity =converter.toEntity(dto);
-            ProductTypeEntity productTypeEntity =entityManager.getReference(ProductTypeEntity.class,dto.getIdProductType());
+            CategoryEntity categoryEntity = converter.toEntity(dto);
+            ProductTypeEntity productTypeEntity = entityManager.getReference(ProductTypeEntity.class, dto.getIdProductType());
             categoryEntity.setProductType(productTypeEntity);
-            categoryEntity =repo.save(categoryEntity);
+            categoryEntity = repo.save(categoryEntity);
             Map<String, Object> response = new HashMap<>();
             response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -38,7 +39,8 @@ public class CategoryService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    public ResponseEntity<Map<String, Object>>  getAll() {
+
+    public ResponseEntity<Map<String, Object>> getAll() {
         try {
             List<CategoryDTO> categoryList = converter.toDTOs(repo.findAll());
             Map<String, Object> response = new HashMap<>();
@@ -48,41 +50,42 @@ public class CategoryService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    public ResponseEntity<Map<String, Object>> delete(long id)   {
+
+    public ResponseEntity<Map<String, Object>> delete(long id) {
         Map<String, Object> response = new HashMap<>();
-        try{
+        try {
             repo.deleteById(id);
-            response.put("data","Success");
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e){
-           response.put("data","Failed");
+        } catch (Exception e) {
+            response.put("data", "Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 
-    public ResponseEntity<Map<String, Object>>  update(CategoryDTO dto) {
+    public ResponseEntity<Map<String, Object>> update(CategoryDTO dto) {
         Map<String, Object> response = new HashMap<>();
         try {
-            CategoryEntity categoryEntity =converter.toEntity(dto);
+            CategoryEntity categoryEntity = converter.toEntity(dto);
             Optional<CategoryEntity> imageOptional = repo.findById(dto.getId());
             if (!imageOptional.isPresent())
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             repo.save(categoryEntity);
             response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity<Map<String, Object>>  getById(long id) {
+    public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
-            Optional<CategoryEntity> category=repo.findById(id);
-            if (!category.isPresent()){
+            Optional<CategoryEntity> category = repo.findById(id);
+            if (!category.isPresent()) {
                 Map<String, Object> response = new HashMap<>();
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            CategoryDTO dto=new CategoryDTO();
+            CategoryDTO dto = new CategoryDTO();
             dto.setId(category.get().getId());
             dto.setName(category.get().getName());
             Map<String, Object> response = new HashMap<>();

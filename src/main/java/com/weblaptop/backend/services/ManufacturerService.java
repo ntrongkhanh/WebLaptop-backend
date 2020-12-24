@@ -95,7 +95,7 @@ public class ManufacturerService {
             dto.setNational(manufacturer.get().getNational());
             dto.setName(manufacturer.get().getName());
             Map<String, Object> response = new HashMap<>();
-            response.put("ImageEntity", dto);
+            response.put("data", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

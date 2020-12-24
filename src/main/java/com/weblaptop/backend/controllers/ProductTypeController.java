@@ -16,24 +16,29 @@ import java.util.Map;
 public class ProductTypeController {
     @Autowired
     private ProductTypeService productTypeService;
+
     @GetMapping("/")
     public ResponseEntity<Map<String, Object>> getAll() {
-        return  productTypeService.getAll();
+        return productTypeService.getAll();
     }
+
     @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> create(@Validated @RequestBody ProductTypeDTO dto) {
         return productTypeService.create(dto);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable(value = "id") long id) {
         return productTypeService.getById(id);
     }
+
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable(value = "id") long id) {
-        productTypeService.delete(id);
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
+        return productTypeService.delete(id);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody ProductTypeDTO productTypeDTO)  {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody ProductTypeDTO productTypeDTO) {
         return productTypeService.update(productTypeDTO);
     }
 }

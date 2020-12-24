@@ -69,7 +69,7 @@ public class ProductTypeService {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             productTypeRepository.save(productTypeEntity);
             Map<String, Object> response = new HashMap<>();
-            response.put("data", productTypeEntity);
+            response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
