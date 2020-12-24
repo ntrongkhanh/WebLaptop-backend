@@ -2,8 +2,8 @@ package com.weblaptop.backend.Converter;
 
 
 import com.weblaptop.backend.models.DTO.LaptopDTO;
-import com.weblaptop.backend.models.ENTITY.Product.Laptop;
-import com.weblaptop.backend.models.ENTITY.Product.Product;
+import com.weblaptop.backend.models.ENTITY.Product.LaptopEntity;
+import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,76 +11,76 @@ import java.util.List;
 
 @Component
 public class LaptopConverter {
-    public Product toProductEntity(LaptopDTO dto) {
-        Product product = new Product();
-        product.setYear(dto.getYear());
-        product.setWeight(dto.getWeight());
-        product.setStatus(dto.getStatus());
+    public ProductEntity toProductEntity(LaptopDTO dto) {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setYear(dto.getYear());
+        productEntity.setWeight(dto.getWeight());
+        productEntity.setStatus(dto.getStatus());
 
-        // product.setProductType(dto.getProductType());
-        product.setPrice(dto.getPrice());
-        product.setName(dto.getName());
-        product.setModelCode(dto.getModelCode());
-        //   product.setManufacturer(dto.getManufacturer());
-        //   product.setImage(dto.getImage());
-        product.setId(dto.getId());
-        product.setGuarantee(dto.getGuarantee());
-        product.setDescription(dto.getDescription());
-        product.setAmount(dto.getAmount());
-        product.setColor(dto.getColor());
-        return product;
+        // productEntity.setProductType(dto.getProductType());
+        productEntity.setPrice(dto.getPrice());
+        productEntity.setName(dto.getName());
+        productEntity.setModelCode(dto.getModelCode());
+        //   productEntity.setManufacturer(dto.getManufacturer());
+        //   productEntity.setImage(dto.getImage());
+        productEntity.setId(dto.getId());
+        productEntity.setGuarantee(dto.getGuarantee());
+        productEntity.setDescription(dto.getDescription());
+        productEntity.setAmount(dto.getAmount());
+        productEntity.setColor(dto.getColor());
+        return productEntity;
     }
-    public Laptop toLaptopEntity(LaptopDTO dto){
-        Laptop laptop=new Laptop();
-        laptop.setStorage(dto.getStorage());
-        laptop.setScreen(dto.getScreen());
-        laptop.setRam(dto.getRam());
-        laptop.setPort(dto.getPort());
-        laptop.setOS(dto.getOS());
-        laptop.setId(dto.getId());
-        laptop.setGraphicCard(dto.getGraphicCard());
-        laptop.setCpu(dto.getCpu());
-        laptop.setBattery(dto.getBattery());
-        laptop.setStorage(dto.getStorage());
-        return laptop;
+    public LaptopEntity toLaptopEntity(LaptopDTO dto){
+        LaptopEntity laptopEntity =new LaptopEntity();
+        laptopEntity.setStorage(dto.getStorage());
+        laptopEntity.setScreen(dto.getScreen());
+        laptopEntity.setRam(dto.getRam());
+        laptopEntity.setPort(dto.getPort());
+        laptopEntity.setOS(dto.getOS());
+        laptopEntity.setId(dto.getId());
+        laptopEntity.setGraphicCard(dto.getGraphicCard());
+        laptopEntity.setCpu(dto.getCpu());
+        laptopEntity.setBattery(dto.getBattery());
+        laptopEntity.setStorage(dto.getStorage());
+        return laptopEntity;
     }
-    public LaptopDTO toProductDTO(Product product){
+    public LaptopDTO toProductDTO(ProductEntity productEntity){
         LaptopDTO dto=new LaptopDTO();
-        dto.setProductType(product.getProductType().getName());
-        dto.setImage(product.getImage().getImage());
-        dto.setIdProductType(product.getProductType().getId());
-        dto.setGuarantee(product.getGuarantee());
-        dto.setDescription(product.getDescription());
-        dto.setIdImage(product.getImage().getId());
-        dto.setCategory(product.getCategory().getName());
-        dto.setIdCategory(product.getCategory().getId());
-        dto.setIdManufacturer(product.getManufacturer().getId());
-        dto.setManufacturer(product.getManufacturer().getName());
-        dto.setColor(product.getColor());
+        dto.setProductType(productEntity.getProductTypeEntity().getName());
+        dto.setImage(productEntity.getImageEntity().getImage());
+        dto.setIdProductType(productEntity.getProductTypeEntity().getId());
+        dto.setGuarantee(productEntity.getGuarantee());
+        dto.setDescription(productEntity.getDescription());
+        dto.setIdImage(productEntity.getImageEntity().getId());
+        dto.setCategory(productEntity.getCategoryEntity().getName());
+        dto.setIdCategory(productEntity.getCategoryEntity().getId());
+        dto.setIdManufacturer(productEntity.getManufacturerEntity().getId());
+        dto.setManufacturer(productEntity.getManufacturerEntity().getName());
+        dto.setColor(productEntity.getColor());
 
-        dto.setOS(product.getLaptop().getOS());
-        dto.setWeight(product.getWeight());
-        dto.setPort(product.getLaptop().getPort());
-        dto.setBattery(product.getLaptop().getBattery());
-        dto.setModelCode(product.getModelCode());
-        dto.setNational(product.getManufacturer().getNational());
-        dto.setStatus(product.getStatus());
-        dto.setPrice(product.getPrice());
-        dto.setAmount(product.getAmount());
-        dto.setScreen(product.getLaptop().getScreen());
-        dto.setGraphicCard(product.getLaptop().getGraphicCard());
-        dto.setName(product.getName());
-        dto.setStorage(product.getLaptop().getStorage());
-        dto.setRam(product.getLaptop().getRam());
-        dto.setYear(product.getYear());
-        dto.setCpu(product.getLaptop().getCpu());
-        dto.setId(product.getId());
+        dto.setOS(productEntity.getLaptopEntity().getOS());
+        dto.setWeight(productEntity.getWeight());
+        dto.setPort(productEntity.getLaptopEntity().getPort());
+        dto.setBattery(productEntity.getLaptopEntity().getBattery());
+        dto.setModelCode(productEntity.getModelCode());
+        dto.setNational(productEntity.getManufacturerEntity().getNational());
+        dto.setStatus(productEntity.getStatus());
+        dto.setPrice(productEntity.getPrice());
+        dto.setAmount(productEntity.getAmount());
+        dto.setScreen(productEntity.getLaptopEntity().getScreen());
+        dto.setGraphicCard(productEntity.getLaptopEntity().getGraphicCard());
+        dto.setName(productEntity.getName());
+        dto.setStorage(productEntity.getLaptopEntity().getStorage());
+        dto.setRam(productEntity.getLaptopEntity().getRam());
+        dto.setYear(productEntity.getYear());
+        dto.setCpu(productEntity.getLaptopEntity().getCpu());
+        dto.setId(productEntity.getId());
         return dto;
     }
-    public List<LaptopDTO> toDTOs(List<Product> products){
+    public List<LaptopDTO> toDTOs(List<ProductEntity> productEntities){
         List<LaptopDTO> dtos=new ArrayList<>();
-        for (Product product: products){
-            dtos.add(this.toProductDTO(product));
+        for (ProductEntity productEntity : productEntities){
+            dtos.add(this.toProductDTO(productEntity));
         }
         return dtos;
     }

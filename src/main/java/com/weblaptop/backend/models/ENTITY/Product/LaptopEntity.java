@@ -4,7 +4,8 @@ package com.weblaptop.backend.models.ENTITY.Product;
 import javax.persistence.*;
 
 @Entity
-public class Laptop {
+@Table(name = "LaptopEntity")
+public class LaptopEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -18,16 +19,16 @@ public class Laptop {
     private String OS;
     //    @OneToOne(fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn(name = "idProduct", nullable = false)
-//    private Product product;
+//    private ProductEntity productEntity;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idProduct", referencedColumnName = "id")
-    private Product product;
+    private ProductEntity productEntity;
 
-    public Laptop() {
+    public LaptopEntity() {
     }
 
-    public Laptop(long id, String cpu, String ram, String screen, String graphicCard, String storage,
-                  String battery, String port, String OS, Product product) {
+    public LaptopEntity(long id, String cpu, String ram, String screen, String graphicCard, String storage,
+                        String battery, String port, String OS, ProductEntity productEntity) {
         this.id = id;
         this.cpu = cpu;
         this.ram = ram;
@@ -37,7 +38,7 @@ public class Laptop {
         this.battery = battery;
         this.port = port;
         this.OS = OS;
-        this.product = product;
+        this.productEntity = productEntity;
     }
 
     public long getId() {
@@ -112,11 +113,11 @@ public class Laptop {
         this.OS = OS;
     }
 
-    public Product getProduct() {
-        return product;
+    public ProductEntity getProduct() {
+        return productEntity;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProduct(ProductEntity productEntity) {
+        this.productEntity = productEntity;
     }
 }

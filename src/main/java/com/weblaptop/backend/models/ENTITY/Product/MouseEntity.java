@@ -2,7 +2,8 @@ package com.weblaptop.backend.models.ENTITY.Product;
 
 import javax.persistence.*;
 @Entity
-public class Mouse {
+@Table(name = "MouseEntity")
+public class MouseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -17,13 +18,13 @@ public class Mouse {
     private String os;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idProduct", referencedColumnName = "id")
-    private Product product;
+    private ProductEntity productEntity;
 
-    public Mouse() {
+    public MouseEntity() {
     }
 
-    public Mouse(long id, String standardConnection, String connectionProtocol, String sensorEye, String dpi,
-                 String led, String button, String size, String battery, String os, Product product) {
+    public MouseEntity(long id, String standardConnection, String connectionProtocol, String sensorEye, String dpi,
+                       String led, String button, String size, String battery, String os, ProductEntity productEntity) {
         this.id = id;
         this.standardConnection = standardConnection;
         this.connectionProtocol = connectionProtocol;
@@ -34,7 +35,7 @@ public class Mouse {
         this.size = size;
         this.battery = battery;
         this.os = os;
-        this.product = product;
+        this.productEntity = productEntity;
     }
 
     public long getId() {
@@ -119,11 +120,11 @@ public class Mouse {
     }
 
 
-    public Product getProduct() {
-        return product;
+    public ProductEntity getProduct() {
+        return productEntity;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProduct(ProductEntity productEntity) {
+        this.productEntity = productEntity;
     }
 }

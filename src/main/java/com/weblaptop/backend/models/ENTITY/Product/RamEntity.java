@@ -2,7 +2,8 @@ package com.weblaptop.backend.models.ENTITY.Product;
 
 import javax.persistence.*;
 @Entity
-public class Ram {
+@Table(name = "RamEntity")
+public class RamEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -11,17 +12,17 @@ public class Ram {
     private String Voltage;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idProduct", referencedColumnName = "id")
-    private Product product;
+    private ProductEntity productEntity;
 
-    public Ram() {
+    public RamEntity() {
     }
 
-    public Ram(long id,String capacity, String buss, String voltage, Product product) {
+    public RamEntity(long id, String capacity, String buss, String voltage, ProductEntity productEntity) {
         this.id = id;
         this.capacity = capacity;
         this.buss = buss;
         Voltage = voltage;
-        this.product = product;
+        this.productEntity = productEntity;
     }
 
     public long getId() {
@@ -56,11 +57,11 @@ public class Ram {
         Voltage = voltage;
     }
 
-    public Product getProduct() {
-        return product;
+    public ProductEntity getProduct() {
+        return productEntity;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProduct(ProductEntity productEntity) {
+        this.productEntity = productEntity;
     }
 }

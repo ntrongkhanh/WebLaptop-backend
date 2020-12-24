@@ -2,12 +2,12 @@ package com.weblaptop.backend.services;
 
 import com.weblaptop.backend.Converter.MouseConverter;
 import com.weblaptop.backend.models.DTO.MouseDTO;
-import com.weblaptop.backend.models.ENTITY.Category;
-import com.weblaptop.backend.models.ENTITY.Image;
-import com.weblaptop.backend.models.ENTITY.Manufacturer;
-import com.weblaptop.backend.models.ENTITY.Product.Mouse;
-import com.weblaptop.backend.models.ENTITY.Product.Product;
-import com.weblaptop.backend.models.ENTITY.ProductType;
+import com.weblaptop.backend.models.ENTITY.CategoryEntity;
+import com.weblaptop.backend.models.ENTITY.ImageEntity;
+import com.weblaptop.backend.models.ENTITY.ManufacturerEntity;
+import com.weblaptop.backend.models.ENTITY.Product.MouseEntity;
+import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
+import com.weblaptop.backend.models.ENTITY.ProductTypeEntity;
 import com.weblaptop.backend.repositories.CategoryRepo;
 import com.weblaptop.backend.repositories.ImageRepo;
 import com.weblaptop.backend.repositories.ManufacturerRepo;
@@ -46,132 +46,140 @@ public class MouseService {
     public ResponseEntity<Map<String, Object>> create(MouseDTO dto) {
         try {
 
-            Product product=MouseConverter.toProductEntity(dto);
-            Category category=entityManager.getReference(Category.class,dto.getIdCategory());
-            product.setCategory(category);
-            Image image=new Image();
-            image.setImage(dto.getImage());
-            image=imageRepo.saveAndFlush(image);
-            product.setImage(image);
-            Manufacturer manufacturer=entityManager.getReference(Manufacturer.class,dto.getIdManufacturer());
-            product.setManufacturer(manufacturer);
-            ProductType productType = productTypeRepo.getByName("MOUSE");
-            product.setProductType(productType);
-            product = productRepo.saveAndFlush(product);
-            Mouse Mouse = MouseConverter.toMouseEntity(dto);
+            ProductEntity productEntity =MouseConverter.toProductEntity(dto);
+            CategoryEntity categoryEntity =entityManager.getReference(CategoryEntity.class,dto.getIdCategory());
+            productEntity.setCategoryEntity(categoryEntity);
+            ImageEntity imageEntity =new ImageEntity();
+            imageEntity.setImage(dto.getImage());
+            imageEntity =imageRepo.saveAndFlush(imageEntity);
+            productEntity.setImageEntity(imageEntity);
+            ManufacturerEntity manufacturerEntity =entityManager.getReference(ManufacturerEntity.class,dto.getIdManufacturer());
+            productEntity.setManufacturerEntity(manufacturerEntity);
+            ProductTypeEntity productTypeEntity = productTypeRepo.getByName("MOUSE");
+            productEntity.setProductTypeEntity(productTypeEntity);
+            productEntity = productRepo.saveAndFlush(productEntity);
+            MouseEntity MouseEntity = MouseConverter.toMouseEntity(dto);
 
-            Product product1=entityManager.getReference(Product.class,product.getId());
-            Mouse.setProduct(product1);
-            Mouse = MouseRepo.save(Mouse);
+            ProductEntity productEntity1 =entityManager.getReference(ProductEntity.class, productEntity.getId());
+            MouseEntity.setProduct(productEntity1);
+            MouseEntity = MouseRepo.save(MouseEntity);
 
 
             Map<String, Object> response = new HashMap<>();
-            response.put("Product", product);
-            response.put("Mouse", Mouse);
+            response.put("ProductEntity", productEntity);
+            response.put("MouseEntity", MouseEntity);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     public ResponseEntity<Map<String, Object>> update(MouseDTO dto) {
-        Optional<Product> productOptional = productRepo.findById(dto.getId());
+        Optional<ProductEntity> productOptional = productRepo.findById(dto.getId());
         if (!productOptional.isPresent())
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        Mouse mouse = MouseRepo.findById(productOptional.get().getMouse().getId()).get();
-        mouse = MouseConverter.toMouseEntity(dto);
-        Product product=entityManager.getReference(Product.class,dto.getId());
-        mouse.setProduct(product);
-        mouse.setId(product.getMouse().getId());
-        mouse = MouseRepo.saveAndFlush(mouse);
+        MouseEntity mouseEntity = MouseRepo.findById(productOptional.get().getMouseEntity().getId()).get();
+        mouseEntity = MouseConverter.toMouseEntity(dto);
+        ProductEntity productEntity =entityManager.getReference(ProductEntity.class,dto.getId());
+        mouseEntity.setProduct(productEntity);
+        mouseEntity.setId(productEntity.getMouseEntity().getId());
+        mouseEntity = MouseRepo.saveAndFlush(mouseEntity);
 
 
-        product = MouseConverter.toProductEntity(dto);
-        Category category = entityManager.getReference(Category.class, dto.getIdCategory());
-        product.setCategory(category);
-        Image image = new Image();
-        image.setImage(dto.getImage());
-        image = imageRepo.saveAndFlush(image);
-        product.setImage(image);
-        Manufacturer manufacturer = entityManager.getReference(Manufacturer.class, dto.getIdManufacturer());
-        product.setManufacturer(manufacturer);
-        ProductType productType = productTypeRepo.getByName("MOUSE");
-        product.setProductType(productType);
-        product = productRepo.save(product);
+        productEntity = MouseConverter.toProductEntity(dto);
+        CategoryEntity categoryEntity = entityManager.getReference(CategoryEntity.class, dto.getIdCategory());
+        productEntity.setCategoryEntity(categoryEntity);
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setImage(dto.getImage());
+        imageEntity = imageRepo.saveAndFlush(imageEntity);
+        productEntity.setImageEntity(imageEntity);
+        ManufacturerEntity manufacturerEntity = entityManager.getReference(ManufacturerEntity.class, dto.getIdManufacturer());
+        productEntity.setManufacturerEntity(manufacturerEntity);
+        ProductTypeEntity productTypeEntity = productTypeRepo.getByName("MOUSE");
+        productEntity.setProductTypeEntity(productTypeEntity);
+        productEntity = productRepo.save(productEntity);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("Product", product);
-        response.put("Mouse", mouse);
+        response.put("ProductEntity", productEntity);
+        response.put("MouseEntity", mouseEntity);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     public ResponseEntity<Map<String, Object>> getAll() {
         try {
             List<MouseDTO> dtos = MouseConverter.toDTOs(productRepo.findAllMouse());
             Map<String, Object> response = new HashMap<>();
-            response.put("Mouse", dtos);
+            response.put("MouseEntity", dtos);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public void delete(long id) {
-        Optional<Product> product = productRepo.findById(id);
-        if (!product.isPresent())
-            return;
-        Product product1=entityManager.getReference(Product.class,id);
+    public ResponseEntity<Map<String, Object>>  delete(long id) {
+        Map<String, Object> response = new HashMap<>();
+        Optional<ProductEntity> product = productRepo.findById(id);
+        if (!product.isPresent()){
+            response.put("data","delete failed");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        ProductEntity productEntity1 =entityManager.getReference(ProductEntity.class,id);
 
         try {
-            MouseRepo.deleteById(product1.getMouse().getId());
+            MouseRepo.deleteById(productEntity1.getMouseEntity().getId());
             productRepo.deleteById(id);
+            response.put("data","delete success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
-            return;
+            response.put("data","delete failed");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
+
     }
 
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
-            Optional<Product> product = productRepo.findById(id);
+            Optional<ProductEntity> product = productRepo.findById(id);
             if (!product.isPresent()){
                 Map<String, Object> response = new HashMap<>();
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            //  Laptop dto = product.get().getLaptop();
+            //  LaptopEntity dto = product.get().getLaptop();
             MouseDTO dto=new MouseDTO();
             dto.setId(product.get().getId());
-            dto.setIdManufacturer(product.get().getManufacturer().getId());
-            dto.setManufacturer(product.get().getManufacturer().getName());
-            dto.setIdCategory(product.get().getCategory().getId());
-            dto.setCategory(product.get().getCategory().getName());
-            dto.setIdProductType(product.get().getProductType().getId());
-            dto.setProductType(product.get().getProductType().getName());
-            dto.setIdImage(product.get().getImage().getId());
-            dto.setImage(product.get().getImage().getImage());
-            dto.setModelCode(product.get().getModelCode());
-            dto.setName(product.get().getName());
-            dto.setYear(product.get().getYear());
-            dto.setStatus(product.get().getStatus());
-            dto.setAmount(product.get().getAmount());
-            dto.setPrice(product.get().getPrice());
-            dto.setNational(product.get().getManufacturer().getNational());
-            dto.setWeight(product.get().getWeight());
-            dto.setGuarantee(product.get().getGuarantee());
-            dto.setDescription(product.get().getDescription());
-            dto.setColor(product.get().getColor());
-
-            dto.setStandardConnection(product.get().getMouse().getStandardConnection());
-            dto.setConnectionProtocol(product.get().getMouse().getConnectionProtocol());
-            dto.setSensorEye(product.get().getMouse().getSensorEye());
-            dto.setDpi(product.get().getMouse().getDpi());
-            dto.setLed(product.get().getMouse().getLed());
-            dto.setButton(product.get().getMouse().getButton());
-            dto.setSize(product.get().getMouse().getSize());
-            dto.setBattery(product.get().getMouse().getBattery());
-            dto.setOs(product.get().getMouse().getOs());
+            dto=MouseConverter.toDTO(product.get());
+//            dto.setIdManufacturer(product.get().getManufacturer().getId());
+//            dto.setManufacturer(product.get().getManufacturer().getName());
+//            dto.setIdCategory(product.get().getCategory().getId());
+//            dto.setCategory(product.get().getCategory().getName());
+//            dto.setIdProductType(product.get().getProductType().getId());
+//            dto.setProductType(product.get().getProductType().getName());
+//            dto.setIdImage(product.get().getImage().getId());
+//            dto.setImage(product.get().getImage().getImage());
+//            dto.setModelCode(product.get().getModelCode());
+//            dto.setName(product.get().getName());
+//            dto.setYear(product.get().getYear());
+//            dto.setStatus(product.get().getStatus());
+//            dto.setAmount(product.get().getAmount());
+//            dto.setPrice(product.get().getPrice());
+//            dto.setNational(product.get().getManufacturer().getNational());
+//            dto.setWeight(product.get().getWeight());
+//            dto.setGuarantee(product.get().getGuarantee());
+//            dto.setDescription(product.get().getDescription());
+//            dto.setColor(product.get().getColor());
+//
+//            dto.setStandardConnection(product.get().getMouse().getStandardConnection());
+//            dto.setConnectionProtocol(product.get().getMouse().getConnectionProtocol());
+//            dto.setSensorEye(product.get().getMouse().getSensorEye());
+//            dto.setDpi(product.get().getMouse().getDpi());
+//            dto.setLed(product.get().getMouse().getLed());
+//            dto.setButton(product.get().getMouse().getButton());
+//            dto.setSize(product.get().getMouse().getSize());
+//            dto.setBattery(product.get().getMouse().getBattery());
+//            dto.setOs(product.get().getMouse().getOs());
 
 
             Map<String, Object> response = new HashMap<>();
-            response.put("Mouse", dto);
+            response.put("MouseEntity", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

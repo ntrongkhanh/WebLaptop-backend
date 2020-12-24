@@ -4,13 +4,11 @@ import com.weblaptop.backend.Converter.ImageConverter;
 import com.weblaptop.backend.Converter.ManufacturerConverter;
 import com.weblaptop.backend.models.DTO.ImageDTO;
 import com.weblaptop.backend.models.DTO.ManufacturerDTO;
-import com.weblaptop.backend.models.ENTITY.Category;
-import com.weblaptop.backend.models.ENTITY.Image;
-import com.weblaptop.backend.models.ENTITY.Manufacturer;
-import com.weblaptop.backend.models.ENTITY.ProductType;
+import com.weblaptop.backend.models.ENTITY.ImageEntity;
+import com.weblaptop.backend.models.ENTITY.ManufacturerEntity;
+import com.weblaptop.backend.models.ENTITY.ProductTypeEntity;
 import com.weblaptop.backend.repositories.ImageRepo;
 import com.weblaptop.backend.repositories.ManufacturerRepo;
-import com.weblaptop.backend.repositories.ProductTypeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,21 +35,21 @@ public class ManufacturerService {
 
     //, ImageDTO imageDTO
     public ResponseEntity<Map<String, Object>> create(ManufacturerDTO dto) {
-        // Image image=imageConverter.toEntity(imageDTO);
-        Manufacturer manufacturer = converter.toEntity(dto);
+        // ImageEntity image=imageConverter.toEntity(imageDTO);
+        ManufacturerEntity manufacturerEntity = converter.toEntity(dto);
         ImageDTO imageDTO = new ImageDTO();
         imageDTO.setImage(dto.getImage());
 
         try {
-            Image imageEntity = imageConverter.toEntity(imageDTO);
+            ImageEntity imageEntity = imageConverter.toEntity(imageDTO);
             imageEntity = imageRepo.saveAndFlush(imageEntity);
 
-            ProductType productType = entityManager.getReference(ProductType.class, dto.getIdProductType());
-            manufacturer.setProductType(productType);
-            manufacturer.setImage(imageEntity);
-            manufacturer = repo.save(manufacturer);
+            ProductTypeEntity productTypeEntity = entityManager.getReference(ProductTypeEntity.class, dto.getIdProductType());
+            manufacturerEntity.setProductType(productTypeEntity);
+            manufacturerEntity.setImage(imageEntity);
+            manufacturerEntity = repo.save(manufacturerEntity);
             Map<String, Object> response = new HashMap<>();
-            response.put("Manufacturer", manufacturer);
+            response.put("ManufacturerEntity", manufacturerEntity);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,18 +60,22 @@ public class ManufacturerService {
         try {
             List<ManufacturerDTO> manufacturerDTOS = converter.toDTOs(repo.findAll());
             Map<String, Object> response = new HashMap<>();
-            response.put("Manufacturer", manufacturerDTOS);
+            response.put("ManufacturerEntity", manufacturerDTOS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public void delete(long id) {
-        try {
+    public ResponseEntity<Map<String, Object>>  delete(long id) {
+        Map<String, Object> response = new HashMap<>();
+        try{
             repo.deleteById(id);
-        } catch (Exception e) {
-            return;
+            response.put("data","delete success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            response.put("data","delete failed");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
     }
@@ -81,7 +83,7 @@ public class ManufacturerService {
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
-            Optional<Manufacturer> manufacturer = repo.findById(id);
+            Optional<ManufacturerEntity> manufacturer = repo.findById(id);
             if (!manufacturer.isPresent()){
                 Map<String, Object> response = new HashMap<>();
                 return new ResponseEntity<>(response, HttpStatus.OK);
@@ -93,7 +95,7 @@ public class ManufacturerService {
             dto.setNational(manufacturer.get().getNational());
             dto.setName(manufacturer.get().getName());
             Map<String, Object> response = new HashMap<>();
-            response.put("Image", dto);
+            response.put("ImageEntity", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

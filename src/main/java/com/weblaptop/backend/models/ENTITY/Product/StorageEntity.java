@@ -2,7 +2,8 @@ package com.weblaptop.backend.models.ENTITY.Product;
 
 import javax.persistence.*;
 @Entity
-public class Storage {
+@Table(name = "StorageEntity")
+public class StorageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -12,19 +13,19 @@ public class Storage {
     private String writeSpeed;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idProduct", referencedColumnName = "id")
-    private Product product;
+    private ProductEntity productEntity;
 
-    public Storage() {
+    public StorageEntity() {
     }
 
-    public Storage(long id, String capacity, String connectionProtocol, String readSpeed, String writeSpeed,
-                   Product product) {
+    public StorageEntity(long id, String capacity, String connectionProtocol, String readSpeed, String writeSpeed,
+                         ProductEntity productEntity) {
         this.id = id;
         this.capacity = capacity;
         this.connectionProtocol = connectionProtocol;
         this.readSpeed = readSpeed;
         this.writeSpeed = writeSpeed;
-        this.product = product;
+        this.productEntity = productEntity;
     }
 
     public long getId() {
@@ -67,11 +68,11 @@ public class Storage {
         this.writeSpeed = writeSpeed;
     }
 
-    public Product getProduct() {
-        return product;
+    public ProductEntity getProduct() {
+        return productEntity;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProduct(ProductEntity productEntity) {
+        this.productEntity = productEntity;
     }
 }

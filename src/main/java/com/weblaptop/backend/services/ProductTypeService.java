@@ -2,10 +2,8 @@ package com.weblaptop.backend.services;
 
 
 import com.weblaptop.backend.Converter.ProductTypeConverter;
-import com.weblaptop.backend.models.DTO.ImageDTO;
 import com.weblaptop.backend.models.DTO.ProductTypeDTO;
-import com.weblaptop.backend.models.ENTITY.Image;
-import com.weblaptop.backend.models.ENTITY.ProductType;
+import com.weblaptop.backend.models.ENTITY.ProductTypeEntity;
 import com.weblaptop.backend.repositories.ProductTypeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,19 +23,20 @@ public class ProductTypeService {
     private ProductTypeConverter converter;
 
 
-    public ResponseEntity<Map<String, Object>> create(ProductTypeDTO dto){
+    public ResponseEntity<Map<String, Object>> create(ProductTypeDTO dto) {
 
         try {
-            ProductType productType=converter.toEntity(dto);
-            productType=productTypeRepo.save(productType);
+            ProductTypeEntity productTypeEntity = converter.toEntity(dto);
+            productTypeEntity = productTypeRepo.save(productTypeEntity);
             Map<String, Object> response = new HashMap<>();
-            response.put("ProductTypeController", productType);
+            response.put("ProductTypeController", productTypeEntity);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    public ResponseEntity<Map<String, Object>>  getAll() {
+
+    public ResponseEntity<Map<String, Object>> getAll() {
         try {
             List<ProductTypeDTO> productTypeDTOList = converter.toDTOs(productTypeRepo.findAll());
             Map<String, Object> response = new HashMap<>();
@@ -47,34 +46,40 @@ public class ProductTypeService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    public void delete(long id)   {
+
+    public ResponseEntity<Map<String, Object>> delete(long id) {
+        Map<String, Object> response = new HashMap<>();
         try {
             productTypeRepo.deleteById(id);
-        }catch (Exception e){
-            return;
+            response.put("data", "delete success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("data", "delete failed");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
+
 
     }
 
-    public ResponseEntity<Map<String, Object>>  update(ProductTypeDTO dto) {
-        ProductType productType=converter.toEntity(dto);
-        Optional<ProductType> imageOptional = productTypeRepo.findById(dto.getId());
+    public ResponseEntity<Map<String, Object>> update(ProductTypeDTO dto) {
+        ProductTypeEntity productTypeEntity = converter.toEntity(dto);
+        Optional<ProductTypeEntity> imageOptional = productTypeRepo.findById(dto.getId());
         if (!imageOptional.isPresent())
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        productTypeRepo.save(productType);
+        productTypeRepo.save(productTypeEntity);
         Map<String, Object> response = new HashMap<>();
-        response.put("ProductTypeController", productType);
+        response.put("ProductTypeController", productTypeEntity);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public ResponseEntity<Map<String, Object>>  getById(long id) {
+    public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
-            Optional<ProductType> productType=productTypeRepo.findById(id);
-            if (!productType.isPresent()){
+            Optional<ProductTypeEntity> productType = productTypeRepo.findById(id);
+            if (!productType.isPresent()) {
                 Map<String, Object> response = new HashMap<>();
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            ProductTypeDTO dto=new ProductTypeDTO();
+            ProductTypeDTO dto = new ProductTypeDTO();
             dto.setId(productType.get().getId());
             dto.setName(productType.get().getName());
             Map<String, Object> response = new HashMap<>();

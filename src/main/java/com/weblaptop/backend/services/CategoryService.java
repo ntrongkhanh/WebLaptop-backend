@@ -2,10 +2,8 @@ package com.weblaptop.backend.services;
 
 import com.weblaptop.backend.Converter.CategoryConverter;
 import com.weblaptop.backend.models.DTO.CategoryDTO;
-import com.weblaptop.backend.models.DTO.ImageDTO;
-import com.weblaptop.backend.models.ENTITY.Category;
-import com.weblaptop.backend.models.ENTITY.Image;
-import com.weblaptop.backend.models.ENTITY.ProductType;
+import com.weblaptop.backend.models.ENTITY.CategoryEntity;
+import com.weblaptop.backend.models.ENTITY.ProductTypeEntity;
 import com.weblaptop.backend.repositories.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,12 +27,12 @@ public class CategoryService {
     public ResponseEntity<Map<String, Object>> create(CategoryDTO dto){
 
         try {
-            Category category=converter.toEntity(dto);
-            ProductType productType=entityManager.getReference(ProductType.class,dto.getIdProductType());
-            category.setProductType(productType);
-            category=repo.save(category);
+            CategoryEntity categoryEntity =converter.toEntity(dto);
+            ProductTypeEntity productTypeEntity =entityManager.getReference(ProductTypeEntity.class,dto.getIdProductType());
+            categoryEntity.setProductType(productTypeEntity);
+            categoryEntity =repo.save(categoryEntity);
             Map<String, Object> response = new HashMap<>();
-            response.put("Category", category);
+            response.put("CategoryEntity", categoryEntity);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -50,29 +48,32 @@ public class CategoryService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    public void delete(long id)   {
+    public ResponseEntity<Map<String, Object>> delete(long id)   {
+        Map<String, Object> response = new HashMap<>();
         try{
             repo.deleteById(id);
+            response.put("data","delete success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
-            return;
+           response.put("data","delete failed");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
-
     }
 
     public ResponseEntity<Map<String, Object>>  update(CategoryDTO dto) {
-        Category category=converter.toEntity(dto);
-        Optional<Category> imageOptional = repo.findById(dto.getId());
+        CategoryEntity categoryEntity =converter.toEntity(dto);
+        Optional<CategoryEntity> imageOptional = repo.findById(dto.getId());
         if (!imageOptional.isPresent())
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        repo.save(category);
+        repo.save(categoryEntity);
         Map<String, Object> response = new HashMap<>();
-        response.put("Category", category);
+        response.put("CategoryEntity", categoryEntity);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     public ResponseEntity<Map<String, Object>>  getById(long id) {
         try {
-            Optional<Category> category=repo.findById(id);
+            Optional<CategoryEntity> category=repo.findById(id);
             if (!category.isPresent()){
                 Map<String, Object> response = new HashMap<>();
                 return new ResponseEntity<>(response, HttpStatus.OK);
@@ -81,7 +82,7 @@ public class CategoryService {
             dto.setId(category.get().getId());
             dto.setName(category.get().getName());
             Map<String, Object> response = new HashMap<>();
-            response.put("Image", dto);
+            response.put("ImageEntity", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

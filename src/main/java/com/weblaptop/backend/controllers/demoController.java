@@ -28,9 +28,9 @@ public class demoController {
 //    {
 //
 //        try {
-//            ArrayList<Product> dtoes = (ArrayList<Product>) productRepository.findAll();
+//            ArrayList<ProductEntity> dtoes = (ArrayList<ProductEntity>) productRepository.findAll();
 //            Map<String, Object> response = new HashMap<>();
-//            response.put("Laptop", dtoes);
+//            response.put("LaptopEntity", dtoes);
 //            return new ResponseEntity<>(response, HttpStatus.OK);
 //        } catch (Exception e) {
 //            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -43,7 +43,7 @@ public class demoController {
 //        try {
 //            ArrayList<LaptopDetail> dtoes = (ArrayList<LaptopDetail>) demoRepository.findAll();
 //            Map<String, Object> response = new HashMap<>();
-//            response.put("Laptop", dtoes);
+//            response.put("LaptopEntity", dtoes);
 //            return new ResponseEntity<>(response, HttpStatus.OK);
 //        } catch (Exception e) {
 //            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,7 +55,7 @@ public class demoController {
 //        try {
 //            ArrayList<LaptopDTO> dtoes = (ArrayList<LaptopDTO>) demoService.getAlldemo();
 //            Map<String, Object> response = new HashMap<>();
-//            response.put("Laptop", dtoes);
+//            response.put("LaptopEntity", dtoes);
 //            return new ResponseEntity<>(response, HttpStatus.OK);
 //        } catch (Exception e) {
 //            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

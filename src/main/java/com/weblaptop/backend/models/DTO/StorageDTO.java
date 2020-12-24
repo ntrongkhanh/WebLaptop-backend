@@ -1,7 +1,5 @@
 package com.weblaptop.backend.models.DTO;
 
-import com.weblaptop.backend.models.ENTITY.Product.Product;
-
 import java.util.Date;
 
 public class StorageDTO {

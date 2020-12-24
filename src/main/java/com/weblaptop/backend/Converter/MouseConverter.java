@@ -1,9 +1,8 @@
 package com.weblaptop.backend.Converter;
 
-import com.weblaptop.backend.models.DTO.KeyboardDTO;
 import com.weblaptop.backend.models.DTO.MouseDTO;
-import com.weblaptop.backend.models.ENTITY.Product.Mouse;
-import com.weblaptop.backend.models.ENTITY.Product.Product;
+import com.weblaptop.backend.models.ENTITY.Product.MouseEntity;
+import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,74 +10,74 @@ import java.util.List;
 
 @Component
 public class MouseConverter {
-    public Mouse toMouseEntity(MouseDTO dto){
-        Mouse mouse=new Mouse();
-        mouse.setStandardConnection(dto.getStandardConnection());
-        mouse.setSize(dto.getSize());
-        mouse.setSensorEye(dto.getSensorEye());
-        mouse.setOs(dto.getOs());
-        mouse.setLed(dto.getLed());
-        mouse.setDpi(dto.getDpi());
-        mouse.setConnectionProtocol(dto.getConnectionProtocol());
+    public MouseEntity toMouseEntity(MouseDTO dto){
+        MouseEntity mouseEntity =new MouseEntity();
+        mouseEntity.setStandardConnection(dto.getStandardConnection());
+        mouseEntity.setSize(dto.getSize());
+        mouseEntity.setSensorEye(dto.getSensorEye());
+        mouseEntity.setOs(dto.getOs());
+        mouseEntity.setLed(dto.getLed());
+        mouseEntity.setDpi(dto.getDpi());
+        mouseEntity.setConnectionProtocol(dto.getConnectionProtocol());
 
-        mouse.setButton(dto.getButton());
-        mouse.setBattery(dto.getBattery());
-        return mouse;
+        mouseEntity.setButton(dto.getButton());
+        mouseEntity.setBattery(dto.getBattery());
+        return mouseEntity;
     }
-    public Product toProductEntity(MouseDTO dto){
-        Product product=new Product();
-        product.setYear(dto.getYear());
-        product.setWeight(dto.getWeight());
-        product.setStatus(dto.getStatus());
-        product.setPrice(dto.getPrice());
-        product.setName(dto.getName());
-        product.setModelCode(dto.getModelCode());
-        product.setId(dto.getId());
-        product.setGuarantee(dto.getGuarantee());
-        product.setDescription(dto.getDescription());
-        product.setAmount(dto.getAmount());
-        product.setColor(product.getColor());
-        return product;
+    public ProductEntity toProductEntity(MouseDTO dto){
+        ProductEntity productEntity =new ProductEntity();
+        productEntity.setYear(dto.getYear());
+        productEntity.setWeight(dto.getWeight());
+        productEntity.setStatus(dto.getStatus());
+        productEntity.setPrice(dto.getPrice());
+        productEntity.setName(dto.getName());
+        productEntity.setModelCode(dto.getModelCode());
+        productEntity.setId(dto.getId());
+        productEntity.setGuarantee(dto.getGuarantee());
+        productEntity.setDescription(dto.getDescription());
+        productEntity.setAmount(dto.getAmount());
+        productEntity.setColor(productEntity.getColor());
+        return productEntity;
     }
-    public MouseDTO toDTO(Product product){
+    public MouseDTO toDTO(ProductEntity productEntity){
         MouseDTO dto=new MouseDTO();
-        dto.setProductType(product.getProductType().getName());
-        dto.setImage(product.getImage().getImage());
-        dto.setIdProductType(product.getProductType().getId());
-        dto.setGuarantee(product.getGuarantee());
-        dto.setDescription(product.getDescription());
-        dto.setIdImage(product.getImage().getId());
-        dto.setCategory(product.getCategory().getName());
-        dto.setIdCategory(product.getCategory().getId());
-        dto.setIdManufacturer(product.getManufacturer().getId());
-        dto.setManufacturer(product.getManufacturer().getName());
-        dto.setWeight(product.getWeight());
-        dto.setModelCode(product.getModelCode());
-        dto.setNational(product.getManufacturer().getNational());
-        dto.setStatus(product.getStatus());
-        dto.setPrice(product.getPrice());
-        dto.setAmount(product.getAmount());
-        dto.setName(product.getName());
-        dto.setYear(product.getYear());
-        dto.setId(product.getId());
+        dto.setProductType(productEntity.getProductTypeEntity().getName());
+        dto.setImage(productEntity.getImageEntity().getImage());
+        dto.setIdProductType(productEntity.getProductTypeEntity().getId());
+        dto.setGuarantee(productEntity.getGuarantee());
+        dto.setDescription(productEntity.getDescription());
+        dto.setIdImage(productEntity.getImageEntity().getId());
+        dto.setCategory(productEntity.getCategoryEntity().getName());
+        dto.setIdCategory(productEntity.getCategoryEntity().getId());
+        dto.setIdManufacturer(productEntity.getManufacturerEntity().getId());
+        dto.setManufacturer(productEntity.getManufacturerEntity().getName());
+        dto.setWeight(productEntity.getWeight());
+        dto.setModelCode(productEntity.getModelCode());
+        dto.setNational(productEntity.getManufacturerEntity().getNational());
+        dto.setStatus(productEntity.getStatus());
+        dto.setPrice(productEntity.getPrice());
+        dto.setAmount(productEntity.getAmount());
+        dto.setName(productEntity.getName());
+        dto.setYear(productEntity.getYear());
+        dto.setId(productEntity.getId());
 
-        dto.setStandardConnection(product.getMouse().getStandardConnection());
-        dto.setConnectionProtocol(product.getMouse().getConnectionProtocol());
-        dto.setSensorEye(product.getMouse().getSensorEye());
-        dto.setDpi(product.getMouse().getDpi());
-        dto.setLed(product.getMouse().getLed());
-        dto.setButton(product.getMouse().getButton());
-        dto.setSize(product.getMouse().getSize());
-        dto.setBattery(product.getMouse().getBattery());
-        dto.setOs(product.getMouse().getOs());
-        dto.setColor(product.getColor());
+        dto.setStandardConnection(productEntity.getMouseEntity().getStandardConnection());
+        dto.setConnectionProtocol(productEntity.getMouseEntity().getConnectionProtocol());
+        dto.setSensorEye(productEntity.getMouseEntity().getSensorEye());
+        dto.setDpi(productEntity.getMouseEntity().getDpi());
+        dto.setLed(productEntity.getMouseEntity().getLed());
+        dto.setButton(productEntity.getMouseEntity().getButton());
+        dto.setSize(productEntity.getMouseEntity().getSize());
+        dto.setBattery(productEntity.getMouseEntity().getBattery());
+        dto.setOs(productEntity.getMouseEntity().getOs());
+        dto.setColor(productEntity.getColor());
 
         return dto;
     }
-    public List<MouseDTO> toDTOs(List<Product> products){
+    public List<MouseDTO> toDTOs(List<ProductEntity> productEntities){
         List<MouseDTO> dtos=new ArrayList<>();
-        for (Product product:products){
-            dtos.add(this.toDTO(product));
+        for (ProductEntity productEntity : productEntities){
+            dtos.add(this.toDTO(productEntity));
         }
         return dtos;
     }

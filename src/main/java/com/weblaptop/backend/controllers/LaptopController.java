@@ -16,24 +16,29 @@ import java.util.Map;
 public class LaptopController {
     @Autowired
     private LaptopService laptopService;
+
     @GetMapping("/")
     public ResponseEntity<Map<String, Object>> getAll() {
-        return  laptopService.getAll();
+        return laptopService.getAll();
     }
+
     @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> create(@Validated @RequestBody LaptopDTO dto) {
         return laptopService.create(dto);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable(value = "id") long id) {
         return laptopService.getById(id);
     }
+
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable(value = "id") long id) {
-        laptopService.delete(id);
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
+        return laptopService.delete(id);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody LaptopDTO dto)  {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody LaptopDTO dto) {
         return laptopService.update(dto);
     }
 }

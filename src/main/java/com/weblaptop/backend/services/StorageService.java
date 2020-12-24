@@ -1,15 +1,13 @@
 package com.weblaptop.backend.services;
 
 import com.weblaptop.backend.Converter.StorageConverter;
-import com.weblaptop.backend.models.DTO.RamDTO;
 import com.weblaptop.backend.models.DTO.StorageDTO;
-import com.weblaptop.backend.models.ENTITY.Category;
-import com.weblaptop.backend.models.ENTITY.Image;
-import com.weblaptop.backend.models.ENTITY.Manufacturer;
-import com.weblaptop.backend.models.ENTITY.Product.Product;
-import com.weblaptop.backend.models.ENTITY.Product.Ram;
-import com.weblaptop.backend.models.ENTITY.Product.Storage;
-import com.weblaptop.backend.models.ENTITY.ProductType;
+import com.weblaptop.backend.models.ENTITY.CategoryEntity;
+import com.weblaptop.backend.models.ENTITY.ImageEntity;
+import com.weblaptop.backend.models.ENTITY.ManufacturerEntity;
+import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
+import com.weblaptop.backend.models.ENTITY.Product.StorageEntity;
+import com.weblaptop.backend.models.ENTITY.ProductTypeEntity;
 import com.weblaptop.backend.repositories.CategoryRepo;
 import com.weblaptop.backend.repositories.ImageRepo;
 import com.weblaptop.backend.repositories.ManufacturerRepo;
@@ -49,28 +47,28 @@ public class StorageService {
     public ResponseEntity<Map<String, Object>> create(StorageDTO dto) {
         try {
 
-            Product product = storageConverter.toProductEntity(dto);
-            Category category = entityManager.getReference(Category.class, dto.getIdCategory());
-            product.setCategory(category);
-            Image image = new Image();
-            image.setImage(dto.getImage());
-            image = imageRepo.saveAndFlush(image);
-            product.setImage(image);
-            Manufacturer manufacturer = entityManager.getReference(Manufacturer.class, dto.getIdManufacturer());
-            product.setManufacturer(manufacturer);
-            ProductType productType = productTypeRepo.getByName("STORAGE");
-            product.setProductType(productType);
-            product = productRepo.saveAndFlush(product);
-            Storage storage = storageConverter.toStorageEntity(dto);
+            ProductEntity productEntity = storageConverter.toProductEntity(dto);
+            CategoryEntity categoryEntity = entityManager.getReference(CategoryEntity.class, dto.getIdCategory());
+            productEntity.setCategoryEntity(categoryEntity);
+            ImageEntity imageEntity = new ImageEntity();
+            imageEntity.setImage(dto.getImage());
+            imageEntity = imageRepo.saveAndFlush(imageEntity);
+            productEntity.setImageEntity(imageEntity);
+            ManufacturerEntity manufacturerEntity = entityManager.getReference(ManufacturerEntity.class, dto.getIdManufacturer());
+            productEntity.setManufacturerEntity(manufacturerEntity);
+            ProductTypeEntity productTypeEntity = productTypeRepo.getByName("STORAGE");
+            productEntity.setProductTypeEntity(productTypeEntity);
+            productEntity = productRepo.saveAndFlush(productEntity);
+            StorageEntity storageEntity = storageConverter.toStorageEntity(dto);
 
-            Product product1 = entityManager.getReference(Product.class, product.getId());
-            storage.setProduct(product1);
-            storage = storageRepo.save(storage);
+            ProductEntity productEntity1 = entityManager.getReference(ProductEntity.class, productEntity.getId());
+            storageEntity.setProduct(productEntity1);
+            storageEntity = storageRepo.save(storageEntity);
 
 
             Map<String, Object> response = new HashMap<>();
-            response.put("Product", product);
-            response.put("Storage", storage);
+            response.put("ProductEntity", productEntity);
+            response.put("StorageEntity", storageEntity);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -78,33 +76,33 @@ public class StorageService {
     }
 
     public ResponseEntity<Map<String, Object>> update(StorageDTO dto) {
-        Optional<Product> productOptional = productRepo.findById(dto.getId());
+        Optional<ProductEntity> productOptional = productRepo.findById(dto.getId());
         if (!productOptional.isPresent())
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        Storage storage = storageRepo.findById(productOptional.get().getStorage().getId()).get();
-        storage = storageConverter.toStorageEntity(dto);
-        Product product = entityManager.getReference(Product.class, dto.getId());
-        storage.setProduct(product);
-        storage.setId(product.getStorage().getId());
-        storage = storageRepo.saveAndFlush(storage);
+        StorageEntity storageEntity = storageRepo.findById(productOptional.get().getStorageEntity().getId()).get();
+        storageEntity = storageConverter.toStorageEntity(dto);
+        ProductEntity productEntity = entityManager.getReference(ProductEntity.class, dto.getId());
+        storageEntity.setProduct(productEntity);
+        storageEntity.setId(productEntity.getStorageEntity().getId());
+        storageEntity = storageRepo.saveAndFlush(storageEntity);
 
 
-        product = storageConverter.toProductEntity(dto);
-        Category category = entityManager.getReference(Category.class, dto.getIdCategory());
-        product.setCategory(category);
-        Image image = new Image();
-        image.setImage(dto.getImage());
-        image = imageRepo.saveAndFlush(image);
-        product.setImage(image);
-        Manufacturer manufacturer = entityManager.getReference(Manufacturer.class, dto.getIdManufacturer());
-        product.setManufacturer(manufacturer);
-        ProductType productType = productTypeRepo.getByName("STORAGE");
-        product.setProductType(productType);
-        product = productRepo.save(product);
+        productEntity = storageConverter.toProductEntity(dto);
+        CategoryEntity categoryEntity = entityManager.getReference(CategoryEntity.class, dto.getIdCategory());
+        productEntity.setCategoryEntity(categoryEntity);
+        ImageEntity imageEntity = new ImageEntity();
+        imageEntity.setImage(dto.getImage());
+        imageEntity = imageRepo.saveAndFlush(imageEntity);
+        productEntity.setImageEntity(imageEntity);
+        ManufacturerEntity manufacturerEntity = entityManager.getReference(ManufacturerEntity.class, dto.getIdManufacturer());
+        productEntity.setManufacturerEntity(manufacturerEntity);
+        ProductTypeEntity productTypeEntity = productTypeRepo.getByName("STORAGE");
+        productEntity.setProductTypeEntity(productTypeEntity);
+        productEntity = productRepo.save(productEntity);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("Product", product);
-        response.put("Ram", storage);
+        response.put("ProductEntity", productEntity);
+        response.put("RamEntity", storageEntity);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -112,65 +110,71 @@ public class StorageService {
         try {
             List<StorageDTO> dtos = storageConverter.toDTOs(productRepo.findAllStorage());
             Map<String, Object> response = new HashMap<>();
-            response.put("Storage", dtos);
+            response.put("StorageEntity", dtos);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public void delete(long id) {
-        Optional<Product> product = productRepo.findById(id);
-        if (!product.isPresent())
-            return;
-        Product product1 = entityManager.getReference(Product.class, id);
-        try {
-            storageRepo.deleteById(product1.getStorage().getId());
-            productRepo.deleteById(id);
-        } catch (Exception e) {
-            return;
+    public ResponseEntity<Map<String, Object>> delete(long id) {
+        Map<String, Object> response = new HashMap<>();
+        Optional<ProductEntity> product = productRepo.findById(id);
+        if (!product.isPresent()) {
+            response.put("data", "delete failed");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
-
+        ProductEntity productEntity1 = entityManager.getReference(ProductEntity.class, id);
+        try {
+            storageRepo.deleteById(productEntity1.getStorageEntity().getId());
+            productRepo.deleteById(id);
+            response.put("data", "delete success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("data", "delete failed");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
     }
 
 
     public ResponseEntity<Map<String, Object>> getById(long id) {
         try {
-            Optional<Product> product = productRepo.findById(id);
+            Optional<ProductEntity> product = productRepo.findById(id);
             if (!product.isPresent()) {
                 Map<String, Object> response = new HashMap<>();
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            //  Laptop dto = product.get().getLaptop();
+            //  LaptopEntity dto = product.get().getLaptop();
             StorageDTO dto = new StorageDTO();
-            dto.setId(product.get().getId());
-            dto.setIdManufacturer(product.get().getManufacturer().getId());
-            dto.setManufacturer(product.get().getManufacturer().getName());
-            dto.setIdCategory(product.get().getCategory().getId());
-            dto.setCategory(product.get().getCategory().getName());
-            dto.setIdProductType(product.get().getProductType().getId());
-            dto.setProductType(product.get().getProductType().getName());
-            dto.setIdImage(product.get().getImage().getId());
-            dto.setImage(product.get().getImage().getImage());
-            dto.setModelCode(product.get().getModelCode());
-            dto.setName(product.get().getName());
-            dto.setYear(product.get().getYear());
-            dto.setStatus(product.get().getStatus());
-            dto.setAmount(product.get().getAmount());
-            dto.setPrice(product.get().getPrice());
-            dto.setNational(product.get().getManufacturer().getNational());
-            dto.setWeight(product.get().getWeight());
-            dto.setGuarantee(product.get().getGuarantee());
-            dto.setDescription(product.get().getDescription());
-            dto.setColor(product.get().getColor());
-
-            dto.setCapacity(product.get().getStorage().getCapacity());
-            dto.setConnectionProtocol(product.get().getStorage().getConnectionProtocol());
-            dto.setReadSpeed(product.get().getStorage().getReadSpeed());
-            dto.setWriteSpeed(product.get().getStorage().getWriteSpeed());
+            dto=storageConverter.toDTO(product.get());
+//            dto.setId(product.get().getId());
+//            dto.setIdManufacturer(product.get().getManufacturerEntity().getId());
+//            dto.setManufacturer(product.get().getManufacturerEntity().getName());
+//            dto.setIdCategory(product.get().getCategoryEntity().getId());
+//            dto.setCategory(product.get().getCategoryEntity().getName());
+//            dto.setIdProductType(product.get().getProductTypeEntity().getId());
+//            dto.setProductType(product.get().getProductTypeEntity().getName());
+//            dto.setIdImage(product.get().getImageEntity().getId());
+//            dto.setImage(product.get().getImageEntity().getImage());
+//            dto.setModelCode(product.get().getModelCode());
+//            dto.setName(product.get().getName());
+//            dto.setYear(product.get().getYear());
+//            dto.setStatus(product.get().getStatus());
+//            dto.setAmount(product.get().getAmount());
+//            dto.setPrice(product.get().getPrice());
+//            dto.setNational(product.get().getManufacturerEntity().getNational());
+//            dto.setWeight(product.get().getWeight());
+//            dto.setGuarantee(product.get().getGuarantee());
+//            dto.setDescription(product.get().getDescription());
+//            dto.setColor(product.get().getColor());
+//
+//            dto.setCapacity(product.get().getStorageEntity().getCapacity());
+//            dto.setConnectionProtocol(product.get().getStorageEntity().getConnectionProtocol());
+//            dto.setReadSpeed(product.get().getStorageEntity().getReadSpeed());
+//            dto.setWriteSpeed(product.get().getStorageEntity().getWriteSpeed());
 
             Map<String, Object> response = new HashMap<>();
-            response.put("Storage", dto);
+            response.put("StorageEntity", dto);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

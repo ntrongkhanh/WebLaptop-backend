@@ -2,7 +2,8 @@ package com.weblaptop.backend.models.ENTITY.Product;
 
 import javax.persistence.*;
 @Entity
-public class Keyboard {
+@Table(name = "KeyboardEntity")
+public class KeyboardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -13,20 +14,20 @@ public class Keyboard {
     private String _switch;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idProduct", referencedColumnName = "id")
-    private Product product;
+    private ProductEntity productEntity;
 
-    public Keyboard() {
+    public KeyboardEntity() {
     }
 
-    public Keyboard(long id, String size, String standardConnection, String connectionProtocol, String led,
-                    String _switch, Product product) {
+    public KeyboardEntity(long id, String size, String standardConnection, String connectionProtocol, String led,
+                          String _switch, ProductEntity productEntity) {
         this.id = id;
         this.size = size;
         this.standardConnection = standardConnection;
         this.connectionProtocol = connectionProtocol;
         this.led = led;
         this._switch = _switch;
-        this.product = product;
+        this.productEntity = productEntity;
     }
 
     public long getId() {
@@ -77,11 +78,11 @@ public class Keyboard {
         this._switch = _switch;
     }
 
-    public Product getProduct() {
-        return product;
+    public ProductEntity getProduct() {
+        return productEntity;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProduct(ProductEntity productEntity) {
+        this.productEntity = productEntity;
     }
 }

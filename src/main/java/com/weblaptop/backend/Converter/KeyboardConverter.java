@@ -1,8 +1,8 @@
 package com.weblaptop.backend.Converter;
 
 import com.weblaptop.backend.models.DTO.KeyboardDTO;
-import com.weblaptop.backend.models.ENTITY.Product.Keyboard;
-import com.weblaptop.backend.models.ENTITY.Product.Product;
+import com.weblaptop.backend.models.ENTITY.Product.KeyboardEntity;
+import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,65 +10,65 @@ import java.util.List;
 
 @Component
 public class KeyboardConverter {
-    public Keyboard toKeyboardEntity(KeyboardDTO dto){
-        Keyboard keyboard=new Keyboard();
-        keyboard.setStandardConnection(dto.getStandardConnection());
-        keyboard.setSize(dto.getSize());
-        keyboard.setLed(dto.getLed());
-        keyboard.setConnectionProtocol(dto.getConnectionProtocol());
-        keyboard.set_switch(dto.get_switch());
+    public KeyboardEntity toKeyboardEntity(KeyboardDTO dto){
+        KeyboardEntity keyboardEntity =new KeyboardEntity();
+        keyboardEntity.setStandardConnection(dto.getStandardConnection());
+        keyboardEntity.setSize(dto.getSize());
+        keyboardEntity.setLed(dto.getLed());
+        keyboardEntity.setConnectionProtocol(dto.getConnectionProtocol());
+        keyboardEntity.set_switch(dto.get_switch());
 
-        return keyboard;
+        return keyboardEntity;
     }
-    public Product toProductEntity(KeyboardDTO dto){
-        Product product=new Product();
-        product.setYear(dto.getYear());
-        product.setWeight(dto.getWeight());
-        product.setStatus(dto.getStatus());
-        product.setPrice(dto.getPrice());
-        product.setName(dto.getName());
-        product.setModelCode(dto.getModelCode());
-        product.setId(dto.getId());
-        product.setGuarantee(dto.getGuarantee());
-        product.setDescription(dto.getDescription());
-        product.setAmount(dto.getAmount());
-        product.setColor(dto.getColor());
-        return product;
+    public ProductEntity toProductEntity(KeyboardDTO dto){
+        ProductEntity productEntity =new ProductEntity();
+        productEntity.setYear(dto.getYear());
+        productEntity.setWeight(dto.getWeight());
+        productEntity.setStatus(dto.getStatus());
+        productEntity.setPrice(dto.getPrice());
+        productEntity.setName(dto.getName());
+        productEntity.setModelCode(dto.getModelCode());
+        productEntity.setId(dto.getId());
+        productEntity.setGuarantee(dto.getGuarantee());
+        productEntity.setDescription(dto.getDescription());
+        productEntity.setAmount(dto.getAmount());
+        productEntity.setColor(dto.getColor());
+        return productEntity;
     }
-    public KeyboardDTO toKeyboardDTO(Product product){
+    public KeyboardDTO toKeyboardDTO(ProductEntity productEntity){
         KeyboardDTO dto=new KeyboardDTO();
-        dto.setProductType(product.getProductType().getName());
-        dto.setImage(product.getImage().getImage());
-        dto.setIdProductType(product.getProductType().getId());
-        dto.setGuarantee(product.getGuarantee());
-        dto.setDescription(product.getDescription());
-        dto.setIdImage(product.getImage().getId());
-        dto.setCategory(product.getCategory().getName());
-        dto.setIdCategory(product.getCategory().getId());
-        dto.setIdManufacturer(product.getManufacturer().getId());
-        dto.setManufacturer(product.getManufacturer().getName());
-        dto.setWeight(product.getWeight());
-        dto.setModelCode(product.getModelCode());
-        dto.setNational(product.getManufacturer().getNational());
-        dto.setStatus(product.getStatus());
-        dto.setPrice(product.getPrice());
-        dto.setAmount(product.getAmount());
-        dto.setName(product.getName());
-        dto.setYear(product.getYear());
-        dto.setId(product.getId());
-        dto.setColor(product.getColor());
+        dto.setProductType(productEntity.getProductType().getName());
+        dto.setImage(productEntity.getImage().getImage());
+        dto.setIdProductType(productEntity.getProductType().getId());
+        dto.setGuarantee(productEntity.getGuarantee());
+        dto.setDescription(productEntity.getDescription());
+        dto.setIdImage(productEntity.getImage().getId());
+        dto.setCategory(productEntity.getCategory().getName());
+        dto.setIdCategory(productEntity.getCategory().getId());
+        dto.setIdManufacturer(productEntity.getManufacturer().getId());
+        dto.setManufacturer(productEntity.getManufacturer().getName());
+        dto.setWeight(productEntity.getWeight());
+        dto.setModelCode(productEntity.getModelCode());
+        dto.setNational(productEntity.getManufacturer().getNational());
+        dto.setStatus(productEntity.getStatus());
+        dto.setPrice(productEntity.getPrice());
+        dto.setAmount(productEntity.getAmount());
+        dto.setName(productEntity.getName());
+        dto.setYear(productEntity.getYear());
+        dto.setId(productEntity.getId());
+        dto.setColor(productEntity.getColor());
 
-        dto.setSize(product.getKeyboard().getSize());
-        dto.setStandardConnection(product.getKeyboard().getStandardConnection());
-        dto.setConnectionProtocol(product.getKeyboard().getConnectionProtocol());
-        dto.setLed(product.getKeyboard().getLed());
-        dto.set_switch(product.getKeyboard().get_switch());
+        dto.setSize(productEntity.getKeyboard().getSize());
+        dto.setStandardConnection(productEntity.getKeyboard().getStandardConnection());
+        dto.setConnectionProtocol(productEntity.getKeyboard().getConnectionProtocol());
+        dto.setLed(productEntity.getKeyboard().getLed());
+        dto.set_switch(productEntity.getKeyboard().get_switch());
         return dto;
     }
-    public List<KeyboardDTO> toDTOs(List<Product> products){
+    public List<KeyboardDTO> toDTOs(List<ProductEntity> productEntities){
         List<KeyboardDTO> dtos=new ArrayList<>();
-        for (Product product:products){
-            dtos.add(this.toKeyboardDTO(product));
+        for (ProductEntity productEntity : productEntities){
+            dtos.add(this.toKeyboardDTO(productEntity));
         }
         return dtos;
     }
