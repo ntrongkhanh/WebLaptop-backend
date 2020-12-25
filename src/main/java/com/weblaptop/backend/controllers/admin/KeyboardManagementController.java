@@ -1,28 +1,28 @@
-package com.weblaptop.backend.controllers;
+package com.weblaptop.backend.controllers.admin;
 
-import com.weblaptop.backend.models.DTO.CategoryDTO;
-import com.weblaptop.backend.services.CategoryService;
+import com.weblaptop.backend.models.DTO.KeyboardDTO;
+import com.weblaptop.backend.services.KeyboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/category")
-public class CategoryController {
+@RequestMapping("/admin/keyboard")
+public class KeyboardManagementController {
     @Autowired
-    private CategoryService service;
+    private KeyboardService KeyboardService;
 
     @GetMapping("/")
     public ResponseEntity<Map<String, Object>> getAll() {
-        return service.getAll();
+        return KeyboardService.getAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable(value = "id") long id) {
-        return service.getById(id);
+        return KeyboardService.getById(id);
     }
+
 }

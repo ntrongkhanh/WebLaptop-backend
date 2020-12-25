@@ -1,18 +1,24 @@
 package com.weblaptop.backend.controllers.admin;
 
+import com.weblaptop.backend.models.DTO.CategoryDTO;
+import com.weblaptop.backend.models.DTO.ImageDTO;
+import com.weblaptop.backend.services.CategoryService;
 import com.weblaptop.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/auth/admin")
-public class AdminController {
+@RequestMapping("/admin/order")
+public class OrdersManagementController {
     @Autowired
     private UserService service;
+    @Autowired
+    private CategoryService categoryService;
 
     //handleOrder
     @GetMapping("/handleOrder")
@@ -29,4 +35,5 @@ public class AdminController {
     public ResponseEntity<Map<String, Object>> getAllOrder() {
         return service.getAllOrder();
     }
+
 }
