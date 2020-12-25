@@ -19,12 +19,12 @@ public class UserController {
     private UserService service;
 
     //order
-    @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/order", headers = "Accept=application/json", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> order(@Validated @RequestBody OrdersEntity ordersEntity, @Validated @RequestBody long idProduct, @Validated @RequestBody long idUser, @Validated @RequestBody int amount) {
         return service.order(ordersEntity, idProduct, idUser, amount);
     }
     //addProductToCart
-    @GetMapping("/{id}")
+    @GetMapping("/addProductToCart/")
     public ResponseEntity<Map<String, Object>> addProductToCart(@PathVariable(value = "idProduct") long idProduct,
                                                                 @PathVariable(value = "idUser") long idUser,
                                                                 @PathVariable(value = "amount") int amount) {
@@ -36,17 +36,17 @@ public class UserController {
         return service.deleteProductInCart(id);
     }
     //getCartByUser
-    @GetMapping("/")
+    @GetMapping("/getCartByUser/")
     public ResponseEntity<Map<String, Object>> getCartByUser(@PathVariable(value = "idUser") long idUser) {
         return service.getCartByUser(idUser);
     }
     //getAllOrderByUser
-    @GetMapping("/")
+    @GetMapping("/getAllOrderByUser/")
     public ResponseEntity<Map<String, Object>> getAllOrderByUser(@PathVariable(value = "idUser") long idUser) {
         return service.getAllOrderByUser(idUser);
     }
     //getOrderById
-    @GetMapping("/")
+    @GetMapping("/getOrderById/")
     public ResponseEntity<Map<String, Object>> getOrderById(@PathVariable(value = "idUser") long idUser) {
         return service.getCartByUser(idUser);
     }

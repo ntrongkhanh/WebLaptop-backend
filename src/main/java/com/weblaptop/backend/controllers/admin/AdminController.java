@@ -15,17 +15,17 @@ public class AdminController {
     private UserService service;
 
     //handleOrder
-    @GetMapping("/")
+    @GetMapping("/handleOrder")
     public ResponseEntity<Map<String, Object>> handleOrder(@PathVariable(value = "id") long id, @PathVariable(value = "status") String status) {
         return service.handleOrder(id,status);
     }
     //getOrderById
-    @GetMapping("/")
+    @GetMapping("/getOrderById")
     public ResponseEntity<Map<String, Object>> getOrderById(@PathVariable(value = "idUser") long idUser) {
         return service.getCartByUser(idUser);
     }
     //getAllOrder
-    @GetMapping("/")
+    @GetMapping("/getAllOrder")
     public ResponseEntity<Map<String, Object>> getAllOrder() {
         return service.getAllOrder();
     }
