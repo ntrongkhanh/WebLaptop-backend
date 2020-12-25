@@ -1,10 +1,7 @@
 package com.weblaptop.backend.services;
 
-import com.weblaptop.backend.models.ENTITY.CartDetailEntity;
-import com.weblaptop.backend.models.ENTITY.CartEntity;
-import com.weblaptop.backend.models.ENTITY.OrdersEntity;
+import com.weblaptop.backend.models.ENTITY.*;
 import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
-import com.weblaptop.backend.models.ENTITY.User;
 import com.weblaptop.backend.repositories.CartDetailRepository;
 import com.weblaptop.backend.repositories.CartRepository;
 import com.weblaptop.backend.repositories.OrdersRepository;
@@ -33,9 +30,20 @@ public class UserService {
     @Autowired
     private OrdersRepository ordersRepository;
     // create user
+    public ResponseEntity<Map<String,Object>> create(User user){
+        try {
+            user.setAdmin(false);
+            user=userRepository.save(user);
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", "Success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     // login
-    public ResponseEntity<Map<String, Object>> login(){
+    public ResponseEntity<Map<String, Object>> login(User user){
         return null;
     }
     // đặt hàng

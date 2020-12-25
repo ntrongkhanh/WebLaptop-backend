@@ -2,7 +2,7 @@ package com.weblaptop.backend.models.DTO;
 
 import java.util.Date;
 
-public class RamDTO {
+public class  RamDTO {
     private long id;
     private long idManufacturer;
     private String manufacturer;
