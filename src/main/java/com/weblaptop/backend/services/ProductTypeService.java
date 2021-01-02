@@ -57,8 +57,6 @@ public class ProductTypeService {
             response.put("data", "Failed");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
-
-
     }
 
     public ResponseEntity<Map<String, Object>> update(ProductTypeDTO dto) {

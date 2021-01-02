@@ -12,18 +12,21 @@ public class CartDetailEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private int amount;
-
+    private long totalPrice;
     // cart
+
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "idCart", nullable = true)
     private CartEntity cartEntity;
     // product N 1
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "idProduct", nullable = true)
+//    @JsonBackReference
+//    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+//    @JoinColumn(name = "idProduct", nullable = false)
+//    private ProductEntity productEntity;
+    @ManyToOne
+    @JoinColumn(name="idProduct", nullable=false)
     private ProductEntity productEntity;
-
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "idOrder", nullable = true)
@@ -36,6 +39,23 @@ public class CartDetailEntity {
         this.amount = amount;
         this.cartEntity = cartEntity;
         this.productEntity = productEntity;
+    }
+
+    public CartDetailEntity(long id, int amount, long totalPrice, CartEntity cartEntity, ProductEntity productEntity, OrdersEntity ordersEntity) {
+        this.id = id;
+        this.amount = amount;
+        this.totalPrice = totalPrice;
+        this.cartEntity = cartEntity;
+        this.productEntity = productEntity;
+        this.ordersEntity = ordersEntity;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(long totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public CartDetailEntity(int amount, OrdersEntity ordersEntity, ProductEntity productEntity) {

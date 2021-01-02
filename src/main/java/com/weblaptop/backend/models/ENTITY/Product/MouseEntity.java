@@ -1,5 +1,7 @@
 package com.weblaptop.backend.models.ENTITY.Product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 @Entity
 @Table(name = "Mouse")
@@ -16,6 +18,7 @@ public class MouseEntity {
     private String size;
     private String battery;
     private String os;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idProduct", referencedColumnName = "id")
     private ProductEntity productEntity;

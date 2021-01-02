@@ -21,23 +21,8 @@ public class RamController {
         return RamService.getAll();
     }
 
-    @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> create(@Validated @RequestBody RamDTO dto) {
-        return RamService.create(dto);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable(value = "id") long id) {
         return RamService.getById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
-        return RamService.delete(id);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody RamDTO dto) {
-        return RamService.update(dto);
     }
 }

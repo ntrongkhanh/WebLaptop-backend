@@ -1,5 +1,7 @@
 package com.weblaptop.backend.models.ENTITY.Product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 @Entity
 @Table(name = "Keyboard")
@@ -12,6 +14,7 @@ public class KeyboardEntity {
     private String connectionProtocol;
     private String led;
     private String _switch;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idProduct", referencedColumnName = "id")
     private ProductEntity productEntity;

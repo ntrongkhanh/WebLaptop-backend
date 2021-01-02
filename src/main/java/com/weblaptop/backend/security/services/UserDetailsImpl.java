@@ -21,6 +21,9 @@ public class UserDetailsImpl implements UserDetails {
 	@JsonIgnore
 	private String password;
 
+	private boolean isAdmin;
+
+
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public UserDetailsImpl(Long id, String email, String password,
@@ -31,30 +34,29 @@ public class UserDetailsImpl implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public static UserDetailsImpl build(User user) {
-		List<GrantedAuthority> authorities = null;
-		if(user.getAdmin()){
-			authorities.add(new GrantedAuthority() {
-				@Override
-				public String getAuthority() {
-					return "Admin";
-				}
-			});
-		}else {
-			authorities.add(new GrantedAuthority() {
-				@Override
-				public String getAuthority() {
-					return "User";
-				}
-			});
-		}
+	public UserDetailsImpl(Long id, String username, String password, boolean isAdmin) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.isAdmin = isAdmin;
+	}
 
+	public UserDetailsImpl(Long id, String username, String password, boolean isAdmin,
+						   Collection<? extends GrantedAuthority> authorities) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.isAdmin = isAdmin;
+		this.authorities = authorities;
+	}
+
+	public static UserDetailsImpl build(User user) {
 
 		return new UserDetailsImpl(
 				user.getId(),
 				user.getEmail(),
 				user.getPassword(), 
-				authorities);
+				user.getAdmin());
 	}
 
 	@Override
@@ -105,4 +107,12 @@ public class UserDetailsImpl implements UserDetails {
 		UserDetailsImpl user = (UserDetailsImpl) o;
 		return Objects.equals(id, user.id);
 	}
+	public boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
 }

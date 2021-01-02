@@ -1,6 +1,7 @@
 package com.weblaptop.backend.models.ENTITY;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class CartEntity {
 //    @ManyToOne(fetch = FetchType.LAZY, optional = true)
 //    @JoinColumn(name = "idUser", nullable = true)
 //    private User user;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idUser", referencedColumnName = "id")
     private User user;

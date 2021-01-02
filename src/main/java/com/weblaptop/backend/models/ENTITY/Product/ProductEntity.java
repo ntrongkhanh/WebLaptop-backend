@@ -2,6 +2,7 @@ package com.weblaptop.backend.models.ENTITY.Product;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.weblaptop.backend.models.ENTITY.*;
 
 import javax.persistence.*;
@@ -51,6 +52,7 @@ public class ProductEntity {
     private MouseEntity mouseEntity;
     @OneToOne(mappedBy = "productEntity")
     private LaptopEntity laptopEntity;
+    @JsonIgnore
     @OneToMany(mappedBy = "productEntity")
     private List<CartDetailEntity> cartDetailEntities;
 

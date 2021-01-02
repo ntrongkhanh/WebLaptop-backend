@@ -21,21 +21,8 @@ public class ManufacturerController {
     public ResponseEntity<Map<String, Object>> getAll() {
         return  service.getAll();
     }
-    @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> create(@Validated @RequestBody ManufacturerDTO dto) {
-//        return service.create(dto,imageDTOdto);,@Validated @RequestBody ImageDTO imageDTOdto
-        return service.create(dto);
-    }
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable(value = "id") long id) {
         return service.getById(id);
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
-     return    service.delete(id);
-    }
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Map<String, Object>> update(@RequestBody ProductTypeDTO productTypeDTO)  {
-//        return service.update(productTypeDTO);
-//    }
 }

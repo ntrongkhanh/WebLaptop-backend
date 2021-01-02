@@ -23,23 +23,8 @@ public class ProductTypeController {
         return productTypeService.getAll();
     }
 
-    @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> create(@Validated @RequestBody ProductTypeDTO dto) {
-        return productTypeService.create(dto);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable(value = "id") long id) {
         return productTypeService.getById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
-        return productTypeService.delete(id);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody ProductTypeDTO productTypeDTO) {
-        return productTypeService.update(productTypeDTO);
     }
 }

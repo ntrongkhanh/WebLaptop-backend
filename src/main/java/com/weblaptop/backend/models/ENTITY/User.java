@@ -1,6 +1,7 @@
 package com.weblaptop.backend.models.ENTITY;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.weblaptop.backend.models.ENTITY.Product.RamEntity;
 
 import javax.persistence.*;
@@ -24,13 +25,22 @@ public class User {
     private String password;
     private String name;
     private Boolean isAdmin = false;
-
+    private String token;
+    @JsonIgnore
     @OneToOne(mappedBy = "user")
     private CartEntity cartEntity;
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<OrdersEntity> ordersEntities;
 
     public User() {
+    }
+
+    public User(String email, String password, String name, Boolean isAdmin) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.isAdmin = isAdmin;
     }
 
     public User(Long id, String email, String password, String name, Boolean isAdmin) {
@@ -39,6 +49,25 @@ public class User {
         this.password = password;
         this.name = name;
         this.isAdmin = isAdmin;
+    }
+
+    public User(Long id, String email, String password, String name, Boolean isAdmin, String token, CartEntity cartEntity, List<OrdersEntity> ordersEntities) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.isAdmin = isAdmin;
+        this.token = token;
+        this.cartEntity = cartEntity;
+        this.ordersEntities = ordersEntities;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public User(Long id, String email, String password, String name, Boolean isAdmin, CartEntity cartEntity, List<OrdersEntity> ordersEntities) {

@@ -21,23 +21,9 @@ public class ImageController {
         return imageService.getAll();
     }
 
-    @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> create(@Validated @RequestBody ImageDTO imageDTO) {
-        return imageService.create(imageDTO);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable(value = "id") long id) {
         return imageService.getById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
-        return imageService.delete(id);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody ImageDTO imageDTO) {
-        return imageService.update(imageDTO);
     }
 }

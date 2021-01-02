@@ -1,61 +1,57 @@
-package com.weblaptop.backend.models.ENTITY;
+package com.weblaptop.backend.models.DTO;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.weblaptop.backend.models.ENTITY.CartDetailEntity;
+import com.weblaptop.backend.models.ENTITY.User;
 
-import javax.persistence.*;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.List;
 
-@Entity
-@Table(name = "Orders")
-public class OrdersEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class OrdersDto {
     private long id;
     private String name;
     private String address;
     private String phone;
     private String status;
+    private long idUser;
     private long totalPrice;
     // cart detail
-    @OneToMany(mappedBy = "ordersEntity")
-    private List<CartDetailEntity> cartDetailEntities;
-    // user
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "idUser", nullable = true)
-    private User user;
+    private List<CartDetailDto> cartDetailDtos;
 
-    public OrdersEntity() {
+    public OrdersDto() {
     }
 
-    public OrdersEntity(String name, String address, String phone, String status, User user) {
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.status = status;
-        this.user = user;
-    }
-
-    public OrdersEntity(long id, String name, String address, String phone, String status, List<CartDetailEntity> cartDetailEntities, User user) {
+    public OrdersDto(long id, String name, String address, String phone, String status, List<CartDetailDto> cartDetailDtos) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.status = status;
-        this.cartDetailEntities = cartDetailEntities;
-        this.user = user;
+        this.cartDetailDtos = cartDetailDtos;
     }
 
-    public OrdersEntity(long id, String name, String address, String phone, String status, long totalPrice, List<CartDetailEntity> cartDetailEntities, User user) {
+    public OrdersDto(long id, String name, String address, String phone, String status, long idUser, List<CartDetailDto> cartDetailDtos) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.status = status;
+        this.idUser = idUser;
+        this.cartDetailDtos = cartDetailDtos;
+    }
+
+    public OrdersDto(long id, String name, String address, String phone, String status, long idUser, long totalPrice, List<CartDetailDto> cartDetailDtos) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.status = status;
+        this.idUser = idUser;
         this.totalPrice = totalPrice;
-        this.cartDetailEntities = cartDetailEntities;
-        this.user = user;
+        this.cartDetailDtos = cartDetailDtos;
     }
 
     public long getTotalPrice() {
@@ -64,6 +60,14 @@ public class OrdersEntity {
 
     public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(long idUser) {
+        this.idUser = idUser;
     }
 
     public long getId() {
@@ -106,19 +110,11 @@ public class OrdersEntity {
         this.status = status;
     }
 
-    public List<CartDetailEntity> getCartDetailEntities() {
-        return cartDetailEntities;
+    public List<CartDetailDto> getCartDetailDtos() {
+        return cartDetailDtos;
     }
 
-    public void setCartDetailEntities(List<CartDetailEntity> cartDetailEntities) {
-        this.cartDetailEntities = cartDetailEntities;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setCartDetailDtos(List<CartDetailDto> cartDetailDtos) {
+        this.cartDetailDtos = cartDetailDtos;
     }
 }

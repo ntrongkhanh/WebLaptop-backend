@@ -23,23 +23,8 @@ public class LaptopController {
         return laptopService.getAll();
     }
 
-    @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> create(@Validated @RequestBody LaptopDTO dto) {
-        return laptopService.create(dto);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable(value = "id") long id) {
         return laptopService.getById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") long id) {
-        return laptopService.delete(id);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody LaptopDTO dto) {
-        return laptopService.update(dto);
     }
 }

@@ -1,6 +1,8 @@
 package com.weblaptop.backend.models.ENTITY.Product;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,6 +22,7 @@ public class LaptopEntity {
     //    @OneToOne(fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn(name = "idProduct", nullable = false)
 //    private ProductEntity productEntity;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idProduct", referencedColumnName = "id")
     private ProductEntity productEntity;
