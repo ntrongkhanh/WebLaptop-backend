@@ -33,6 +33,7 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<OrdersEntity> ordersEntities;
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<CommentEntity> commentEntity;
 
