@@ -49,7 +49,7 @@ public class AuthService {
             if (!validEmail(user.getEmail())) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            if ((userRepository.findByEmail(user.getEmail()).isPresent() && user.getActive()) == true) {
                 response.put("data", "EMAIL ALREADY EXIST");
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }

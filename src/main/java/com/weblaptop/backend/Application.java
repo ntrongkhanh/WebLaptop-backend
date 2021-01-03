@@ -27,7 +27,7 @@ public class Application {
 		return args -> {
 			Optional<User> user=repo.findByEmail("Admin");
 			if (!user.isPresent()){
-				repo.save(new User("Admin",encoder.encode("Admin"),"Admin",true));
+				repo.save(new User("Admin",encoder.encode("Admin"),"Admin",true,true));
 			}
 		};
 	}

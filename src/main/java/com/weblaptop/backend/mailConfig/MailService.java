@@ -14,7 +14,7 @@ public class MailService {
         message.setFrom("muoiad23@gmail.com");
         message.setText("Bạn đã đăng ký tài khoản trong web WAVI bằng email này."
                  +   "\nĐể xác nhận tài khoản, vui long truy cập link:"
-                + "http://localhost:8080/api/v1/auth/active?token=" + token + "&email=" + userEmail);
+                + "http://localhost:4200/confirm-account?token=" + token + "&email=" + userEmail);
         emailSender.send(message);
     }
 }

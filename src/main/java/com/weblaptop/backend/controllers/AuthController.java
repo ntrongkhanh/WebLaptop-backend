@@ -30,8 +30,6 @@ public class AuthController {
 
     @RequestMapping(value="/confirm", method = RequestMethod.GET)
     public ResponseEntity<?>  confirm(@RequestParam("token") String token,@RequestParam("email") String email) {
-
         return service.confirm(token,email);
     }
-
 }

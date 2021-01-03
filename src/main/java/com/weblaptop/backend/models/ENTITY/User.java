@@ -44,6 +44,14 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public User(String email, String password, String name, Boolean isAdmin, Boolean isActive) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.isAdmin = isAdmin;
+        this.isActive = isActive;
+    }
+
     public User(Long id, String email, String password, String name, Boolean isAdmin) {
         this.id = id;
         this.email = email;
