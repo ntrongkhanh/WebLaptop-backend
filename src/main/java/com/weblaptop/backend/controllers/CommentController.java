@@ -24,8 +24,8 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> create(@RequestHeader("Authorization") String token,@Validated @RequestBody CommentDto dto) {
-//        if (!jwtUtils.isAdmin(token))
+    public ResponseEntity<Map<String, Object>> create(@Validated @RequestBody CommentDto dto) {
+//        if (!jwtUtils.isAdmin(token))@RequestHeader("Authorization") String token,
 //            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         return service.create(dto);
     }
