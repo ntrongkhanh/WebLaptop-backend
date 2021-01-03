@@ -70,7 +70,8 @@ public class AuthService {
 
                 userRepository.delete(user);
 
-                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+                response.put("data", "MAILLING FAILED");
+                return new ResponseEntity<>(response, HttpStatus.OK);
             }
 
             response.put("data", "Success");
