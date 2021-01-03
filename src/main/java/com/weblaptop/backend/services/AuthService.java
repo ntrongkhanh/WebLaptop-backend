@@ -54,7 +54,7 @@ public class AuthService {
                 response.put("data", "EMAIL ALREADY EXIST");
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-            
+
             user.setAdmin(false);
             user.setActive(false);
             user.setPassword(encoder.encode(user.getPassword()));
