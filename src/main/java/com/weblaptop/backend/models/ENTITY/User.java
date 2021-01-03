@@ -33,6 +33,8 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<OrdersEntity> ordersEntities;
+    @OneToMany(mappedBy = "user")
+    private List<CommentEntity> commentEntity;
 
     public User() {
     }
@@ -81,6 +83,27 @@ public class User {
         this.isActive = isActive;
         this.cartEntity = cartEntity;
         this.ordersEntities = ordersEntities;
+    }
+
+    public User(Long id, String email, String password, String name, Boolean isAdmin, String token, Boolean isActive, CartEntity cartEntity, List<OrdersEntity> ordersEntities, List<CommentEntity> commentEntity) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.isAdmin = isAdmin;
+        this.token = token;
+        this.isActive = isActive;
+        this.cartEntity = cartEntity;
+        this.ordersEntities = ordersEntities;
+        this.commentEntity = commentEntity;
+    }
+
+    public List<CommentEntity> getCommentEntity() {
+        return commentEntity;
+    }
+
+    public void setCommentEntity(List<CommentEntity> commentEntity) {
+        this.commentEntity = commentEntity;
     }
 
     public Boolean getActive() {

@@ -55,7 +55,8 @@ public class ProductEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "productEntity")
     private List<CartDetailEntity> cartDetailEntities;
-
+    @OneToMany(mappedBy = "productEntity")
+    private List<CommentEntity> commentEntities;
     public ProductEntity() {
     }
 
@@ -88,10 +89,7 @@ public class ProductEntity {
         this.cartDetailEntities = cartDetailEntities;
     }
 
-    public ProductEntity(long id, ManufacturerEntity manufacturerEntity, ProductTypeEntity productTypeEntity, CategoryEntity categoryEntity, String name,
-                         String modelCode, Date year, ImageEntity imageEntity, String status, String weight, long amount, long price,
-                         String guarantee, String description, String color, RamEntity ramEntity, StorageEntity storageEntity, KeyboardEntity keyboardEntity,
-                         MouseEntity mouseEntity, LaptopEntity laptopEntity) {
+    public ProductEntity(long id, ManufacturerEntity manufacturerEntity, ProductTypeEntity productTypeEntity, CategoryEntity categoryEntity, String name, String modelCode, Date year, ImageEntity imageEntity, String status, String weight, long amount, long price, String guarantee, String description, String color, RamEntity ramEntity, StorageEntity storageEntity, KeyboardEntity keyboardEntity, MouseEntity mouseEntity, LaptopEntity laptopEntity, List<CartDetailEntity> cartDetailEntities, List<CommentEntity> commentEntities) {
         this.id = id;
         this.manufacturerEntity = manufacturerEntity;
         this.productTypeEntity = productTypeEntity;
@@ -112,6 +110,8 @@ public class ProductEntity {
         this.keyboardEntity = keyboardEntity;
         this.mouseEntity = mouseEntity;
         this.laptopEntity = laptopEntity;
+        this.cartDetailEntities = cartDetailEntities;
+        this.commentEntities = commentEntities;
     }
 
     public long getId() {
@@ -280,5 +280,13 @@ public class ProductEntity {
 
     public void setCartDetailEntities(List<CartDetailEntity> cartDetailEntities) {
         this.cartDetailEntities = cartDetailEntities;
+    }
+
+    public List<CommentEntity> getCommentEntities() {
+        return commentEntities;
+    }
+
+    public void setCommentEntities(List<CommentEntity> commentEntities) {
+        this.commentEntities = commentEntities;
     }
 }
