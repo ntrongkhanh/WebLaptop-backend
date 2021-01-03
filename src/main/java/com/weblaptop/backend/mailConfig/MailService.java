@@ -11,7 +11,7 @@ public class MailService {
 
         message.setTo(userEmail);
         message.setSubject("Confirm account mail");
-        message.setFrom("trongkhanhvip1@gmail.com");
+        message.setFrom(" postmaster@sandboxac2b1049f9624e45a11773a03594a021.mailgun.org");
         message.setText("Bạn đã đăng ký tài khoản trong web WAVI bằng email này."
                  +   "\nĐể xác nhận tài khoản, vui long truy cập link:"
                 + "http://localhost:4200/confirm-account?token=" + token + "&email=" + userEmail);
