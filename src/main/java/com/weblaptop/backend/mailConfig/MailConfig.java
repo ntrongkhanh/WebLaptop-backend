@@ -15,8 +15,8 @@ public class MailConfig {
         mailSender.setHost("smtp.mailgun.org");
         mailSender.setPort(587);
 
-        mailSender.setUsername("postmaster@sandboxac2b1049f9624e45a11773a03594a021.mailgun.org");
-        mailSender.setPassword("2b6723f1ba307130f24566ee1ff17df4-c50a0e68-c85c0307");
+        mailSender.setUsername("postmaster@sandboxec667fb514e84de8b9fc7818d6756bff.mailgun.org");
+        mailSender.setPassword("e5dc3edd15e53b9615c56a8ab38284f2-c50a0e68-69ef48bb");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
