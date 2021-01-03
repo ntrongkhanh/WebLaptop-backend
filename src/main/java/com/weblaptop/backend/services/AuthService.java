@@ -1,6 +1,7 @@
 package com.weblaptop.backend.services;
 
 import com.weblaptop.backend.mailConfig.MailService;
+import com.weblaptop.backend.mailConfig.mail;
 import com.weblaptop.backend.models.DTO.JwtResponse;
 import com.weblaptop.backend.models.ENTITY.CartEntity;
 import com.weblaptop.backend.models.ENTITY.User;
@@ -42,6 +43,8 @@ public class AuthService {
     private MailService mailService;
     @Autowired
     private JavaMailSender emailSender;
+    @Autowired
+    private mail mail;
 
     public ResponseEntity<Map<String, Object>> create(User user) {
         try {
@@ -65,7 +68,8 @@ public class AuthService {
 
             try {
                 String activeToken = UUID.randomUUID().toString();
-                mailService.sendConfirmMail(emailSender, user.getEmail(), activeToken);
+//                mailService.sendConfirmMail(emailSender, user.getEmail(), activeToken);
+                mail.sendSimpleMessage(user.getEmail(),activeToken);
                 createTokenFile(activeToken, user.getEmail());
             } catch (Exception e) {
 
