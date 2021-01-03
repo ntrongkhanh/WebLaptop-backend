@@ -77,8 +77,10 @@ public class AuthService {
             response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", "cHỖ NÀY");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+           // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
