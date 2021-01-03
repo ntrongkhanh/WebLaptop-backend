@@ -18,6 +18,7 @@ public class KeyboardController {
     private KeyboardService KeyboardService;
 
     @GetMapping("/")
+    
     public ResponseEntity<Map<String, Object>> getAll() {
         return KeyboardService.getAll();
     }
