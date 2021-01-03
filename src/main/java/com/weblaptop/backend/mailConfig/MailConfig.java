@@ -12,7 +12,7 @@ public class MailConfig {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
+        mailSender.setHost("smtp.mailgun.org");
         mailSender.setPort(587);
 
         mailSender.setUsername("postmaster@sandboxac2b1049f9624e45a11773a03594a021.mailgun.org");
