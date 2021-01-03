@@ -26,6 +26,7 @@ public class User {
     private String name;
     private Boolean isAdmin = false;
     private String token;
+    private Boolean isActive=false;
     @JsonIgnore
     @OneToOne(mappedBy = "user")
     private CartEntity cartEntity;
@@ -60,6 +61,26 @@ public class User {
         this.token = token;
         this.cartEntity = cartEntity;
         this.ordersEntities = ordersEntities;
+    }
+
+    public User(Long id, String email, String password, String name, Boolean isAdmin, String token, Boolean isActive, CartEntity cartEntity, List<OrdersEntity> ordersEntities) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.isAdmin = isAdmin;
+        this.token = token;
+        this.isActive = isActive;
+        this.cartEntity = cartEntity;
+        this.ordersEntities = ordersEntities;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public String getToken() {
