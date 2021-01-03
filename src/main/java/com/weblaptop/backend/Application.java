@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Optional;
@@ -16,7 +17,8 @@ import java.util.Optional;
 @SpringBootApplication
 @EnableSwagger2
 public class Application {
-
+	@Autowired
+	PasswordEncoder encoder;
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
@@ -25,7 +27,7 @@ public class Application {
 		return args -> {
 			Optional<User> user=repo.findByEmail("Admin");
 			if (!user.isPresent()){
-				repo.save(new User("Admin","Admin","Admin",true));
+				repo.save(new User("Admin",encoder.encode("Admin"),"Admin",true));
 			}
 		};
 	}
