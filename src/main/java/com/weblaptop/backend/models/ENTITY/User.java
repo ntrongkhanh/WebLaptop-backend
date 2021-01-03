@@ -13,10 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "user",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "email")
-        })
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,7 +30,7 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<OrdersEntity> ordersEntities;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<CommentEntity> commentEntity;

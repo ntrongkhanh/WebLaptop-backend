@@ -49,7 +49,8 @@ public class AuthService {
             if (!validEmail(user.getEmail())) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            if ((userRepository.findByEmail(user.getEmail()).isPresent() && user.getActive()) == true) {
+           Optional<User> optional=userRepository.findByEmail(user.getEmail());
+            if (optional.isPresent() && optional.get().getActive()==true) {
                 response.put("data", "EMAIL ALREADY EXIST");
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
