@@ -18,14 +18,34 @@ public class CommentEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idProduct", nullable = false)
     private ProductEntity productEntity;
-    @Column(name = "image",  columnDefinition="TEXT")
+    @Column(name = "image", columnDefinition = "TEXT")
     private String content;
     private Date time;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    //    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+//    @JoinColumn(name = "idParent", nullable = true)
+//    private CommentEntity parent;
+//
+//    @OneToMany(mappedBy="parent")
+//    private List<CommentEntity> children;
+//@ManyToOne(cascade=CascadeType.PERSIST)
+//@JoinColumn(name="parent_id")
+//private Question parent;
+//    @ManyToOne(cascade = {CascadeType.ALL})
+//    @JoinColumn(name = "manager_id")
+//    private CommentEntity parent;
+//
+//    @OneToMany(mappedBy = "parent")
+//    private List<CommentEntity> children;
+
+    @ManyToOne(cascade = { CascadeType.ALL })
+    @JoinColumn(name = "idParent")
     private CommentEntity parent;
-    @OneToMany(mappedBy="parent")
+
+    @OneToMany(mappedBy = "parent")
     private List<CommentEntity> children;
+
+
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

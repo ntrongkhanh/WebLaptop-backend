@@ -55,15 +55,6 @@ public class AuthService {
                 response.put("data", "EMAIL ALREADY EXIST");
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
-
-            user.setAdmin(false);
-            user.setActive(false);
-            user.setPassword(encoder.encode(user.getPassword()));
-            user = userRepository.saveAndFlush(user);
-            CartEntity cartEntity = new CartEntity();
-            cartEntity.setUser(user);
-            cartEntity = cartRepository.saveAndFlush(cartEntity);
-
             try {
                 String activeToken = UUID.randomUUID().toString();
                 mailService.sendConfirmMail(emailSender, user.getEmail(), activeToken);
@@ -75,6 +66,15 @@ public class AuthService {
                 response.put("data", "MAILLING FAILED");
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
+            user.setAdmin(false);
+            user.setActive(false);
+            user.setPassword(encoder.encode(user.getPassword()));
+            user = userRepository.saveAndFlush(user);
+            CartEntity cartEntity = new CartEntity();
+            cartEntity.setUser(user);
+            cartEntity = cartRepository.saveAndFlush(cartEntity);
+
+
 
             response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
