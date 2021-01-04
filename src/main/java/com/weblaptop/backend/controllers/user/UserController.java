@@ -8,10 +8,12 @@ import com.weblaptop.backend.security.jwt.JwtUtils;
 import com.weblaptop.backend.services.AuthService;
 import com.weblaptop.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -69,5 +71,13 @@ private UserRepository userRepository;
     public ResponseEntity<Map<String, Object>> getOrderById(@RequestHeader("Authorization") String token,@PathVariable(value = "id") long id) {
 
         return service.getOrderById(id);
+    }
+    //getOrderById
+    @GetMapping("/getUser")
+    public ResponseEntity<Map<String, Object>> getUser(@RequestHeader("Authorization") String token) {
+        User user=jwtUtils.getUserByJwtToken(token);
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", user);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
