@@ -80,7 +80,7 @@ public class AuthService {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             Map<String, Object> response = new HashMap<>();
-            response.put("data", "cHỖ NÀY");
+            response.put("data", e);
             return new ResponseEntity<>(response, HttpStatus.OK);
            // return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
