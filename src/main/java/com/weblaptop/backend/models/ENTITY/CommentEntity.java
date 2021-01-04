@@ -18,34 +18,9 @@ public class CommentEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idProduct", nullable = false)
     private ProductEntity productEntity;
-    @Column(name = "image", columnDefinition = "TEXT")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
     private Date time;
-
-    //    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-//    @JoinColumn(name = "idParent", nullable = true)
-//    private CommentEntity parent;
-//
-//    @OneToMany(mappedBy="parent")
-//    private List<CommentEntity> children;
-//@ManyToOne(cascade=CascadeType.PERSIST)
-//@JoinColumn(name="parent_id")
-//private Question parent;
-//    @ManyToOne(cascade = {CascadeType.ALL})
-//    @JoinColumn(name = "manager_id")
-//    private CommentEntity parent;
-//
-//    @OneToMany(mappedBy = "parent")
-//    private List<CommentEntity> children;
-
-    @ManyToOne(cascade = { CascadeType.ALL })
-    @JoinColumn(name = "idParent")
-    private CommentEntity parent;
-
-    @OneToMany(mappedBy = "parent")
-    private List<CommentEntity> children;
-
-
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -55,13 +30,11 @@ public class CommentEntity {
     public CommentEntity() {
     }
 
-    public CommentEntity(long id, ProductEntity productEntity, String content, Date time, CommentEntity parent, List<CommentEntity> children, User user) {
+    public CommentEntity(long id, ProductEntity productEntity, String content, Date time, User user) {
         this.id = id;
         this.productEntity = productEntity;
         this.content = content;
         this.time = time;
-        this.parent = parent;
-        this.children = children;
         this.user = user;
     }
 
@@ -95,22 +68,6 @@ public class CommentEntity {
 
     public void setTime(Date time) {
         this.time = time;
-    }
-
-    public CommentEntity getParent() {
-        return parent;
-    }
-
-    public void setParent(CommentEntity parent) {
-        this.parent = parent;
-    }
-
-    public List<CommentEntity> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<CommentEntity> children) {
-        this.children = children;
     }
 
     public User getUser() {

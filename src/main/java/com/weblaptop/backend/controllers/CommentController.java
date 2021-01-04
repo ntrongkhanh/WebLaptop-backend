@@ -18,8 +18,8 @@ import java.util.Map;
 public class CommentController {
     @Autowired
     private CommentService service;
-    @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getById(@PathVariable(value = "id") long id) {
+    @GetMapping("/{idProduct}")
+    public ResponseEntity<Map<String, Object>> getByProduct(@PathVariable(value = "idProduct") long id) {
         return service.getAllByProduct(id);
     }
 
