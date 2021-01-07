@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-public interface CartRepository extends JpaRepository<CartEntity,Long> {
+//@Repository
+public interface CartRepository
+//        extends JpaRepository<CartEntity,Long>
+{
     @Query(value = "select * from Cart c where id_user=?1", nativeQuery = true)
     public Optional<CartEntity> findByUser(long id);
 }

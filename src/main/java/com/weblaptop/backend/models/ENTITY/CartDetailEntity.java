@@ -6,7 +6,7 @@ import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Cart_detail")
+@Table(name = "orders_detail")
 public class CartDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,11 +14,11 @@ public class CartDetailEntity {
     private int amount;
     private long totalPrice;
     // cart
-
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "idCart", nullable = true)
-    private CartEntity cartEntity;
+//
+//    @JsonBackReference
+//    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+//    @JoinColumn(name = "idCart", nullable = true)
+//    private CartEntity cartEntity;
     // product N 1
 //    @JsonBackReference
 //    @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -37,7 +37,7 @@ public class CartDetailEntity {
 
     public CartDetailEntity(int amount, CartEntity cartEntity, ProductEntity productEntity) {
         this.amount = amount;
-        this.cartEntity = cartEntity;
+     //   this.cartEntity = cartEntity;
         this.productEntity = productEntity;
     }
 
@@ -45,7 +45,7 @@ public class CartDetailEntity {
         this.id = id;
         this.amount = amount;
         this.totalPrice = totalPrice;
-        this.cartEntity = cartEntity;
+    //    this.cartEntity = cartEntity;
         this.productEntity = productEntity;
         this.ordersEntity = ordersEntity;
     }
@@ -67,7 +67,7 @@ public class CartDetailEntity {
     public CartDetailEntity(long id, int amount, CartEntity cartEntity, ProductEntity productEntity, OrdersEntity ordersEntity) {
         this.id = id;
         this.amount = amount;
-        this.cartEntity = cartEntity;
+  //      this.cartEntity = cartEntity;
         this.productEntity = productEntity;
         this.ordersEntity = ordersEntity;
     }
@@ -88,13 +88,13 @@ public class CartDetailEntity {
         this.amount = amount;
     }
 
-    public CartEntity getCartEntity() {
-        return cartEntity;
-    }
-
-    public void setCartEntity(CartEntity cartEntity) {
-        this.cartEntity = cartEntity;
-    }
+ //   public CartEntity getCartEntity() {
+//        return cartEntity;
+//    }
+//
+//    public void setCartEntity(CartEntity cartEntity) {
+//        this.cartEntity = cartEntity;
+//    }
 
     public ProductEntity getProductEntity() {
         return productEntity;

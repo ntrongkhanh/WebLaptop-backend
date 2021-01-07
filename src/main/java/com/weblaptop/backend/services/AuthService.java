@@ -36,8 +36,8 @@ public class AuthService {
     private JwtUtils jwtUtils;
     @Autowired
     PasswordEncoder encoder;
-    @Autowired
-    private CartRepository cartRepository;
+//    @Autowired
+//    private CartRepository cartRepository;
     @Autowired
     private MailService mailService;
     @Autowired
@@ -72,7 +72,7 @@ public class AuthService {
             user = userRepository.saveAndFlush(user);
             CartEntity cartEntity = new CartEntity();
             cartEntity.setUser(user);
-            cartEntity = cartRepository.saveAndFlush(cartEntity);
+         //   cartEntity = cartRepository.saveAndFlush(cartEntity);
 
 
 

@@ -1,5 +1,6 @@
 package com.weblaptop.backend.services;
 
+import com.weblaptop.backend.mailConfig.MailService;
 import com.weblaptop.backend.models.DTO.CartDetailDto;
 import com.weblaptop.backend.models.DTO.CartDto;
 import com.weblaptop.backend.models.DTO.OrdersDto;
@@ -12,7 +13,9 @@ import com.weblaptop.backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -25,12 +28,16 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private EntityManager entityManager;
-    @Autowired
-    private CartRepository cartRepository;
+//    @Autowired
+//    private CartRepository cartRepository;
     @Autowired
     private CartDetailRepository cartDetailRepository;
     @Autowired
     private OrdersRepository ordersRepository;
+    @Autowired
+    private MailService mailService;
+    @Autowired
+    private JavaMailSender sender;
     // create user
 
 
@@ -44,7 +51,8 @@ public class UserService {
             ordersEntity.setStatus("Chờ");
             ordersEntity.setName(ordersDto.getName());
             ordersEntity.setPhone(ordersDto.getPhone());
-            ordersEntity.setUser(user);
+            if (user!=null)
+                ordersEntity.setUser(user);
             ordersEntity = ordersRepository.saveAndFlush(ordersEntity);
             List<CartDetailEntity> cartDetailList = new ArrayList<>();
             for (int i = 0; i < ordersDto.getCartDetailDtos().size(); i++) {
@@ -58,16 +66,20 @@ public class UserService {
                 totalPrice+=cartDetailEntity.getTotalPrice();
                 cartDetailEntity = cartDetailRepository.saveAndFlush(cartDetailEntity);
             }
-            ordersEntity.setTotalPrice(totalPrice);
-            ordersEntity = ordersRepository.save(ordersEntity);
+            Optional<OrdersEntity> entity=ordersRepository.findById(ordersEntity.getId());
+//            OrdersEntity entity=entityManager.getReference(OrdersEntity.class,ordersEntity.getId());
+            entity.get().setOrderDay(new Date());
+            String code =entity.get().getId()+ RandomStringUtils.randomAlphanumeric(8).toUpperCase();
+            entity.get().setOrderCode(code);
+            entity.get().setTotalPrice(totalPrice);
+            ordersEntity = ordersRepository.save(entity.get());
+            List<CartDetailEntity> cartDetailEntityList=cartDetailRepository.findAllByOrdersEntity(entity.get().getId());
+            try {
+                ordersEntity.setCartDetailEntities(cartDetailEntityList);
+                mailService.sendOrderMail(sender,entity.get());
+            }catch (Exception e){
 
-
-//            ordersEntity.setStatus("Chờ");
-//            ordersEntity.setUser(user);
-//            ordersEntity=ordersRepository.saveAndFlush(ordersEntity);
-//            ProductEntity productEntity=entityManager.getReference(ProductEntity.class,idProduct);
-//            CartDetailEntity cartDetailEntity=new CartDetailEntity(amount,ordersEntity,productEntity);
-//            cartDetailEntity=cartDetailRepository.saveAndFlush(cartDetailEntity);
+            }
             Map<String, Object> response = new HashMap<>();
             response.put("data", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -78,20 +90,20 @@ public class UserService {
 
     // thêm vào giỏ quà
     public ResponseEntity<Map<String, Object>> addProductToCart(long idProduct, User user, int amount) {
-        try {
-            Optional<CartEntity> cartEntity = cartRepository.findByUser(user.getId());
-            ProductEntity productEntity = entityManager.getReference(ProductEntity.class, idProduct);
-            CartDetailEntity cartDetailEntity = new CartDetailEntity(amount, cartEntity.get(), productEntity);
-            cartDetailEntity.setTotalPrice(cartDetailEntity.getAmount() * cartDetailEntity.getProductEntity().getPrice());
-            cartDetailEntity = cartDetailRepository.saveAndFlush(cartDetailEntity);
-            cartEntity.get().setTotalPrice(cartDetailEntity.getTotalPrice() + cartDetailEntity.getTotalPrice());
-            cartRepository.save(cartEntity.get());
-            Map<String, Object> response = new HashMap<>();
-            response.put("data", "Success");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
+//        try {
+//            Optional<CartEntity> cartEntity = cartRepository.findByUser(user.getId());
+//            ProductEntity productEntity = entityManager.getReference(ProductEntity.class, idProduct);
+//            CartDetailEntity cartDetailEntity = new CartDetailEntity(amount, cartEntity.get(), productEntity);
+//            cartDetailEntity.setTotalPrice(cartDetailEntity.getAmount() * cartDetailEntity.getProductEntity().getPrice());
+//            cartDetailEntity = cartDetailRepository.saveAndFlush(cartDetailEntity);
+//            cartEntity.get().setTotalPrice(cartDetailEntity.getTotalPrice() + cartDetailEntity.getTotalPrice());
+//         //   cartRepository.save(cartEntity.get());
+//            Map<String, Object> response = new HashMap<>();
+//            response.put("data", "Success");
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+//        }
     }
 
     // xóa giỏ hàng
@@ -115,35 +127,35 @@ public class UserService {
     // xem thông tin giỏ hàng
     public ResponseEntity<Map<String, Object>> getCartByUser(User user) {
 
-        try {
-            long totalPrice = 0;
-            Optional<CartEntity> dtos = cartRepository.findByUser(user.getId());
-            List<CartDetailDto> detailDtoList = new ArrayList<>();
-            for (int i = 0; i < dtos.get().getCartDetailEntities().size(); i++) {
-                CartDetailDto cartDetailDto = new CartDetailDto();
-                cartDetailDto.setId(dtos.get().getCartDetailEntities().get(i).getId());
-                cartDetailDto.setIdProduct(dtos.get().getCartDetailEntities().get(i).getProductEntity().getId());
-                cartDetailDto.setAmount(dtos.get().getCartDetailEntities().get(i).getAmount());
-                cartDetailDto.setImage(dtos.get().getCartDetailEntities().get(i).getProductEntity().getImageEntity().getImage());
-                cartDetailDto.setName(dtos.get().getCartDetailEntities().get(i).getProductEntity().getName());
-                cartDetailDto.setPrice(dtos.get().getCartDetailEntities().get(i).getProductEntity().getPrice());
-                cartDetailDto.setTotalPrice(cartDetailDto.getPrice()*cartDetailDto.getAmount());
-           //   totalPrice += cartDetailDto.getTotalPrice();
-                detailDtoList.add(cartDetailDto);
-//                detailDtoList.add(dtos.get().getCartDetailEntities(i).get(.get))
-            }
-
-            CartDto cartDto = new CartDto();
-            cartDto.setId(dtos.get().getId());
-            cartDto.setCartDetailDtos(detailDtoList);
-            cartDto.setTotalPrice(dtos.get().getTotalPrice());
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("data", cartDto);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
+//        try {
+//            long totalPrice = 0;
+//            Optional<CartEntity> dtos = cartRepository.findByUser(user.getId());
+//            List<CartDetailDto> detailDtoList = new ArrayList<>();
+//            for (int i = 0; i < dtos.get().getCartDetailEntities().size(); i++) {
+//                CartDetailDto cartDetailDto = new CartDetailDto();
+//                cartDetailDto.setId(dtos.get().getCartDetailEntities().get(i).getId());
+//                cartDetailDto.setIdProduct(dtos.get().getCartDetailEntities().get(i).getProductEntity().getId());
+//                cartDetailDto.setAmount(dtos.get().getCartDetailEntities().get(i).getAmount());
+//                cartDetailDto.setImage(dtos.get().getCartDetailEntities().get(i).getProductEntity().getImageEntity().getImage());
+//                cartDetailDto.setName(dtos.get().getCartDetailEntities().get(i).getProductEntity().getName());
+//                cartDetailDto.setPrice(dtos.get().getCartDetailEntities().get(i).getProductEntity().getPrice());
+//                cartDetailDto.setTotalPrice(cartDetailDto.getPrice()*cartDetailDto.getAmount());
+//           //   totalPrice += cartDetailDto.getTotalPrice();
+//                detailDtoList.add(cartDetailDto);
+////                detailDtoList.add(dtos.get().getCartDetailEntities(i).get(.get))
+//            }
+//
+//            CartDto cartDto = new CartDto();
+//            cartDto.setId(dtos.get().getId());
+//            cartDto.setCartDetailDtos(detailDtoList);
+//            cartDto.setTotalPrice(dtos.get().getTotalPrice());
+//
+//            Map<String, Object> response = new HashMap<>();
+//            response.put("data", cartDto);
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+//        }
     }
 
     // xem thông tin đặt hàng

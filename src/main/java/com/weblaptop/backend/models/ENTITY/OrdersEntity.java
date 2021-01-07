@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,6 +18,8 @@ public class OrdersEntity {
     private String phone;
     private String status;
     private long totalPrice;
+    private Date orderDay;
+    private String orderCode;
     // cart detail
     @OneToMany(mappedBy = "ordersEntity")
     private List<CartDetailEntity> cartDetailEntities;
@@ -56,6 +59,35 @@ public class OrdersEntity {
         this.totalPrice = totalPrice;
         this.cartDetailEntities = cartDetailEntities;
         this.user = user;
+    }
+
+    public OrdersEntity(long id, String name, String address, String phone, String status, long totalPrice, Date orderDay, String orderCode, List<CartDetailEntity> cartDetailEntities, User user) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.status = status;
+        this.totalPrice = totalPrice;
+        this.orderDay = orderDay;
+        this.orderCode = orderCode;
+        this.cartDetailEntities = cartDetailEntities;
+        this.user = user;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public Date getOrderDay() {
+        return orderDay;
+    }
+
+    public void setOrderDay(Date orderDay) {
+        this.orderDay = orderDay;
     }
 
     public long getTotalPrice() {
