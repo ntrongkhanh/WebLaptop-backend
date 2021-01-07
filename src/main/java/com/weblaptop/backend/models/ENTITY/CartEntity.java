@@ -7,8 +7,8 @@ import com.weblaptop.backend.models.ENTITY.Product.ProductEntity;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "Cart")
+// @Entity
+// @Table(name = "Cart")
 public class CartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
