@@ -24,9 +24,9 @@ public class User {
     private Boolean isAdmin = false;
     private String token;
     private Boolean isActive=false;
-    @JsonIgnore
-    @OneToOne(mappedBy = "user")
-    private CartEntity cartEntity;
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "user")
+//    private CartEntity cartEntity;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<OrdersEntity> ordersEntities;
@@ -68,7 +68,7 @@ public class User {
         this.name = name;
         this.isAdmin = isAdmin;
         this.token = token;
-        this.cartEntity = cartEntity;
+       // this.cartEntity = cartEntity;
         this.ordersEntities = ordersEntities;
     }
 
@@ -80,7 +80,7 @@ public class User {
         this.isAdmin = isAdmin;
         this.token = token;
         this.isActive = isActive;
-        this.cartEntity = cartEntity;
+  //      this.cartEntity = cartEntity;
         this.ordersEntities = ordersEntities;
     }
 
@@ -92,7 +92,7 @@ public class User {
         this.isAdmin = isAdmin;
         this.token = token;
         this.isActive = isActive;
-        this.cartEntity = cartEntity;
+  //      this.cartEntity = cartEntity;
         this.ordersEntities = ordersEntities;
         this.commentEntity = commentEntity;
     }
@@ -127,7 +127,7 @@ public class User {
         this.password = password;
         this.name = name;
         this.isAdmin = isAdmin;
-        this.cartEntity = cartEntity;
+  //      this.cartEntity = cartEntity;
         this.ordersEntities = ordersEntities;
     }
 
@@ -171,13 +171,13 @@ public class User {
         isAdmin = admin;
     }
 
-    public CartEntity getCartEntity() {
-        return cartEntity;
-    }
+  //  public CartEntity getCartEntity() {
+  //      return cartEntity;
+    //}
 
-    public void setCartEntity(CartEntity cartEntity) {
-        this.cartEntity = cartEntity;
-    }
+//    public void setCartEntity(CartEntity cartEntity) {
+//        this.cartEntity = cartEntity;
+//    }
 
     public List<OrdersEntity> getOrdersEntities() {
         return ordersEntities;
