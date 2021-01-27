@@ -12,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://laptopre.herokuapp.com")
 @RequestMapping("/admin/storage")
 public class StorageManagementController {
     @Autowired
