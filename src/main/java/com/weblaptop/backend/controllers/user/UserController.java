@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://laptopre.herokuapp.com")
 @RequestMapping("/user")
 public class UserController {
 @Autowired
