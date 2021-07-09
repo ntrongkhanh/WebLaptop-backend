@@ -1,4 +1,4 @@
-//import java.io.IOException;
+package com.weblaptop.backend;//import java.io.IOException;
 //import javax.servlet.Filter;
 //import javax.servlet.FilterChain;
 //import javax.servlet.FilterConfig;
@@ -12,11 +12,11 @@
 //import org.springframework.stereotype.Component;
 //
 //@Component
-//public class Config implements Filter {
+//public class com.weblaptop.backend.Config implements Filter {
 //
-//    private final Logger log = LoggerFactory.getLogger(Config.class);
+//    private final Logger log = LoggerFactory.getLogger(com.weblaptop.backend.Config.class);
 //
-//    public Config() {
+//    public com.weblaptop.backend.Config() {
 //        log.info("SimpleCORSFilter init");
 //    }
 //
