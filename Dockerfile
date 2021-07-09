@@ -1,5 +1,5 @@
 FROM openjdk:8
 
 EXPOSE 8087
-ADD /target/weblaptop-0.0.1-SNAPSHOT.jar  weblaptop.jar
-ENTRYPOINT ["java","-jar","-Dspring.profiles.active=dev","weblaptop.jar"]
+ADD /target/laptop-0.0.1-SNAPSHOT.jar  laptop.jar
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=dev","laptop.jar"]
