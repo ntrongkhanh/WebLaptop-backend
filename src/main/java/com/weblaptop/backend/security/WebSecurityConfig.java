@@ -77,20 +77,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Bean
-    CorsConfigurationSource configurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:4200");
-        config.setAllowCredentials(true);
-        config.addAllowedHeader("X-Requested-With");
-        config.addAllowedHeader("Content-Type");
-        config.addAllowedHeader("Authorization");
-        config.addAllowedMethod(HttpMethod.GET);
-        config.addAllowedMethod(HttpMethod.POST);
-        config.addAllowedMethod(HttpMethod.PUT);
-        config.addAllowedMethod(HttpMethod.DELETE);
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
+//    @Bean
+//    CorsConfigurationSource configurationSource() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.addAllowedOrigin("http://localhost:4200");
+//        config.setAllowCredentials(true);
+//        config.addAllowedHeader("X-Requested-With");
+//        config.addAllowedHeader("Content-Type");
+//        config.addAllowedHeader("Authorization");
+//        config.addAllowedMethod(HttpMethod.GET);
+//        config.addAllowedMethod(HttpMethod.POST);
+//        config.addAllowedMethod(HttpMethod.PUT);
+//        config.addAllowedMethod(HttpMethod.DELETE);
+//        source.registerCorsConfiguration("/**", config);
+//        return source;
+//    }
 }
