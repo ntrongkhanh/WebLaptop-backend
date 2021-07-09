@@ -1,5 +1,5 @@
 #!/bin/sh
 sudo docker kill laptop
-mvn clean package -DskipTests=true
+sudo mvn clean package -DskipTests=true
 sudo docker-compose build
 sudo docker-compose up
