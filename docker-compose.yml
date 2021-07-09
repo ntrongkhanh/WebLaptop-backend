@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  app:
+    container_name: laptop
+    image: laptop
+    build: ./
+    environment:
+      - TZ=Asia/Saigon
+    ports:
+      - "8080:8080"
