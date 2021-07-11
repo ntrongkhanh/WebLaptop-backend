@@ -20,9 +20,7 @@ public class Application {
 	@Autowired
 	PasswordEncoder encoder;
 	public static void main(String[] args) {
-		SpringApplication application = new SpringApplication(Application.class);
-		application.setAdditionalProfiles("ssl");
-		application.run(args);
+		SpringApplication.run(Application.class, args);
 	}
 	@Bean
 	public CommandLineRunner demoData(UserRepository repo) {
